@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.vd {
+  &-fullbar {
+    .vd-sidebar {
+      width: 260px !important;
+    }
+    .vd-main {
+      margin-left: 260px;
+    }
+  }
+  &-mobile {
+    .vd-sidebar {
+      width: 0px;
+      overflow: hidden;
+    }
+    .vd-main {
+      margin-left: 0px;
+    }
+  }
+  &-sidebar {
+    position: fixed;
+    width: 64px;
+    left: 0;
+    top: 0;
+    z-index: 1;
+  }
+  &-main {
+    margin-left: 64px;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
