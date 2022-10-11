@@ -1,0 +1,40 @@
+name: Deploy To Vultr CI
+
+# 在main分支push操作后触发该流程
+on: 
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # 一个让你的workflow能够访问到你仓库的actions
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    # 指定环境 Node.js v18
+    - name: Use Node.js 18
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+    
+    # 在GitHub服务器打包
+    - name: Build
+      run: |
+        yarn
+        yarn build
+      env:
+        CI: true
+
+    - name: Deploy to Server # 第四步，rsync推送文件
+      uses: AEnterprise/rsync-deploy@v1.0 # 使用别人包装好的步骤镜像
+      env:
+        DEPLOY_KEY: ${{ secrets.QCLOUD_TOKEN }} # 引用配置，SSH私钥
+        ARGS: -avz --delete --exclude='*.pyc' # rsync参数，排除.pyc文件
+        SERVER_PORT: ${{ secrets.REMOTE_PORT }} # SSH端口
+        FOLDER: ./dist/* # 要推送的文件夹，路径相对于代码仓库的根目录
+        SERVER_IP: ${{ secrets.REMOTE_HOST }} # 引用配置，服务器的host名（IP或者域名domain.com）
+        USERNAME: ${{ secrets.REMOTE_USER }} # 引用配置，服务器登录名
+        SERVER_DESTINATION: /var/www/vd3 # 部署到目标文件夹
