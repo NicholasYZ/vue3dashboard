@@ -3,5 +3,5 @@ import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <main class="rounded-md p-4 bg-gray-50"><RouterView /></main>
+  <main class="rounded-md p-4 bg-[#fff]"><RouterView /></main>
 </template>

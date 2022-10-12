@@ -12,7 +12,7 @@ const menuFilter = (arr: any, str: any) => {
       const {
         meta: { permissions },
       } = item;
-      const hasPermission = 
+      const hasPermission =
         permissions && permissions?.indexOf(str as string) > -1;
       return hasPermission;
     })
@@ -21,12 +21,10 @@ const menuFilter = (arr: any, str: any) => {
         item.children = menuFilter(item.children, str);
       }
       return item;
-    })
+    });
 };
 
 const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
-
-console.log(menu)
 
 </script>
 
@@ -49,7 +47,12 @@ console.log(menu)
       router
       style="--el-menu-hover-bg-color: #374151"
     >
-      <el-sub-menu v-for="item in menu" :key="item.name" :index="item.path">
+      <el-sub-menu
+        popper-class="bg-gray-800"
+        v-for="item in menu"
+        :key="item.name"
+        :index="item.path"
+      >
         <template #title>
           <el-icon>
             <Icon :icon="item.meta.icon" />
@@ -57,6 +60,7 @@ console.log(menu)
           <span>{{ item.meta.title }}</span>
         </template>
         <el-menu-item
+          style="--el-menu-hover-bg-color: #374151"
           v-for="subItem in item.children"
           :key="subItem.name"
           :index="subItem.path"

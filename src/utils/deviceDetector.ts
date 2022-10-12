@@ -2,9 +2,9 @@ import { ref, onBeforeMount, onBeforeUnmount } from "vue";
 import { debounce } from "lodash";
 
 export function useDeviceDetector() {
-  const type = ref<string>("desktop");
+  const deviceType = ref<string>("desktop");
   const handleResize = debounce(() => {
-    type.value =
+    deviceType.value =
       document.body.getBoundingClientRect().width < 768 ? "mobile" : "desktop";
   }, 200);
 
@@ -14,5 +14,5 @@ export function useDeviceDetector() {
   onBeforeUnmount(() => {
     window.removeEventListener("resize", handleResize);
   });
-  return { type };
+  return { deviceType };
 }

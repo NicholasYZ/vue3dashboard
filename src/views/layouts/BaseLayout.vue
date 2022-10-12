@@ -55,6 +55,7 @@ const onRemoveMask = () => {
     <div class="vd-main transition-all h-screen bg-gray-100">
       <BaseHeader />
       <div class="p-5">
+        <vd-breadcrumb />
         <RouterView />
       </div>
     </div>

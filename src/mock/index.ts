@@ -17,7 +17,7 @@ const menu: MenuProps[] = [
     redirect: "components/userinfo",
     meta: {
       title: "组件",
-      icon: "Setting",
+      icon: "Operation",
       permissions: ["admin", "editor"],
     },
     children: [
