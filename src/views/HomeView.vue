@@ -58,22 +58,41 @@ const option = ref<EChartsOption>({
     },
   ],
 });
+
+const config = {
+  url: "",
+  title: "Form 表单",
+  fields: [
+    {
+      prop: "username",
+      title: "用户名",
+      placeholder: "UserName",
+      rules: [{ required: true }],
+    },
+    {
+      prop: "password",
+      title: "密码",
+      placeholder: "PassWord",
+      rules: [{ required: true }],
+    },
+  ],
+};
 </script>
 <template>
   <main>
     <!-- <vd-card title="hello" /> -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
+      class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
     >
-      <div class="bg-gray-50 rounded-md p-8">
-        <vd-form url="" title="提交"></vd-form>
+      <div class="bg-[#fff] rounded-md py-6 px-8">
+        <vd-form :config="config"></vd-form>
       </div>
 
-      <div class="bg-gray-50 rounded-md p-8">
+      <div class="bg-[#fff] rounded-md py-6 px-8">
         <v-chart autoresize :option="option" />
       </div>
 
-      <div class="bg-gray-50 rounded-md p-8">
+      <div class="bg-[#fff] rounded-md py-6 px-8">
         <v-chart autoresize :option="option" />
       </div>
     </div>

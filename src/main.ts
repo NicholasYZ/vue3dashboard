@@ -11,7 +11,6 @@ import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import "@/router/permission";
 import "@/mock";
 import "@/assets/main.scss";
-import "@/components";
 
 import directives from "@/directives";
 
@@ -21,6 +20,7 @@ app.use(directives); // 调用安装指令
 app.use(ElementPlus);
 app.use(createPinia());
 app.use(router);
+import "@/components";
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);

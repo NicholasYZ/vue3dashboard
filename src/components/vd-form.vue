@@ -1,19 +1,61 @@
 <script setup lang="ts">
-defineProps(["title"]);
+import type { FormInstance, FormRules } from "element-plus";
+import { reactive, ref } from "vue";
+const props = defineProps(["config"]);
+
+type fieldsProps = {
+  form: { [key: string]: any };
+  rules: { [key: string]: any };
+};
+
+const loading = ref(false);
+const ruleFormRef = ref<FormInstance>();
+const fields: fieldsProps = { form: {}, rules: {} } as fieldsProps;
+
+props.config.fields.forEach(
+  (item: { [x: string]: any; prop: string | number }) => {
+    fields.form[item.prop] = "";
+    fields.rules[item.prop] = item.rules;
+  }
+);
+const form = reactive(fields.form);
+const rules = reactive<FormRules>(fields.rules);
+
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  loading.value = true;
+  try {
+    await formEl.validate();
+    console.log(form);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 <template>
-  <div class="bg-slate-100 rounded py-4 px-6 dark:bg-slate-800">
-    <h2 class="mb-4">{{ title }}</h2>
-    <el-form>
-      <el-form-item label="" prop="username">
-        <el-input size="large" placeholder="登录名" type="text" />
-      </el-form-item>
-    </el-form>
+  <h2 class="mb-4 text-lg">{{ config.title }}</h2>
+  <el-form :model="form" :rules="rules" ref="ruleFormRef">
+    <el-form-item
+      v-for="item in props.config.fields"
+      :key="item.prop"
+      label=""
+      :prop="item.prop"
+    >
+      <el-input
+        size="large"
+        v-model="form[item.prop]"
+        :placeholder="item.prop"
+        type="text"
+      />
+    </el-form-item>
+  </el-form>
 
-    <div class="mb-4">
-      <el-button size="large" type="primary" style="width: 100%"
-        >确定</el-button
-      >
-    </div>
+  <div class="mb-4">
+    <el-button size="large" @click="onSubmit(ruleFormRef)" type="primary">
+      确定
+    </el-button>
+    <el-button size="large" type="default">取消</el-button>
   </div>
 </template>
