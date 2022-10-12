@@ -22,6 +22,10 @@ input:-webkit-autofill:active{
     }
     .vd-main {
       margin-left: 260px;
+      width: calc(100% - 260px);
+    }
+    .vd-header {
+      width: calc(100% - 260px);
     }
   }
   &-mobile {
@@ -31,6 +35,10 @@ input:-webkit-autofill:active{
     }
     .vd-main {
       margin-left: 0px;
+      width: 100%;
+    }
+    .vd-header {
+      width: 100%;
     }
   }
   &-sidebar {
@@ -42,5 +50,9 @@ input:-webkit-autofill:active{
   }
   &-main {
     margin-left: 64px;
+    width: calc(100% - 64px);
+  }
+  &-header {
+    width: calc(100% - 64px);
   }
 }
