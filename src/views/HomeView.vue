@@ -1,6 +1,25 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+
+import VChart, { THEME_KEY } from "vue-echarts";
+
+import { use } from "echarts/core";
+import { CanvasRenderer } from "echarts/renderers";
+import { PieChart } from "echarts/charts";
+import {
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+} from "echarts/components";
+
+use([
+  CanvasRenderer,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+]);
 
 const option = ref<EChartsOption>({
   title: {
@@ -44,18 +63,18 @@ const option = ref<EChartsOption>({
   <main>
     <!-- <vd-card title="hello" /> -->
     <div
-      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-3 gap-4 text-sm"
+      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
     >
       <div class="bg-gray-50 rounded-md p-8">
         <vd-form url="" title="提交"></vd-form>
       </div>
 
       <div class="bg-gray-50 rounded-md p-8">
-        <v-chart class="chart" :option="option" />
+        <v-chart autoresize :option="option" />
       </div>
 
       <div class="bg-gray-50 rounded-md p-8">
-        <v-chart class="chart" :option="option" />
+        <v-chart autoresize :option="option" />
       </div>
     </div>
   </main>

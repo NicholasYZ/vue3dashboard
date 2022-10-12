@@ -25,7 +25,6 @@ const menuFilter = (arr: any, str: any) => {
 };
 
 const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
-
 </script>
 
 <template>
@@ -48,7 +47,7 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
       style="--el-menu-hover-bg-color: #374151"
     >
       <el-sub-menu
-        popper-class="bg-gray-800"
+        popper-class="bg-gray-800 rounded-sm"
         v-for="item in menu"
         :key="item.name"
         :index="item.path"

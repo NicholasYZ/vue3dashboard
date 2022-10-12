@@ -7,7 +7,6 @@ import router from "@/router";
 import ElementPlus from "element-plus";
 
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import ECharts from "vue-echarts";
 
 import "@/router/permission";
 import "@/mock";
@@ -34,24 +33,9 @@ const Icon = (props: { icon: string }) => {
     ElementPlusIconsVue[icon as keyof typeof ElementPlusIconsVue]
   );
 };
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { PieChart } from "echarts/charts";
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-} from "echarts/components";
-use([
-  CanvasRenderer,
-  PieChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-]);
+
 // 注册Icon组件
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Icon", Icon);
-app.component("v-chart", ECharts);
 
 app.mount("#app");
