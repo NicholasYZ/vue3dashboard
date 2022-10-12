@@ -82,7 +82,7 @@ const config = {
   <main>
     <!-- <vd-card title="hello" /> -->
     <div
-      class="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
+      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
     >
       <div class="bg-[#fff] rounded-md py-6 px-8">
         <vd-form :config="config"></vd-form>
