@@ -28,6 +28,10 @@ input:-webkit-autofill:active{
       width: calc(100% - 260px);
     }
   }
+  &-desktop,
+  &-mobile {
+    padding-top: 60px;
+  }
   &-mobile {
     .vd-sidebar {
       width: 0px;
@@ -54,5 +58,7 @@ input:-webkit-autofill:active{
   }
   &-header {
     width: calc(100% - 64px);
+    position: fixed;
+    top: 0;
   }
 }
