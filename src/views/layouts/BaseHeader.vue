@@ -7,7 +7,7 @@ const onClick = () => {
 </script>
 <template>
   <div
-    class="vd-header h-[60px] flex items-center justify-between border-b bg-gray-50 border-gray-200 px-4"
+    class="vd-header z-40 h-[60px] flex items-center justify-between border-b bg-gray-50 border-gray-200 px-4"
   >
     <el-icon class="cursor-pointer" @click.stop="onClick" color="text-gray-900">
       <el-icon>

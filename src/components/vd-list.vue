@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, reactive } from "vue";
+import { onMounted, ref } from "vue";
 import { getList } from "@/api";
 defineProps(["columns"]);
 
@@ -10,9 +10,6 @@ let pageInfo = ref<{ [key: string]: number }>({
   per_page: 10,
   total: 0,
   total_pages: 0,
-});
-onMounted(async () => {
-  getData(1);
 });
 
 const getData = async (num: number) => {
@@ -26,17 +23,19 @@ const getData = async (num: number) => {
     total,
     total_pages,
   };
-}
+};
 
 const onPageChange = (num: number) => {
-  console.log(num)
   getData(num);
 };
+
+onMounted(async () => {
+  getData(1);
+});
 </script>
 <template>
-  <div class="vd-list">
+  <div v-loading="loading" class="vd-list">
     <vd-table
-      :loading="loading"
       :columns="columns"
       :dataSource="dataSource"
       class="mb-4"

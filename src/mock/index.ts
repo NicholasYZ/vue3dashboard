@@ -14,7 +14,7 @@ const menu: MenuProps[] = [
     name: "components",
     path: "/components",
     component: "layouts/MainLayout",
-    redirect: "components/userinfo",
+    redirect: "/components/list",
     meta: {
       title: "组件",
       icon: "Operation",
@@ -23,21 +23,21 @@ const menu: MenuProps[] = [
     children: [
       {
         name: "components-info",
-        path: "/components/userinfo",
-        component: "setting/UserInfo",
+        path: "/components/list",
+        component: "components/ListView",
         meta: {
-          title: "用户信息",
-          icon: "User",
+          title: "列表",
+          icon: "List",
           permissions: ["admin"],
         },
       },
       {
         name: "components-role",
-        path: "/components/userrole",
-        component: "setting/UserRole",
+        path: "/components/form",
+        component: "components/FormView",
         meta: {
-          title: "用户角色",
-          icon: "Monitor",
+          title: "表单",
+          icon: "DocumentCopy",
           permissions: ["admin"],
         },
       },
@@ -47,7 +47,7 @@ const menu: MenuProps[] = [
     name: "setting",
     path: "/setting",
     component: "layouts/MainLayout",
-    redirect: "setting/user",
+    redirect: "setting/info",
     meta: {
       title: "设置",
       icon: "Setting",
@@ -55,9 +55,9 @@ const menu: MenuProps[] = [
     },
     children: [
       {
-        name: "user-info",
-        path: "/setting/userinfo",
-        component: "setting/UserInfo",
+        name: "setting-info",
+        path: "/setting/info",
+        component: "setting/InfoView",
         meta: {
           title: "用户信息",
           icon: "User",
@@ -65,12 +65,22 @@ const menu: MenuProps[] = [
         },
       },
       {
-        name: "user-role",
-        path: "/setting/userrole",
-        component: "setting/UserRole",
+        name: "setting-role",
+        path: "/setting/role",
+        component: "setting/RoleView",
         meta: {
-          title: "用户角色",
+          title: "角色管理",
           icon: "Monitor",
+          permissions: ["admin"],
+        },
+      },
+      {
+        name: "setting-menu",
+        path: "/setting/menu",
+        component: "setting/MenuView",
+        meta: {
+          title: "菜单管理",
+          icon: "Menu",
           permissions: ["admin"],
         },
       },

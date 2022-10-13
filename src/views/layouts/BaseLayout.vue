@@ -1,32 +1,14 @@
 <script setup lang="ts">
-import { onBeforeMount, onBeforeUnmount, computed } from "vue";
+import { computed } from "vue";
 import { RouterView } from "vue-router";
-import { debounce } from "lodash";
 
 import { useSettingStore } from "@/store";
+import { useDevice } from "@/utils";
 import BaseSidebar from "@/views/layouts/BaseSidebar.vue";
 import BaseHeader from "@/views/layouts/BaseHeader.vue";
 
 const store = useSettingStore();
-
-const handleResize = debounce(() => {
-  const type =
-    document.body.getBoundingClientRect().width < 768 ? "mobile" : "desktop";
-  if (store.setting.deviceType !== "desktop" && type === "desktop") {
-    store.setSidebarStatus("open");
-  } else if (type === "mobile") {
-    store.setSidebarStatus("close");
-  }
-  store.setDeviceType(type);
-}, 200);
-
-onBeforeMount(() => {
-  window.addEventListener("resize", handleResize);
-});
-
-onBeforeUnmount(() => {
-  window.removeEventListener("resize", handleResize);
-});
+useDevice();
 
 const classObj = computed(() => {
   return {
@@ -62,7 +44,7 @@ const onRemoveMask = () => {
     <div
       v-if="isMobileSidebarOpen"
       @click="onRemoveMask"
-      class="backdrop-blur-sm fixed inset-0 w-screen h-screen"
+      class="backdrop-blur-sm z-[2001] fixed inset-0 w-screen h-screen"
     ></div>
   </div>
 </template>

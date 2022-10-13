@@ -13,7 +13,7 @@ const router = createRouter({
       children: [
         {
           path: "",
-          component: () => import("@/views/HomeView.vue"),
+          component: () => import("@/views/index/HomeView.vue"),
           name: "index",
           meta: {
             title: "首页",

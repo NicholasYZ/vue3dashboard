@@ -1,7 +1,7 @@
 import NProgress from "nprogress";
 import router from "@/router";
 import { addRoutes } from "@/router/resolveRouter";
-import { useAuthStore, useRouterStore } from "@/store";
+import { useAuthStore, useRouterStore, useSettingStore } from "@/store";
 
 import "nprogress/nprogress.css";
 
@@ -40,6 +40,10 @@ router.beforeEach(async (to) => {
 });
 
 router.afterEach((to) => {
+  const store = useSettingStore();
+  if (store.setting.deviceType === "mobile") {
+    store.setSidebarStatus("close");
+  }
   NProgress.done();
   document.title = `${to.meta.title} - VD`;
 });

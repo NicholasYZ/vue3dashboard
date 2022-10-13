@@ -51,7 +51,6 @@ input:-webkit-autofill:active{
     width: 64px;
     left: 0;
     top: 0;
-    z-index: 1000;
   }
   &-main {
     margin-left: 64px;
@@ -61,6 +60,5 @@ input:-webkit-autofill:active{
     width: calc(100% - 64px);
     position: fixed;
     top: 0;
-    z-index: 999;
   }
 }
