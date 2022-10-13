@@ -1,30 +1,21 @@
 <script setup lang="ts">
-import { ref } from "vue";
-defineProps(["config"]);
-const loading = ref<boolean>(false);
-const handleCurrentChange = (val: any) => {};
-const handleSelectionChange = (val: any) => {};
+defineProps(["columns", "dataSource", "loading"]);
 </script>
 <template>
   <el-table
     v-loading="loading"
     stripe
-    :data="config.dataSource"
-    @selection-change="handleSelectionChange"
+    :data="dataSource"
+    :border="true"
+    size="large"
+    selection
   >
+    <el-table-column type="selection" width="55" />
     <el-table-column
-      v-for="item in config.columns"
-      :key="item.prop"
-      :prop="item.prop"
-      :label="item.label"
-      :width="item.width"
-      :formatter="item.formatter"
-    >
-    </el-table-column>
+      v-for="item in columns"
+      :key="item"
+      :prop="item"
+      :label="item"
+    />
   </el-table>
-  <el-pagination
-    layout="prev, pager, next"
-    :total="1000"
-    @current-change="handleCurrentChange"
-  />
 </template>

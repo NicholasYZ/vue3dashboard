@@ -15,6 +15,12 @@ const config = {
       placeholder: "PassWord",
       rules: [{ required: true }],
     },
+    {
+      prop: "paddssword",
+      title: "密码",
+      placeholder: "PassWord",
+      rules: [{ required: true }],
+    },
   ],
 };
 </script>

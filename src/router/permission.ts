@@ -41,5 +41,5 @@ router.beforeEach(async (to) => {
 
 router.afterEach((to) => {
   NProgress.done();
-  document.title = `${to.meta.title}`;
+  document.title = `${to.meta.title} - VD`;
 });

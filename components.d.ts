@@ -29,6 +29,9 @@ declare module '@vue/runtime-core' {
     VdBreadcrumb: typeof import('./src/components/vd-breadcrumb.vue')['default']
     VdCard: typeof import('./src/components/vd-card.vue')['default']
     VdForm: typeof import('./src/components/vd-form.vue')['default']
+    VdList: typeof import('./src/components/vd-list.vue')['default']
+    VdPage: typeof import('./src/components/vd-page.vue')['default']
+    VdPagination: typeof import('./src/components/vd-pagination.vue')['default']
     VdTable: typeof import('./src/components/vd-table.vue')['default']
   }
   export interface ComponentCustomProperties {
