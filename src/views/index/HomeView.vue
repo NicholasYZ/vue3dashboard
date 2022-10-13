@@ -86,11 +86,11 @@ const config = {
         <vd-form :config="config"></vd-form>
       </div>
 
-      <div class="bg-[#fff] rounded-md py-6 px-8">
+      <div class="bg-[#fff] min-h-[200px] rounded-md py-6 px-8">
         <v-chart autoresize :option="option" />
       </div>
 
-      <div class="bg-[#fff] rounded-md py-6 px-8">
+      <div class="bg-[#fff] min-h-[200px] rounded-md py-6 px-8">
         <v-chart autoresize :option="option" />
       </div>
     </div>
