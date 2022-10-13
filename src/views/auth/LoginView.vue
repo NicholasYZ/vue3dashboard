@@ -1,11 +1,11 @@
 <template>
   <div
     class="bg-gradient-to-b from-gray-900 to-gray-700 h-screen w-screen flex flex-col justify-center items-center text-center"
-    v-loading="loading"
   >
     <h1 class="text-2xl m-4 font-bold text-slate-800">VD</h1>
     <div
       class="p-12 m-4 rounded-xl bg-[#fff] w-1/3 min-w-max shadow hover:shadow-md"
+      v-loading="loading"
     >
       <div class="mb-8">
         <h2 class="text-xl mb-2 text-slate-600">登录</h2>
