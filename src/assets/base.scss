@@ -55,6 +55,7 @@ input:-webkit-autofill:active{
   &-main {
     margin-left: 64px;
     width: calc(100% - 64px);
+    min-height: calc((100vh - 60px));
   }
   &-header {
     width: calc(100% - 64px);

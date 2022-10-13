@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
 import { ref, onMounted } from "vue";
-
 import VChart, { THEME_KEY } from "vue-echarts";
-
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart } from "echarts/charts";
