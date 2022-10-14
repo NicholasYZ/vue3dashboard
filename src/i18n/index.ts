@@ -47,8 +47,7 @@ const locales = {
   },
 };
 
-i18next.init({
-  lng: "en",
+i18next.use(LanguageDetector).init({
   fallbackLng: "en",
   resources: {
     en: { translation: locales.en },

@@ -28,5 +28,9 @@ export const useSettingStore = defineStore("setting", () => {
     setting.value.deviceType = deviceType;
   };
 
-  return { setting, setSidebarStatus, setDeviceType };
+  const setLanguage = (language: string) => {
+    setting.value.language = language;
+  };
+
+  return { setting, setSidebarStatus, setDeviceType, setLanguage };
 });

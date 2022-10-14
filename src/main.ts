@@ -5,6 +5,7 @@ import ElementPlus from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { I18NextVue, i18next } from "@/i18n";
 
+import "virtual:svg-icons-register";
 import App from "@/App.vue";
 import "@/router/permission";
 import "@/mock";

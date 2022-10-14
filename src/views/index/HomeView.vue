@@ -78,7 +78,6 @@ const config = {
 </script>
 <template>
   <main>
-    <!-- <vd-card title="hello" /> -->
     <div
       class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
     >
