@@ -32,17 +32,15 @@ const onPageChange = (num: number) => {
 onMounted(async () => {
   getData(1);
 });
+
+const onSearch = (keywords: string) => {
+  console.log(keywords);
+};
 </script>
 <template>
   <div v-loading="loading" class="vd-list">
-    <vd-table
-      :columns="columns"
-      :dataSource="dataSource"
-      class="mb-4"
-    ></vd-table>
-    <vd-pagination
-      @onPageChange="onPageChange"
-      :pageInfo="pageInfo"
-    ></vd-pagination>
+    <vd-search @onSearch="onSearch" />
+    <vd-table :columns="columns" :dataSource="dataSource" class="mb-4" />
+    <vd-pagination @onPageChange="onPageChange" :pageInfo="pageInfo" />
   </div>
 </template>

@@ -20,7 +20,7 @@ const onClick = () => {
       <p class="flex items-center cursor-pointer">
         <el-icon><Icon icon="SwitchButton" /></el-icon>
         <router-link class="text-slate-500 pl-2 text-sm" to="/login">
-          退出
+          {{ $t("logout") }}
         </router-link>
       </p>
       <template #reference>

@@ -1,29 +1,25 @@
 <script setup lang="ts">
+defineProps(["pageInfo"]);
 const config = {
   url: "",
   title: "Form 表单",
+  inline: true,
   fields: [
     {
       prop: "username",
       name: "用户名",
       placeholder: "UserName",
-      rules: [{ required: true }],
     },
     {
       prop: "password",
       name: "密码",
       placeholder: "PassWord",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "newpassowrd",
-      name: "新密码",
-      placeholder: "Newpassowrd",
-      rules: [{ required: true }],
     },
   ],
 };
 </script>
 <template>
-  <vd-form :config="config"></vd-form>
+  <div class="vd-search">
+    <vd-form :config="config" />
+  </div>
 </template>

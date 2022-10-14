@@ -11,7 +11,7 @@ export const useSettingStore = defineStore("setting", () => {
   const initalData: SettingProps = {
     sidebarStatus: "open",
     deviceType,
-    lang: "zh",
+    language: "zh",
   };
   const setting = ref<SettingProps>(initalData);
 

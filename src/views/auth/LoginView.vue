@@ -8,7 +8,7 @@
       v-loading="loading"
     >
       <div class="mb-8">
-        <h2 class="text-xl mb-2 text-slate-600">登录</h2>
+        <h2 class="text-xl mb-2 text-slate-600">{{ $t("login") }}</h2>
         <p class="text-slate-400 text-sm">
           Vue Dashboard 创造不一样的管理系统!
         </p>
@@ -20,7 +20,7 @@
               <el-input
                 size="large"
                 v-model="form.username"
-                placeholder="登录名"
+                :placeholder="$t('username')"
                 type="text"
               />
             </el-form-item>
@@ -30,7 +30,7 @@
               <el-input
                 size="large"
                 v-model="form.password"
-                placeholder="密码"
+                :placeholder="$t('password')"
                 type="password"
               />
             </el-form-item>
@@ -43,12 +43,14 @@
           type="primary"
           style="width: 100%"
           @click="onSubmit(ruleFormRef)"
-          >确定</el-button
+          >{{ $t("confirm") }}</el-button
         >
       </div>
     </div>
     <div class="text-slate-400 text-sm">
-      <p>Vue Dashboard &copy; <a href="/">忘记密码?</a></p>
+      <p>
+        Vue Dashboard &copy; <a href="/">{{ $t("forget password ?") }}</a>
+      </p>
     </div>
   </div>
 </template>

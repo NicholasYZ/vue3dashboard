@@ -11,7 +11,7 @@ const login = {
 
 const menu: MenuProps[] = [
   {
-    name: "components",
+    name: "components.index",
     path: "/components",
     component: "layouts/MainLayout",
     redirect: "/components/list",
@@ -22,7 +22,7 @@ const menu: MenuProps[] = [
     },
     children: [
       {
-        name: "components-info",
+        name: "components.list",
         path: "/components/list",
         component: "components/ListView",
         meta: {
@@ -32,7 +32,7 @@ const menu: MenuProps[] = [
         },
       },
       {
-        name: "components-role",
+        name: "components.form",
         path: "/components/form",
         component: "components/FormView",
         meta: {
@@ -44,7 +44,7 @@ const menu: MenuProps[] = [
     ],
   },
   {
-    name: "setting",
+    name: "setting.index",
     path: "/setting",
     component: "layouts/MainLayout",
     redirect: "setting/info",
@@ -55,7 +55,7 @@ const menu: MenuProps[] = [
     },
     children: [
       {
-        name: "setting-info",
+        name: "setting.info",
         path: "/setting/info",
         component: "setting/InfoView",
         meta: {
@@ -65,7 +65,7 @@ const menu: MenuProps[] = [
         },
       },
       {
-        name: "setting-role",
+        name: "setting.role",
         path: "/setting/role",
         component: "setting/RoleView",
         meta: {
@@ -75,7 +75,7 @@ const menu: MenuProps[] = [
         },
       },
       {
-        name: "setting-menu",
+        name: "setting.menu",
         path: "/setting/menu",
         component: "setting/MenuView",
         meta: {

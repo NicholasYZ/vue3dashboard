@@ -36,11 +36,17 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 </script>
 <template>
   <h2 class="mb-4 text-lg">{{ config.title }}</h2>
-  <el-form :model="form" :rules="rules" ref="ruleFormRef">
+  <el-form
+    :model="form"
+    :inline="props.config.inline"
+    :rules="rules || []"
+    label-width="80px"
+    ref="ruleFormRef"
+  >
     <el-form-item
       v-for="item in props.config.fields"
       :key="item.prop"
-      label=""
+      :label="item.name || item.prop"
       :prop="item.prop"
     >
       <el-input
@@ -50,12 +56,21 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
         type="text"
       />
     </el-form-item>
+
+    <el-form-item>
+      <el-button size="large" @click="onSubmit(ruleFormRef)" type="primary">
+        {{ $t("confirm") }}
+      </el-button>
+      <el-button size="large" type="default">
+        {{ $t("cancel") }}
+      </el-button>
+    </el-form-item>
   </el-form>
 
-  <div class="mb-4">
+  <!-- <div class="mb-4">
     <el-button size="large" @click="onSubmit(ruleFormRef)" type="primary">
       确定
     </el-button>
     <el-button size="large" type="default">取消</el-button>
-  </div>
+  </div> -->
 </template>

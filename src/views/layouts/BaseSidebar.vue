@@ -56,7 +56,7 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
           <el-icon>
             <Icon :icon="item.meta.icon" />
           </el-icon>
-          <span>{{ item.meta.title }}</span>
+          <span>{{ $t(item.name) }}</span>
         </template>
         <el-menu-item
           style="--el-menu-hover-bg-color: #374151"
@@ -67,7 +67,7 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
           <el-icon>
             <Icon :icon="subItem.meta.icon" />
           </el-icon>
-          <span>{{ subItem.meta.title }}</span>
+          <span>{{ $t(subItem.name) }}</span>
         </el-menu-item>
       </el-sub-menu>
     </el-menu>

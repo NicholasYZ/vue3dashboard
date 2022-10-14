@@ -10,7 +10,7 @@ const menu = computed(() => {
   <el-breadcrumb class="mb-4" separator="/">
     <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
     <el-breadcrumb-item v-for="item in menu" :key="item.path">
-      {{ item.meta.title }}
+      {{ $t(item.name as string) }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>

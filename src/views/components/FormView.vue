@@ -5,20 +5,20 @@ const config = {
   fields: [
     {
       prop: "username",
-      title: "用户名",
+      name: "用户名",
       placeholder: "UserName",
       rules: [{ required: true }],
     },
     {
       prop: "password",
-      title: "密码",
+      name: "密码",
       placeholder: "PassWord",
       rules: [{ required: true }],
     },
     {
-      prop: "paddssword",
-      title: "密码",
-      placeholder: "PassWord",
+      prop: "newpassword",
+      name: "新密码",
+      placeholder: "NewPassWord",
       rules: [{ required: true }],
     },
   ],

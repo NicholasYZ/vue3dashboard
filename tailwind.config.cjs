@@ -5,5 +5,6 @@ module.exports = {
   theme: {
     extend: {},
   },
+  // eslint-disable-next-line no-undef
   plugins: [],
 };

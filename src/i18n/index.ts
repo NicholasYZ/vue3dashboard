@@ -1,0 +1,59 @@
+import i18next from "i18next";
+import I18NextVue from "i18next-vue";
+import LanguageDetector from "i18next-browser-languagedetector";
+
+const locales = {
+  en: {
+    home: "Home",
+    confirm: "Confirm",
+    cancel: "Cancel",
+    login: "Login",
+    logout: "Logout",
+    "forget password?": "Forget password?",
+    username: "Username",
+    password: "Password",
+    components: {
+      index: "Components",
+      form: "Form",
+      list: "List",
+    },
+    setting: {
+      index: "Setting",
+      info: "Info",
+      role: "Role",
+      menu: "Menu",
+    },
+  },
+  zh: {
+    home: "首页",
+    confirm: "确定",
+    cancel: "取消",
+    login: "登录",
+    logout: "退出",
+    "forget password?": "忘记密码?",
+    username: "用户名",
+    password: "密码",
+    components: {
+      index: "组件",
+      form: "表单",
+      list: "列表",
+    },
+    setting: {
+      index: "设置",
+      info: "用户管理",
+      role: "角色管理",
+      menu: "菜单管理",
+    },
+  },
+};
+
+i18next.init({
+  lng: "en",
+  fallbackLng: "en",
+  resources: {
+    en: { translation: locales.en },
+    zh: { translation: locales.zh },
+  },
+});
+
+export { I18NextVue, i18next };
