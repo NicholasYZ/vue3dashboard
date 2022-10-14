@@ -14,7 +14,7 @@ export function useDevice() {
       store.setSidebarStatus("close");
     }
     store.setDeviceType(deviceType);
-  }, 200);
+  }, 100);
 
   onMounted(() => {
     resizeWindow();

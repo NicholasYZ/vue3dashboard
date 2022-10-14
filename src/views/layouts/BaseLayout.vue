@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { RouterView } from "vue-router";
+import { RouterView, useRoute } from "vue-router";
 
 import { useSettingStore } from "@/store";
 import { useDevice } from "@/utils";
 import BaseSidebar from "@/views/layouts/BaseSidebar.vue";
 import BaseHeader from "@/views/layouts/BaseHeader.vue";
 
+const router = useRoute();
 const store = useSettingStore();
+const currRouteName = computed(
+  () => router.matched.slice(-1)[0].name as string
+);
+
 useDevice();
 
 const classObj = computed(() => {
@@ -38,6 +43,7 @@ const onRemoveMask = () => {
       <BaseHeader />
       <div class="p-5">
         <vd-breadcrumb />
+        <h2 class="text-2xl mb-4">{{ $t(currRouteName) }}</h2>
         <RouterView />
       </div>
     </div>

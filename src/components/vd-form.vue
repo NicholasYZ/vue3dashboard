@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import type { FormInstance, FormRules } from "element-plus";
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
+import { useSettingStore } from "@/store";
+
+const store = useSettingStore();
 const props = defineProps(["config"]);
 
 type fieldsProps = {
@@ -33,26 +36,31 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     loading.value = false;
   }
 };
+
+const isInline = computed(() => {
+  const isMobile = store.setting.deviceType === "mobile";
+  return props.config.inline && !isMobile;
+});
 </script>
 <template>
-  <h2 class="mb-4 text-lg">{{ config.title }}</h2>
+  <!-- <h2 class="mb-4 text-lg">{{ config.title }}</h2> -->
   <el-form
     :model="form"
-    :inline="props.config.inline"
+    :inline="isInline"
     :rules="rules || []"
-    label-width="80px"
+    :label-width="!isInline ? '80px' : ''"
     ref="ruleFormRef"
   >
     <el-form-item
       v-for="item in props.config.fields"
       :key="item.prop"
-      :label="item.name || item.prop"
+      :label="$t(item.prop)"
       :prop="item.prop"
     >
       <el-input
         size="large"
         v-model="form[item.prop]"
-        :placeholder="item.prop"
+        :placeholder="$t(item.prop)"
         type="text"
       />
     </el-form-item>
@@ -74,3 +82,15 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     <el-button size="large" type="default">取消</el-button>
   </div> -->
 </template>
+
+<style lang="scss">
+.el-form--inline {
+  .el-form-item {
+    margin-right: 12px;
+    &__label {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+}
+</style>

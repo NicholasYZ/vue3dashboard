@@ -12,6 +12,11 @@ const locales = {
     "forget password?": "Forget password?",
     username: "Username",
     password: "Password",
+    newpassword: "newPass",
+    create: "Create",
+    eidt: "Edit",
+    del: "Del",
+    view: "View",
     components: {
       index: "Components",
       form: "Form",
@@ -33,6 +38,11 @@ const locales = {
     "forget password?": "忘记密码?",
     username: "用户名",
     password: "密码",
+    newpassword: "新密码",
+    create: "添加",
+    eidt: "编辑",
+    del: "删除",
+    view: "查看",
     components: {
       index: "组件",
       form: "表单",

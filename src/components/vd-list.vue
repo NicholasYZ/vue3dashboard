@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { getList } from "@/api";
-defineProps(["columns"]);
+defineProps(["config"]);
 
 let loading = ref<boolean>(false);
 let dataSource = ref<any[]>([]);
@@ -39,8 +39,13 @@ const onSearch = (keywords: string) => {
 </script>
 <template>
   <div v-loading="loading" class="vd-list">
-    <vd-search @onSearch="onSearch" />
-    <vd-table :columns="columns" :dataSource="dataSource" class="mb-4" />
+    <div
+      class="vd-list-bar flex sm:flex-row flex-col sm:mb-0 mb-4 justify-between"
+    >
+      <vd-search :config="config.search" @onSearch="onSearch" />
+      <el-button size="large" type="primary">{{ $t("create") }}</el-button>
+    </div>
+    <vd-table :columns="config.columns" :dataSource="dataSource" class="mb-4" />
     <vd-pagination @onPageChange="onPageChange" :pageInfo="pageInfo" />
   </div>
 </template>

@@ -28,7 +28,9 @@ const handleLanguage = (language: string) => {
 
     <div class="flex">
       <el-dropdown @command="handleLanguage" trigger="click">
-        <vd-icon color="#333" name="language" />
+        <p class="flex items-center cursor-pointer">
+          <vd-icon color="#333" name="language" />
+        </p>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item command="zh">中文</el-dropdown-item>
@@ -39,12 +41,12 @@ const handleLanguage = (language: string) => {
       <el-dropdown trigger="click">
         <p class="flex items-center cursor-pointer">
           <el-icon><User /></el-icon>
-          <span class="text-slate-500 pl-2 text-sm">admin</span>
+          <span class="text-slate-500 pl-2 text-base">admin</span>
         </p>
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item icon="SwitchButton">
-              <router-link class="text-slate-500 pl-2 text-sm" to="/login">
+              <router-link class="text-slate-500 pl-2 text-base" to="/login">
                 {{ $t("logout") }}
               </router-link>
             </el-dropdown-item>

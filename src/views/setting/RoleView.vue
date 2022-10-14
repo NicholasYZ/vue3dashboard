@@ -1,29 +1,29 @@
 <script setup lang="ts">
+// import { ref } from "vue";
+// const columns = ref<string[]>(["id", "name", "color", "pantone_value", "year"]);
 const config = {
-  url: "",
-  title: "Form 表单",
-  fields: [
-    {
-      prop: "username",
-      name: "用户名",
-      placeholder: "UserName",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "password",
-      name: "密码",
-      placeholder: "PassWord",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "newpassowrd",
-      name: "新密码",
-      placeholder: "Newpassowrd",
-      rules: [{ required: true }],
-    },
-  ],
+  search: {
+    url: "",
+    title: "Form 表单",
+    inline: true,
+    fields: [
+      {
+        prop: "username",
+        name: "用户名",
+        placeholder: "UserName",
+      },
+      {
+        prop: "password",
+        name: "密码",
+        placeholder: "PassWord",
+      },
+    ],
+  },
+  columns: ["id", "name", "color", "pantone_value", "year"],
 };
 </script>
 <template>
-  <vd-form :config="config"></vd-form>
+  <main>
+    <vd-list :config="config"></vd-list>
+  </main>
 </template>

@@ -30,7 +30,6 @@ const symbolId = computed(() => `#${props.prefix}-${props.name}`);
   vertical-align: middle;
   overflow: hidden;
   fill: currentColor;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 0 0.875rem;
 }
 </style>
