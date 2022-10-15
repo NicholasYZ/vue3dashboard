@@ -2,7 +2,7 @@
   <div
     class="bg-gradient-to-b from-gray-900 to-gray-700 h-screen w-screen flex flex-col justify-center items-center text-center"
   >
-    <h1 class="text-2xl m-4 font-bold text-slate-800">VD</h1>
+    <h1 class="text-2xl m-4 font-bold text-slate-50">VD</h1>
     <div
       class="p-12 m-4 rounded-xl bg-[#fff] w-1/3 min-w-max shadow hover:shadow-md"
       v-loading="loading"
@@ -60,6 +60,7 @@ import { ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { useAuthStore } from "@/store";
+import { sleep } from "@/utils";
 import { Login } from "@/api";
 
 const router = useRouter();
@@ -84,6 +85,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
       ...userInfo,
       init: true,
     });
+    await sleep(500);
     router.push({
       path: (route.query.redirect || "/") as string,
     });
