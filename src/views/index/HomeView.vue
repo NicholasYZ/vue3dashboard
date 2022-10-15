@@ -5,6 +5,8 @@ import VChart, { THEME_KEY } from "vue-echarts";
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart, LineChart, BarChart } from "echarts/charts";
+import { getList } from "@/api";
+
 import {
   TitleComponent,
   TooltipComponent,
@@ -26,7 +28,7 @@ use([
 const optionPie = ref<EChartsOption>({
   title: {
     text: "Traffic Sources",
-    left: "center",
+    // left: "center",
   },
   tooltip: {
     trigger: "item",
@@ -64,7 +66,7 @@ const optionPie = ref<EChartsOption>({
 const optionLine = ref<EChartsOption>({
   title: {
     text: "Sales Data",
-    left: "center",
+    // left: "center",
   },
   xAxis: {
     type: "category",
@@ -84,7 +86,7 @@ const optionLine = ref<EChartsOption>({
 const optionBar = ref<EChartsOption>({
   title: {
     text: "Weekday",
-    left: "center",
+    // left: "center",
   },
   xAxis: {
     type: "category",
@@ -104,23 +106,41 @@ const optionBar = ref<EChartsOption>({
     },
   ],
 });
+
+const columns = ["id", "name", "color", "pantone_value", "year"]
+
+let dataSource = ref<any[]>([]);
+
+const getData = async (num: number) => {
+  const { data } = await getList(num);
+  dataSource.value = data;
+};
+
+onMounted(async () => {
+  getData(1);
+});
 </script>
 <template>
   <main>
     <div
-      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm"
+      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm mb-4"
     >
-      <div class="bg-[#fff] h-[340px] rounded-md py-6 px-8">
+      <div class="bg-[#fff] h-[340px] rounded-md p-8">
         <v-chart autoresize :option="optionBar" />
       </div>
 
-      <div class="bg-[#fff] h-[340px] rounded-md py-6 px-8">
+      <div class="bg-[#fff] h-[340px] rounded-md p-8">
         <v-chart autoresize :option="optionPie" />
       </div>
 
-      <div class="bg-[#fff] h-[340px] rounded-md py-6 px-8">
+      <div class="bg-[#fff] h-[340px] rounded-md p-8">
         <v-chart autoresize :option="optionLine" />
       </div>
+    </div>
+
+    <div class="bg-[#fff] rounded-md p-8">
+      <h2 class="text-xl mb-4 text-slate-600">Records</h2>
+      <vd-table :columns="columns" :dataSource="dataSource" />
     </div>
   </main>
 </template>
