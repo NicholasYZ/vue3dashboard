@@ -1,69 +1,15 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
 import { ref, onMounted } from "vue";
-import VChart, { THEME_KEY } from "vue-echarts";
-import { use } from "echarts/core";
-import { CanvasRenderer } from "echarts/renderers";
-import { PieChart, LineChart, BarChart } from "echarts/charts";
 import { getList } from "@/api";
-
-import {
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  GridComponent,
-} from "echarts/components";
-
-use([
-  CanvasRenderer,
-  PieChart,
-  LineChart,
-  BarChart,
-  TitleComponent,
-  TooltipComponent,
-  LegendComponent,
-  GridComponent,
-]);
-
-const optionPie = ref<EChartsOption>({
-  title: {
-    text: "Traffic Sources",
-    // left: "center",
-  },
-  tooltip: {
-    trigger: "item",
-    formatter: "{a} <br/>{b} : {c} ({d}%)",
-  },
-  // legend: {
-  //   orient: "vertical",
-  //   left: "left",
-  //   data: ["Direct", "Email", "Ad Networks", "Video Ads", "Search Engines"],
-  // },
-  series: [
-    {
-      name: "Traffic Sources",
-      type: "pie",
-      radius: "55%",
-      center: ["50%", "60%"],
-      data: [
-        { value: 335, name: "Direct" },
-        { value: 310, name: "Email" },
-        { value: 234, name: "Ad Networks" },
-        { value: 135, name: "Video Ads" },
-        { value: 348, name: "Search Engines" },
-      ],
-      emphasis: {
-        itemStyle: {
-          shadowBlur: 10,
-          shadowOffsetX: 0,
-          shadowColor: "rgba(0, 0, 0, 0.5)",
-        },
-      },
-    },
-  ],
-});
+import VChart from "@/utils/charts";
 
 const optionLine = ref<EChartsOption>({
+  grid: {
+    bottom: "25px",
+    left: "30px",
+    right: "0",
+  },
   title: {
     text: "Sales Data",
     // left: "center",
@@ -77,13 +23,66 @@ const optionLine = ref<EChartsOption>({
   },
   series: [
     {
-      data: [150, 230, 224, 218, 135, 147, 260],
+      data: [10, 230, 224, 618, 135, 147, 760],
       type: "line",
     },
   ],
 });
 
+const optionPie = ref<EChartsOption>({
+  title: {
+    text: "Sales Data",
+    // left: "center",
+  },
+  tooltip: {
+    trigger: "item",
+  },
+  legend: {
+    left: "center",
+    top: "bottom",
+  },
+  series: [
+    {
+      name: "Access From",
+      type: "pie",
+      radius: ["25%", "55%"],
+      avoidLabelOverlap: false,
+      itemStyle: {
+        borderRadius: 10,
+        borderColor: "#fff",
+        borderWidth: 2,
+      },
+      label: {
+        show: false,
+        position: "center",
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: "14",
+          fontWeight: "bold",
+        },
+      },
+      labelLine: {
+        show: false,
+      },
+      data: [
+        { value: 1048, name: "Search Engine" },
+        { value: 735, name: "Direct" },
+        { value: 580, name: "Email" },
+        { value: 484, name: "Union Ads" },
+        { value: 300, name: "Video Ads" },
+      ],
+    },
+  ],
+});
+
 const optionBar = ref<EChartsOption>({
+  grid: {
+    bottom: "25px",
+    left: "30px",
+    right: "0",
+  },
   title: {
     text: "Weekday",
     // left: "center",
@@ -107,7 +106,7 @@ const optionBar = ref<EChartsOption>({
   ],
 });
 
-const columns = ["id", "name", "color", "pantone_value", "year"]
+const columns = ["id", "name", "color", "pantone_value", "year"];
 
 let dataSource = ref<any[]>([]);
 
@@ -121,28 +120,63 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <main>
-    <div
-      class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm mb-4"
-    >
-      <div class="bg-[#fff] h-[340px] rounded-md p-8">
-        <v-chart autoresize :option="optionBar" />
-      </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-4 text-sm mb-4"
+  >
+    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
+      <vd-statistic
+        title="Total Orders"
+        color="#ec6769"
+        icon="ShoppingCartFull"
+        num="611"
+      />
+    </div>
+    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
+      <vd-statistic
+        title="Total Expenses"
+        color="#fedb6a"
+        icon="WalletFilled"
+        num="355"
+      />
+    </div>
+    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
+      <vd-statistic
+        title="Total Profit"
+        color="#95cb72"
+        icon="Money"
+        num="5655"
+      />
+    </div>
+    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
+      <vd-statistic
+        title="Total Vistors"
+        color="#5976cb"
+        icon="UserFilled"
+        num="848"
+      />
+    </div>
+  </div>
 
-      <div class="bg-[#fff] h-[340px] rounded-md p-8">
-        <v-chart autoresize :option="optionPie" />
-      </div>
-
-      <div class="bg-[#fff] h-[340px] rounded-md p-8">
-        <v-chart autoresize :option="optionLine" />
-      </div>
+  <div
+    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm mb-4"
+  >
+    <div class="bg-[#fff] h-[340px] rounded-md p-6">
+      <v-chart autoresize :option="optionBar" />
     </div>
 
-    <div class="bg-[#fff] rounded-md p-8">
-      <h2 class="text-xl mb-4 text-slate-600">Records</h2>
-      <vd-table :columns="columns" :dataSource="dataSource" />
+    <div class="bg-[#fff] h-[340px] rounded-md p-6">
+      <v-chart autoresize :option="optionPie" />
     </div>
-  </main>
+
+    <div class="bg-[#fff] h-[340px] rounded-md p-6">
+      <v-chart autoresize :option="optionLine" />
+    </div>
+  </div>
+
+  <div class="bg-[#fff] rounded-md p-6">
+    <h2 class="text-xl mb-4 text-slate-600 leading-none">Records</h2>
+    <vd-table :columns="columns" :dataSource="dataSource" />
+  </div>
 </template>
 
 <style></style>

@@ -1,6 +1,20 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
+import { ExportToCsv } from "export-to-csv";
 import { getList } from "@/api";
+const options = {
+  fieldSeparator: ",",
+  quoteStrings: '"',
+  decimalSeparator: ".",
+  showLabels: true,
+  showTitle: true,
+  title: "My Awesome CSV",
+  useTextFile: false,
+  useBom: true,
+  useKeysAsHeaders: true,
+  // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+};
+
 defineProps(["config"]);
 
 let loading = ref<boolean>(false);
@@ -36,14 +50,29 @@ onMounted(async () => {
 const onSearch = (keywords: string) => {
   console.log(keywords);
 };
+
+const onExportToCsv = () => {
+  const csvExporter = new ExportToCsv(options);
+  csvExporter.generateCsv(dataSource.value);
+};
+const onCreate = () => {
+  console.log("create");
+};
 </script>
 <template>
   <div v-loading="loading" class="vd-list">
     <div
-      class="vd-list-bar flex sm:flex-row flex-col sm:mb-0 mb-4 justify-between"
+      class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
       <vd-search :config="config.search" @onSearch="onSearch" />
-      <el-button size="large" type="primary">{{ $t("create") }}</el-button>
+      <p class="flex md:justify-end justify-center">
+        <el-button size="large" @click="onCreate" type="primary">
+          {{ $t("create") }}
+        </el-button>
+        <el-button size="large" @click="onExportToCsv" type="primary">
+          {{ $t("export") }}
+        </el-button>
+      </p>
     </div>
     <vd-table :columns="config.columns" :dataSource="dataSource" class="mb-4" />
     <vd-pagination @onPageChange="onPageChange" :pageInfo="pageInfo" />

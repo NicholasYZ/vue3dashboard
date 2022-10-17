@@ -40,6 +40,7 @@ declare module '@vue/runtime-core' {
     VdPage: typeof import("./src/components/vd-page.vue")["default"]
     VdPagination: typeof import('./src/components/vd-pagination.vue')['default']
     VdSearch: typeof import('./src/components/vd-search.vue')['default']
+    VdStatistic: typeof import('./src/components/vd-statistic.vue')['default']
     VdTable: typeof import('./src/components/vd-table.vue')['default']
   }
   export interface ComponentCustomProperties {

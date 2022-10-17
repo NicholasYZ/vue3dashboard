@@ -41,6 +41,16 @@ const menu: MenuProps[] = [
           permissions: ["admin"],
         },
       },
+      {
+        name: "components.charts",
+        path: "/components/charts",
+        component: "components/ChartsView",
+        meta: {
+          title: "表单",
+          icon: "DocumentCopy",
+          permissions: ["admin"],
+        },
+      },
     ],
   },
   {

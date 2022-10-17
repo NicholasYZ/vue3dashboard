@@ -17,10 +17,13 @@ const locales = {
     eidt: "Edit",
     del: "Del",
     view: "View",
+    export: "Export",
+    import: "Import",
     components: {
       index: "Components",
       form: "Form",
       list: "List",
+      charts: "Charts",
     },
     setting: {
       index: "Setting",
@@ -43,10 +46,13 @@ const locales = {
     eidt: "编辑",
     del: "删除",
     view: "查看",
+    export: "导出",
+    import: "导入",
     components: {
       index: "组件",
       form: "表单",
       list: "列表",
+      charts: "图表",
     },
     setting: {
       index: "设置",
