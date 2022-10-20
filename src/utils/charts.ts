@@ -1,7 +1,7 @@
 import { use } from "echarts/core";
 import { CanvasRenderer } from "echarts/renderers";
 import { PieChart, LineChart, BarChart } from "echarts/charts";
-import VChart, { THEME_KEY } from "vue-echarts";
+import VChart from "vue-echarts";
 
 import {
   TitleComponent,

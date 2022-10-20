@@ -4,7 +4,8 @@ import { computed, reactive, ref } from "vue";
 import { useSettingStore } from "@/store";
 
 const store = useSettingStore();
-const props = defineProps(["config"]);
+const props = defineProps(["config", "hasSubmit"]);
+const emit = defineEmits(["formSubmit"]);
 
 type fieldsProps = {
   form: { [key: string]: any };
@@ -26,6 +27,10 @@ const rules = reactive<FormRules>(fields.rules);
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
+  if (props.config.hasSubmit) {
+    emit("formSubmit", formEl);
+    return;
+  }
   loading.value = true;
   try {
     await formEl.validate();

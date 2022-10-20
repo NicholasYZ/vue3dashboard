@@ -10,64 +10,7 @@
 
 <body>
   <div id="app"></div>
-  <div id="mainLoading">
-    <div class="ddr ddr1"></div>
-    <div class="ddr ddr2"></div>
-    <div class="ddr ddr3"></div>
-    <div class="ddr ddr4"></div>
-    <div class="ddr ddr5"></div>
-  </div>
   <script type="module" src="/src/main.ts"></script>
-  <style>
-    #mainLoading {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      left: 0;
-      top: 0;
-    }
-
-    #mainLoading .ddr {
-      width: 8px;
-      height: 100px;
-      float: left;
-      margin: 2px;
-      background-color: #4890ff;
-      animation: loading 1s infinite ease-in-out;
-    }
-
-    #mainLoading .ddr2 {
-      animation-delay: -0.9s;
-    }
-
-    #mainLoading .ddr3 {
-      animation-delay: -0.8s;
-    }
-
-    #mainLoading .ddr4 {
-      animation-delay: -0.7s;
-    }
-
-    #mainLoading .ddr5 {
-      animation-delay: -0.6s;
-    }
-
-    @keyframes loading {
-
-      0%,
-      40%,
-      100% {
-        -webkit-transform: scaleY(0.5);
-      }
-
-      20% {
-        -webkit-transform: scaleY(1);
-      }
-    }
-  </style>
 </body>
 
 </html>

@@ -34,7 +34,7 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
     <p
       class="h-[60px] flex justify-center items-center border-b border-b-gray-800 text-center"
     >
-      <router-link to="/" class="text-gray-50">VD</router-link>
+      <router-link to="/" class="text-gray-50 text-xl">VD</router-link>
     </p>
     <el-menu
       text-color="#fff"

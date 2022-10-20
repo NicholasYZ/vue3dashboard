@@ -24,6 +24,7 @@ const locales = {
       form: "Form",
       list: "List",
       charts: "Charts",
+      icons: "Icons",
     },
     setting: {
       index: "Setting",
@@ -53,6 +54,7 @@ const locales = {
       form: "表单",
       list: "列表",
       charts: "图表",
+      icons: "图标",
     },
     setting: {
       index: "设置",

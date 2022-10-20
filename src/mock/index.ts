@@ -51,6 +51,16 @@ const menu: MenuProps[] = [
           permissions: ["admin"],
         },
       },
+      {
+        name: "components.icons",
+        path: "/components/icons",
+        component: "components/IconsView",
+        meta: {
+          title: "表单",
+          icon: "DocumentCopy",
+          permissions: ["admin"],
+        },
+      },
     ],
   },
   {
