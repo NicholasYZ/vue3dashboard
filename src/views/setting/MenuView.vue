@@ -1,5 +1,9 @@
 <script setup lang="ts">
 // import { ref } from "vue";
+
+import { getMenu } from '@/api';
+import { onMounted, ref } from 'vue';
+
 // const columns = ref<string[]>(["id", "name", "color", "pantone_value", "year"]);
 const config = {
   search: {
@@ -21,6 +25,18 @@ const config = {
   },
   columns: ["id", "name", "color", "pantone_value", "year"],
 };
+
+let dataSource = ref<any[]>([]);
+
+const getData = async () => {
+  const res = await getMenu();
+  dataSource.value = res;
+  console.log(dataSource);
+};
+
+onMounted(async () => {
+  getData();
+});
 </script>
 <template>
   <main>
