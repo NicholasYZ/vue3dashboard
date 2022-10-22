@@ -3,7 +3,6 @@
 // const columns = ref<string[]>(["id", "name", "color", "pantone_value", "year"]);
 const config = {
   search: {
-    url: "",
     title: "Form 表单",
     inline: true,
     fields: [
@@ -20,6 +19,7 @@ const config = {
     ],
   },
   columns: ["id", "name", "color", "pantone_value", "year"],
+  url: "/roles",
 };
 </script>
 <template>

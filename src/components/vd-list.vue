@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { ExportToCsv } from "export-to-csv";
+import type { FormInstance } from "element-plus";
 import { getList } from "@/api";
+import { sleep } from "@/utils";
+
 const options = {
   fieldSeparator: ",",
   quoteStrings: '"',
@@ -12,23 +15,35 @@ const options = {
   useTextFile: false,
   useBom: true,
   useKeysAsHeaders: true,
-  // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
 };
 
-defineProps(["config"]);
-
-let loading = ref<boolean>(false);
-let dataSource = ref<any[]>([]);
-let pageInfo = ref<{ [key: string]: number }>({
+const props = defineProps(["config"]);
+const keywords = ref<{ [key: string]: any }>({});
+const loading = ref<boolean>(false);
+const dataSource = ref<any[]>([]);
+const pageInfo = ref<{ [key: string]: number }>({
   page: 1,
   per_page: 10,
   total: 0,
   total_pages: 0,
 });
 
-const getData = async (num: number) => {
+const getParams = () => {
+  const { page, per_page } = pageInfo.value;
+  return {
+    page,
+    per_page,
+    ...keywords.value,
+  };
+};
+
+const getData = async () => {
   loading.value = true;
-  const { data, page, per_page, total, total_pages } = await getList(num);
+  const params = getParams();
+  const { data, page, per_page, total, total_pages } = await getList({
+    url: props.config.url || "/products",
+    params,
+  });
   dataSource.value = data;
   loading.value = false;
   pageInfo.value = {
@@ -39,40 +54,63 @@ const getData = async (num: number) => {
   };
 };
 
-const onPageChange = (num: number) => {
-  getData(num);
+const onPageChange = (page: number) => {
+  pageInfo.value.page = page;
+  getData();
 };
 
-onMounted(async () => {
-  getData(1);
-});
-
-const onSearch = (keywords: string) => {
-  console.log(keywords);
+const onSearch = async (
+  formEl: FormInstance | undefined,
+  form: { [key: string]: any }
+) => {
+  if (!formEl) return;
+  loading.value = true;
+  try {
+    await formEl.validate();
+    await sleep(200);
+    keywords.value = form;
+    pageInfo.value.page = 1;
+    getData();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
 };
 
 const onExportToCsv = () => {
   const csvExporter = new ExportToCsv(options);
   csvExporter.generateCsv(dataSource.value);
 };
+
 const onCreate = () => {
   console.log("create");
 };
+
+onMounted(async () => {
+  getData();
+});
 </script>
 <template>
   <div v-loading="loading" class="vd-list">
     <div
       class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
-      <vd-search :config="config.search" @onSearch="onSearch" />
-      <p class="flex md:justify-end justify-center">
+      <div class="vd-search">
+        <vd-form
+          :config="config.search"
+          :hasSubmit="true"
+          @formSubmit="onSearch"
+        />
+      </div>
+      <div class="flex md:justify-end justify-center">
         <el-button size="large" @click="onCreate" type="primary">
           {{ $t("create") }}
         </el-button>
         <el-button size="large" @click="onExportToCsv" type="primary">
           {{ $t("export") }}
         </el-button>
-      </p>
+      </div>
     </div>
     <vd-table :columns="config.columns" :dataSource="dataSource" class="mb-4" />
     <vd-pagination @onPageChange="onPageChange" :pageInfo="pageInfo" />

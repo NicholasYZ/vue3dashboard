@@ -17,8 +17,6 @@ const request = {
 };
 
 export const getMenu = (): Promise<MenuProps[]> => request.get("/menu");
-export const Login = (params: LoginProps): Promise<LoginProps> =>
-  request.post("/login", params);
 
 const http = axios.create({
   baseURL: "https://reqres.in/api",
@@ -26,10 +24,21 @@ const http = axios.create({
 });
 
 const httpRequest = {
-  get: (url: string) => http.get(url).then(responseBody),
+  get: (url: string, params: { [key: string]: string | number }) =>
+    http.get(url, { params }).then(responseBody),
   post: (url: string, body: BodyProps) =>
     http.post(url, body).then(responseBody),
 };
 
-export const getList = (num: number): Promise<any> =>
-  httpRequest.get(`/list?page=${num}`);
+export const getList = ({
+  url,
+  params,
+}: {
+  url: string;
+  params: { [key: string]: string | number };
+}): Promise<any> => {
+  return httpRequest.get(url, params);
+};
+
+export const Login = (params: LoginProps): Promise<LoginProps> =>
+  httpRequest.post("/login", params);

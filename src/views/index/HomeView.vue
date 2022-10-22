@@ -2,7 +2,33 @@
 import type { EChartsOption } from "echarts";
 import { ref, onMounted } from "vue";
 import { getList } from "@/api";
+import { sleep } from "@/utils";
 import VChart from "@/utils/charts";
+
+const columns = ["id", "name", "color", "pantone_value", "year"];
+const dataSource = ref<any[]>([]);
+const loading = ref<boolean>(true);
+
+onMounted(() => {
+  getData();
+});
+
+const getData = async () => {
+  try {
+    const { data } = await getList({
+      url: "/products",
+      params: {
+        page: 1,
+      },
+    });
+    await sleep(200);
+    dataSource.value = data;
+  } catch (error: any) {
+    console.log(error);
+  } finally {
+    loading.value = false;
+  }
+};
 
 const optionLine = ref<EChartsOption>({
   grid: {
@@ -105,19 +131,6 @@ const optionBar = ref<EChartsOption>({
     },
   ],
 });
-
-const columns = ["id", "name", "color", "pantone_value", "year"];
-
-let dataSource = ref<any[]>([]);
-
-const getData = async (num: number) => {
-  const { data } = await getList(num);
-  dataSource.value = data;
-};
-
-onMounted(async () => {
-  getData(1);
-});
 </script>
 <template>
   <div
@@ -175,7 +188,7 @@ onMounted(async () => {
 
   <div class="bg-[#fff] rounded-md p-6">
     <h2 class="text-xl mb-4 text-slate-600 leading-none">Records</h2>
-    <vd-table :columns="columns" :dataSource="dataSource" />
+    <vd-table :loading="loading" :columns="columns" :dataSource="dataSource" />
   </div>
 </template>
 

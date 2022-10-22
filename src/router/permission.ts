@@ -19,7 +19,7 @@ router.beforeEach(async (to) => {
 
   if (whiteList.indexOf(to.path) !== -1) {
     return true;
-  } else if (authStore.userInfo.token === "login:ok") {
+  } else if (authStore.userInfo.token) {
     if (store.router.length === 0) {
       await store.getRouter();
       addRoutes(store.router);

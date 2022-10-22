@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules } from "element-plus";
+import type { FormInstance, FormRules, FormProps } from "element-plus";
 import { computed, reactive, ref } from "vue";
 import { useSettingStore } from "@/store";
+import { sleep } from "@/utils";
 
 const store = useSettingStore();
 const props = defineProps(["config", "hasSubmit"]);
@@ -13,7 +14,7 @@ type fieldsProps = {
 };
 
 const loading = ref(false);
-const ruleFormRef = ref<FormInstance>();
+const formRef = ref<FormInstance>();
 const fields: fieldsProps = { form: {}, rules: {} } as fieldsProps;
 
 props.config.fields.forEach(
@@ -26,20 +27,26 @@ const form = reactive(fields.form);
 const rules = reactive<FormRules>(fields.rules);
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!props.hasSubmit) {
+    if (!formEl) return;
+    loading.value = true;
+    try {
+      await formEl.validate();
+      await sleep(200);
+      console.log(form);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      loading.value = false;
+    }
+  } else {
+    emit("formSubmit", formEl, fields.form);
+  }
+};
+
+const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  if (props.config.hasSubmit) {
-    emit("formSubmit", formEl);
-    return;
-  }
-  loading.value = true;
-  try {
-    await formEl.validate();
-    console.log(form);
-  } catch (error) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
+  formEl.resetFields();
 };
 
 const isInline = computed(() => {
@@ -48,44 +55,29 @@ const isInline = computed(() => {
 });
 </script>
 <template>
-  <!-- <h2 class="mb-4 text-lg">{{ config.title }}</h2> -->
   <el-form
     :model="form"
     :inline="isInline"
     :rules="rules || []"
     :label-width="!isInline ? '80px' : ''"
-    ref="ruleFormRef"
+    ref="formRef"
+    v-loading="loading"
   >
-    <el-form-item
+    <vd-field
       v-for="item in props.config.fields"
       :key="item.prop"
-      :label="$t(item.prop)"
-      :prop="item.prop"
-    >
-      <el-input
-        size="large"
-        v-model="form[item.prop]"
-        :placeholder="$t(item.prop)"
-        type="text"
-      />
-    </el-form-item>
-
+      :item="item"
+      v-model:val="form[item.prop]"
+    />
     <el-form-item>
-      <el-button size="large" @click="onSubmit(ruleFormRef)" type="primary">
+      <el-button size="large" @click="onSubmit(formRef)" type="primary">
         {{ $t("confirm") }}
       </el-button>
-      <el-button size="large" type="default">
+      <el-button size="large" @click="onReset(formRef)" type="default">
         {{ $t("cancel") }}
       </el-button>
     </el-form-item>
   </el-form>
-
-  <!-- <div class="mb-4">
-    <el-button size="large" @click="onSubmit(ruleFormRef)" type="primary">
-      确定
-    </el-button>
-    <el-button size="large" type="default">取消</el-button>
-  </div> -->
 </template>
 
 <style lang="scss">

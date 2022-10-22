@@ -1,6 +1,5 @@
 export { useDevice } from "@/utils/useDevice";
 export { deviceDetector } from "@/utils/deviceDetector";
-
 export const sleep = (time: number) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {

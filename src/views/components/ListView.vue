@@ -3,19 +3,22 @@
 // const columns = ref<string[]>(["id", "name", "color", "pantone_value", "year"]);
 const config = {
   search: {
-    url: "",
     title: "Form 表单",
     inline: true,
     fields: [
       {
         prop: "username",
-        name: "用户名",
         placeholder: "UserName",
       },
       {
-        prop: "password",
-        name: "密码",
-        placeholder: "PassWord",
+        prop: "city",
+        placeholder: "city",
+        type: "select",
+        dict: {
+          "1": "beijing",
+          "2": "shanghai",
+          "3": "guangzhou",
+        },
       },
     ],
   },
