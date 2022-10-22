@@ -8,12 +8,14 @@ const config = {
       prop: "username",
       name: "用户名",
       placeholder: "username",
+      value: "xiaoqing",
       type: "text",
       rules: [{ required: true }],
     },
     {
       prop: "gender",
       type: "radio",
+      value: "1",
       dict: {
         "1": "male",
         "2": "female",
@@ -24,6 +26,7 @@ const config = {
     {
       prop: "city",
       type: "select",
+      value: "1",
       dict: {
         "1": "beijing",
         "2": "shanghai",
@@ -34,8 +37,17 @@ const config = {
     },
     {
       prop: "nickname",
-      type: "textarea",
+      type: "text",
+      value: "xiao",
       placeholder: "nickname",
+      rows: 5,
+      rules: [{ required: true }],
+    },
+    {
+      prop: "intro",
+      type: "textarea",
+      value: "I am an experienced frontend developer.",
+      placeholder: "intro",
       rows: 5,
       rules: [{ required: true }],
     },

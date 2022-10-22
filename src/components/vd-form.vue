@@ -19,7 +19,7 @@ const fields: fieldsProps = { form: {}, rules: {} } as fieldsProps;
 
 props.config.fields.forEach(
   (item: { [x: string]: any; prop: string | number }) => {
-    fields.form[item.prop] = "";
+    fields.form[item.prop] = item.value || "";
     fields.rules[item.prop] = item.rules;
   }
 );
