@@ -69,7 +69,10 @@ const authStore = useAuthStore();
 const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const errMsg = ref<string>();
-const form = reactive({ username: "", password: "" });
+const form = reactive({
+  username: "eve.holt@reqres.in",
+  password: "cityslicka",
+});
 const rules = reactive<FormRules>({
   username: [{ required: true }],
   password: [{ required: true }],
