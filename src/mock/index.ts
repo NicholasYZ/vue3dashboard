@@ -106,6 +106,16 @@ const menu: MenuProps[] = [
           permissions: ["admin"],
         },
       },
+      {
+        name: "setting.users",
+        path: "/setting/users",
+        component: "setting/UsersView",
+        meta: {
+          title: "菜单管理",
+          icon: "Avatar",
+          permissions: ["admin"],
+        },
+      },
     ],
   },
 ];
