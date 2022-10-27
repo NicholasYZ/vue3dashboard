@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import { ref } from "vue";
-
 const config = {
   search: {
     title: "Form 表单",
@@ -18,7 +16,23 @@ const config = {
       },
     ],
   },
-  columns: ["id", "name", "color", "pantone_value", "year"],
+  columns: [
+    {
+      prop: "id",
+    },
+    {
+      prop: "name",
+    },
+    {
+      prop: "color",
+    },
+    {
+      prop: "pantone_value",
+    },
+    {
+      prop: "year",
+    },
+  ],
   url: "/menus",
 };
 </script>

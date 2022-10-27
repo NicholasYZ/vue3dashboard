@@ -1,5 +1,7 @@
 <script setup lang="ts">
-defineProps(["columns", "dataSource", "loading"]);
+import { inject } from "vue";
+const props = defineProps(["columns", "dataSource", "loading"]);
+const emit = defineEmits(["create", "edit"]);
 </script>
 <template>
   <el-table
@@ -13,9 +15,16 @@ defineProps(["columns", "dataSource", "loading"]);
     <el-table-column type="selection" width="55" />
     <el-table-column
       v-for="item in columns"
-      :key="item"
-      :prop="item"
-      :label="item"
+      :key="item.prop"
+      :prop="item.prop"
+      :label="item.prop"
+      :formatter="(record: any) => {
+        if (item.formatter) {
+          return item.formatter(record, emit)
+        } else {
+          return record[item.prop]
+        }
+      }"
     />
   </el-table>
 </template>

@@ -5,7 +5,23 @@ import { getList } from "@/api";
 import { sleep } from "@/utils";
 import VChart from "@/utils/charts";
 
-const columns = ["id", "name", "color", "pantone_value", "year"];
+const columns = [
+  {
+    prop: "id",
+  },
+  {
+    prop: "name",
+  },
+  {
+    prop: "color",
+  },
+  {
+    prop: "pantone_value",
+  },
+  {
+    prop: "year",
+  },
+];
 const dataSource = ref<any[]>([]);
 const loading = ref<boolean>(true);
 

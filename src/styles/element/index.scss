@@ -24,7 +24,8 @@ $--colors: (
   $menu: (
     'border-color': transparent,
   ),
-  $message: (
-    
+  $dialog: (
+    'border-radius': 6px,
+    'padding-primary': 40px,
   )
 );

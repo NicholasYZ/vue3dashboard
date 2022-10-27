@@ -73,3 +73,21 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
     </el-menu>
   </div>
 </template>
+<style lang="scss">
+.el-menu-item {
+  &.is-active {
+    background: #3f4f66 !important;
+    &::before {
+      content: "";
+      display: block;
+      width: 2px;
+      height: 100%;
+      opacity: 0.8;
+      background: #878c93;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+  }
+}
+</style>

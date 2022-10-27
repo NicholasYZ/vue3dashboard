@@ -17,12 +17,14 @@ const loading = ref(false);
 const formRef = ref<FormInstance>();
 const fields: fieldsProps = { form: {}, rules: {} } as fieldsProps;
 
+console.log(props.config.fields)
 props.config.fields.forEach(
   (item: { [x: string]: any; prop: string | number }) => {
     fields.form[item.prop] = item.value || "";
     fields.rules[item.prop] = item.rules;
   }
 );
+
 const form = reactive(fields.form);
 const rules = reactive<FormRules>(fields.rules);
 
@@ -59,7 +61,7 @@ const isInline = computed(() => {
     :model="form"
     :inline="isInline"
     :rules="rules || []"
-    :label-width="!isInline ? '80px' : ''"
+    :label-width="!isInline ? '120px' : ''"
     ref="formRef"
     v-loading="loading"
   >
@@ -70,11 +72,21 @@ const isInline = computed(() => {
       v-model:val="form[item.prop]"
     />
     <el-form-item>
-      <el-button size="large" @click="onSubmit(formRef)" type="primary">
+      <el-button
+        size="large"
+        auto-insert-space
+        @click="onSubmit(formRef)"
+        type="primary"
+      >
         {{ $t("confirm") }}
       </el-button>
-      <el-button size="large" @click="onReset(formRef)" type="default">
-        {{ $t("cancel") }}
+      <el-button
+        size="large"
+        @click="onReset(formRef)"
+        auto-insert-space
+        type="default"
+      >
+        {{ $t("reset") }}
       </el-button>
     </el-form-item>
   </el-form>

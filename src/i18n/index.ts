@@ -17,11 +17,13 @@ const locales = {
     nickname: "Nickname",
     intro: "Intro",
     create: "Create",
-    eidt: "Edit",
+    edit: "Edit",
     del: "Del",
     view: "View",
     export: "Export",
     import: "Import",
+    filter: "Filter",
+    reset: "Reset",
     "Vue Dashboard, To create unique Saas platform.":
       "Vue Dashboard, To create unique Saas platform.",
     components: {
@@ -58,11 +60,13 @@ const locales = {
     nickname: "昵称",
     intro: "简介",
     create: "添加",
-    eidt: "编辑",
+    edit: "编辑",
     del: "删除",
     view: "查看",
     export: "导出",
     import: "导入",
+    filter: "过滤",
+    reset: "重置",
     "Vue Dashboard, To create unique Saas platform!":
       "Vue Dashboard, 创造不一样的管理系统!.",
     components: {

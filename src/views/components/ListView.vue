@@ -1,6 +1,5 @@
-<script setup lang="ts">
-// import { ref } from "vue";
-// const columns = ref<string[]>(["id", "name", "color", "pantone_value", "year"]);
+<script setup lang="tsx">
+import { I18NextVue, i18next } from "@/i18n";
 const config = {
   search: {
     title: "Form 表单",
@@ -22,7 +21,72 @@ const config = {
       },
     ],
   },
-  columns: ["id", "name", "color", "pantone_value", "year"],
+  columns: [
+    {
+      prop: "id",
+    },
+    {
+      prop: "name",
+    },
+    {
+      prop: "color",
+    },
+    {
+      prop: "pantone_value",
+    },
+    {
+      prop: "year",
+    },
+    {
+      prop: "operation",
+      formatter: (record: any, emit: any) => {
+        return (
+          <el-button
+            onClick={() => {
+              emit("edit", record);
+            }}
+            type="primary"
+            link
+          >
+            {i18next.t("edit")}
+          </el-button>
+        );
+      },
+    },
+  ],
+  form: {
+    title: "Form 表单",
+    fields: [
+      {
+        prop: "name",
+        name: "name",
+        placeholder: "name",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "color",
+        name: "color",
+        placeholder: "color",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "pantone_value",
+        name: "pantone_value",
+        placeholder: "pantone_value",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "year",
+        name: "year",
+        placeholder: "year",
+        type: "text",
+        rules: [{ required: true }],
+      },
+    ],
+  },
 };
 </script>
 <template>
