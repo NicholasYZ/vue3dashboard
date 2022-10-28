@@ -1,5 +1,5 @@
 <script setup lang="tsx">
-import { I18NextVue, i18next } from "@/i18n";
+import { i18next } from "@/i18n";
 const config = {
   search: {
     title: "Form 表单",
@@ -41,15 +41,35 @@ const config = {
       prop: "operation",
       formatter: (record: any, emit: any) => {
         return (
-          <el-button
-            onClick={() => {
-              emit("edit", record);
-            }}
-            type="primary"
-            link
-          >
-            {i18next.t("edit")}
-          </el-button>
+          <p>
+            <el-button
+              onClick={() => {
+                emit("edit", record);
+              }}
+              type="primary"
+              link
+            >
+              {i18next.t("edit")}
+            </el-button>
+            <el-button
+              onClick={() => {
+                emit("view", record);
+              }}
+              type="primary"
+              link
+            >
+              {i18next.t("view")}
+            </el-button>
+            <el-button
+              onClick={() => {
+                emit("del", record);
+              }}
+              type="primary"
+              link
+            >
+              {i18next.t("del")}
+            </el-button>
+          </p>
         );
       },
     },

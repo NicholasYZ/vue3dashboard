@@ -1,38 +1,45 @@
 <script setup lang="ts">
-import { onMounted, ref, computed, reactive } from "vue";
-import { ExportToCsv } from "export-to-csv";
+import { ref, computed } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import type { FormInstance } from "element-plus";
-import { getList } from "@/api";
-import { sleep } from "@/utils";
+import Qs from "qs";
+import { i18next } from "@/i18n";
+import { sleep, useQuery, useExport } from "@/utils";
+import type { ObjProps } from "@/types";
 
-interface ObjProps {
-  [key: string]: any;
-}
+const router = useRouter();
+const route = useRoute();
+const props = defineProps(["config"]);
+const exportToCsv = useExport();
 
-const options = {
-  fieldSeparator: ",",
-  quoteStrings: '"',
-  decimalSeparator: ".",
-  showLabels: true,
-  showTitle: true,
-  title: "My Awesome CSV",
-  useTextFile: false,
-  useBom: true,
-  useKeysAsHeaders: true,
+const url = computed(() => {
+  return `/products?${Qs.stringify(route.query)}`;
+});
+
+const { res, reload } = useQuery(url);
+
+const initFormData = (item: any) => {
+  const { title, fields, inline } = item;
+  const rules: ObjProps = {};
+  const form: ObjProps = {};
+  fields.forEach((i: any) => {
+    rules[i.prop] = i.rules || [];
+    form[i.prop] = i.value || "";
+  });
+  return {
+    title,
+    rules,
+    fields,
+    form: ref<ObjProps>(form),
+    inline,
+  };
 };
 
+const addConfig = initFormData(props.config.form);
+const searchConfig = initFormData(props.config.search);
+
 const isAddFormVisable = ref<boolean>(false);
-const props = defineProps(["config"]);
-const keywords = ref<ObjProps>({});
-const loading = ref<boolean>(false);
-const dataSource = ref<any[]>([]);
-const pageInfo = ref<ObjProps>({
-  page: 1,
-  per_page: 10,
-  total: 0,
-  total_pages: 0,
-});
-const form = ref<ObjProps>(props.config.form);
+
 const checkedColumns = ref<string[]>(
   props.config.columns.map((i: ObjProps) => i.prop)
 );
@@ -43,98 +50,81 @@ const columns = computed(() => {
   );
 });
 
-const getParams = () => {
-  const { page, per_page } = pageInfo.value;
-  return {
-    page,
-    per_page,
-    ...keywords.value,
-  };
-};
-
-const getData = async () => {
-  loading.value = true;
-  const params = getParams();
-  const { data, page, per_page, total, total_pages } = await getList({
-    url: props.config.url || "/products",
-    params,
-  });
-  dataSource.value = data;
-  loading.value = false;
-  pageInfo.value = {
-    page,
-    per_page,
-    total,
-    total_pages,
-  };
-};
-
 const onPageChange = (page: number) => {
-  pageInfo.value.page = page;
-  getData();
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      page,
+    },
+  });
 };
 
 const onSearch = async (
   formEl: FormInstance | undefined,
-  form: { [key: string]: any }
+  query: { [key: string]: any }
 ) => {
   if (!formEl) return;
-  loading.value = true;
   try {
     await formEl.validate();
     await sleep(200);
-    keywords.value = form;
-    pageInfo.value.page = 1;
-    getData();
+    router.push({
+      path: "/components/list",
+      query,
+    });
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
   }
 };
 
-const onExportToCsv = () => {
-  const csvExporter = new ExportToCsv(options);
-  csvExporter.generateCsv(dataSource.value);
+const onExport = () => {
+  const title = i18next.t(route.name as string);
+  exportToCsv(res.value.result, title);
 };
 
-const onSave = async (
+const onSave = (
   formEl: FormInstance | undefined,
   form: { [key: string]: any }
 ) => {
   if (!formEl) return;
-  console.log(form);
   isAddFormVisable.value = false;
+  reload();
 };
 
 const onAdd = () => {
   isAddFormVisable.value = true;
 };
 
-const onEdit = (item: ObjProps) => {
+const onEdit = (form: ObjProps) => {
+  addConfig.form.value = { ...form };
   isAddFormVisable.value = true;
-  const fields = form.value.fields.map((i: ObjProps) => {
-    return {
-      ...i,
-      value: item[i.prop],
-    };
-  });
-  form.value.fields = fields;
-  console.log(form.value)
 };
 
-onMounted(async () => {
-  getData();
-});
+const onDel = (form: ObjProps) => {
+  console.log("del");
+};
+
+const onView = (form: ObjProps) => {
+  addConfig.form.value = { ...form };
+  isAddFormVisable.value = true;
+};
+
+const onCancel = (form: ObjProps) => {
+  addConfig.form.value = props.config.form;
+  isAddFormVisable.value = false;
+};
+
+const onReset = () => {};
 </script>
 <template>
-  <div v-loading="loading" class="vd-list">
+  <div v-loading="res.loading" class="vd-list">
     <div
       class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
       <div class="vd-search">
         <vd-form
-          :config="config.search"
+          :config="searchConfig"
+          :hasReset="true"
           :hasSubmit="true"
           @formSubmit="onSearch"
         />
@@ -171,22 +161,34 @@ onMounted(async () => {
           size="large"
           icon="Download"
           auto-insert-space
-          @click="onExportToCsv"
+          @click="onExport"
           type="primary"
           circle
         />
       </div>
     </div>
-    <el-dialog :title="$t('create')" v-model="isAddFormVisable">
-      <vd-form :hasSubmit="true" @formSubmit="onSave" :config="form" />
+    <el-dialog
+      @closed="onCancel"
+      :title="$t('create')"
+      v-model="isAddFormVisable"
+    >
+      <vd-form
+        :hasSubmit="true"
+        @reset="onReset"
+        @cancel="onCancel"
+        @formSubmit="onSave"
+        :config="addConfig"
+      />
     </el-dialog>
     <vd-table
       :columns="columns"
-      :dataSource="dataSource"
+      :dataSource="res.result"
       @edit="onEdit"
       @add="onAdd"
+      @del="onDel"
+      @view="onView"
       class="mb-4"
     />
-    <vd-pagination @onPageChange="onPageChange" :pageInfo="pageInfo" />
+    <vd-pagination @onPageChange="onPageChange" :pageInfo="res.pageInfo" />
   </div>
 </template>

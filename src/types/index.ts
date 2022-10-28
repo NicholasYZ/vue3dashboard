@@ -20,3 +20,7 @@ export interface LoginProps {
 export interface BodyProps {
   [key: string]: any;
 }
+
+export interface ObjProps {
+  [key: string]: any;
+}

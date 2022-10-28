@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { inject } from "vue";
 const props = defineProps(["columns", "dataSource", "loading"]);
-const emit = defineEmits(["create", "edit"]);
+const emit = defineEmits(["add", "edit", "view", "del"]);
 </script>
 <template>
   <el-table

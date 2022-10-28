@@ -1,54 +1,43 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules, FormProps } from "element-plus";
+import type { FormInstance, FormRules } from "element-plus";
 import { computed, reactive, ref } from "vue";
 import { useSettingStore } from "@/store";
 import { sleep } from "@/utils";
 
 const store = useSettingStore();
-const props = defineProps(["config", "hasSubmit"]);
-const emit = defineEmits(["formSubmit"]);
+const props = defineProps(["config", "hasSubmit", "hasReset"]);
+const emit = defineEmits(["formSubmit", "cancel", "reset"]);
 
-type fieldsProps = {
-  form: { [key: string]: any };
-  rules: { [key: string]: any };
-};
+const form = ref(props.config.form);
+const rules = ref(props.config.rules);
 
 const loading = ref(false);
 const formRef = ref<FormInstance>();
-const fields: fieldsProps = { form: {}, rules: {} } as fieldsProps;
-
-console.log(props.config.fields)
-props.config.fields.forEach(
-  (item: { [x: string]: any; prop: string | number }) => {
-    fields.form[item.prop] = item.value || "";
-    fields.rules[item.prop] = item.rules;
-  }
-);
-
-const form = reactive(fields.form);
-const rules = reactive<FormRules>(fields.rules);
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
-  if (!props.hasSubmit) {
-    if (!formEl) return;
-    loading.value = true;
-    try {
-      await formEl.validate();
-      await sleep(200);
-      console.log(form);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      loading.value = false;
+  if (!formEl) return;
+  try {
+    await formEl.validate();
+    await sleep(200);
+    if (!props.hasSubmit) {
+      console.log(1);
+    } else {
+      emit("formSubmit", formEl, form.value);
     }
-  } else {
-    emit("formSubmit", formEl, fields.form);
+  } catch (error) {
+    console.log(error);
   }
 };
 
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+};
+
+const onCancel = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  emit("cancel");
 };
 
 const isInline = computed(() => {
@@ -60,13 +49,13 @@ const isInline = computed(() => {
   <el-form
     :model="form"
     :inline="isInline"
-    :rules="rules || []"
+    :rules="rules"
     :label-width="!isInline ? '120px' : ''"
     ref="formRef"
     v-loading="loading"
   >
     <vd-field
-      v-for="item in props.config.fields"
+      v-for="item in config.fields"
       :key="item.prop"
       :item="item"
       v-model:val="form[item.prop]"
@@ -81,12 +70,22 @@ const isInline = computed(() => {
         {{ $t("confirm") }}
       </el-button>
       <el-button
+        v-if="hasReset"
         size="large"
         @click="onReset(formRef)"
         auto-insert-space
         type="default"
       >
         {{ $t("reset") }}
+      </el-button>
+      <el-button
+        v-else
+        size="large"
+        @click="onCancel(formRef)"
+        auto-insert-space
+        type="default"
+      >
+        {{ $t("cancel") }}
       </el-button>
     </el-form-item>
   </el-form>
