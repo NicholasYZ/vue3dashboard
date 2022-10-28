@@ -6,7 +6,9 @@ import Qs from "qs";
 import { i18next } from "@/i18n";
 import { sleep, useQuery, useExport } from "@/utils";
 import type { ObjProps } from "@/types";
+import { useSettingStore } from "@/store";
 
+const { setting } = useSettingStore();
 const router = useRouter();
 const route = useRoute();
 const props = defineProps(["config"]);
@@ -92,6 +94,12 @@ const onSave = (
 };
 
 const onAdd = () => {
+  const { fields } = props.config.form;
+  const form: ObjProps = {};
+  fields.forEach((i: any) => {
+    form[i.prop] = "";
+  });
+  addConfig.form.value = form;
   isAddFormVisable.value = true;
 };
 
@@ -109,8 +117,7 @@ const onView = (form: ObjProps) => {
   isAddFormVisable.value = true;
 };
 
-const onCancel = (form: ObjProps) => {
-  addConfig.form.value = props.config.form;
+const onCancel = () => {
   isAddFormVisable.value = false;
 };
 
@@ -153,7 +160,7 @@ const onReset = () => {};
           size="large"
           auto-insert-space
           icon="Plus"
-          @click="isAddFormVisable = true"
+          @click="onAdd"
           type="primary"
           circle
         />
@@ -169,6 +176,8 @@ const onReset = () => {};
     </div>
     <el-dialog
       @closed="onCancel"
+      destroy-on-close
+      :fullscreen="setting.deviceType === 'mobile'"
       :title="$t('create')"
       v-model="isAddFormVisable"
     >

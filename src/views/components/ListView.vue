@@ -47,7 +47,6 @@ const config = {
                 emit("edit", record);
               }}
               type="primary"
-              link
             >
               {i18next.t("edit")}
             </el-button>
@@ -56,7 +55,6 @@ const config = {
                 emit("view", record);
               }}
               type="primary"
-              link
             >
               {i18next.t("view")}
             </el-button>
@@ -65,7 +63,6 @@ const config = {
                 emit("del", record);
               }}
               type="primary"
-              link
             >
               {i18next.t("del")}
             </el-button>
