@@ -1,14 +1,14 @@
 <script setup lang="ts">
-const props = defineProps(["columns", "dataSource", "loading"]);
-const emit = defineEmits(["add", "edit", "view", "del"]);
+defineProps(["columns", "dataSource", "loading"]);
+const emit = defineEmits(["add", "edit", "view", "del", "switch"]);
 </script>
 <template>
   <el-table
     v-loading="loading"
     stripe
     :data="dataSource"
-    :border="true"
     size="large"
+    header-row-class-name="text-slate-900 capitalize text-center"
     selection
   >
     <el-table-column type="selection" width="55" />
@@ -17,6 +17,7 @@ const emit = defineEmits(["add", "edit", "view", "del"]);
       :key="item.prop"
       :prop="item.prop"
       :label="item.prop"
+      :width="item.width"
       :formatter="(record: any) => {
         if (item.formatter) {
           return item.formatter(record, emit)

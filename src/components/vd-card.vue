@@ -2,5 +2,7 @@
 const props = defineProps(["title"]);
 </script>
 <template>
-  <div class="card">{{ props.title }}</div>
+  <div class="bg-white rounded-md p-6">
+    <slot></slot>
+  </div>
 </template>

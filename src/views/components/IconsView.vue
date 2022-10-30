@@ -297,7 +297,7 @@ const icons = [
 ];
 </script>
 <template>
-  <main class="flex justify-center flex-wrap">
+  <vd-card class="flex justify-center flex-wrap">
     <div
       v-for="name in icons"
       :key="name"
@@ -307,5 +307,5 @@ const icons = [
         <Icon :icon="name" />
       </el-icon>
     </div>
-  </main>
+  </vd-card>
 </template>

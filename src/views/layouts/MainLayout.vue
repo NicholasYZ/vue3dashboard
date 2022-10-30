@@ -8,7 +8,7 @@ const currRouteName = computed(
 </script>
 
 <template>
-  <main class="rounded-md p-6 bg-[#fff]">
+  <main>
     <!-- <h2 class="text-2xl mb-4">{{ $t(currRouteName) }}</h2> -->
     <RouterView />
   </main>

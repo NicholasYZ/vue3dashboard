@@ -50,7 +50,7 @@ const onRemoveMask = () => {
     <div
       v-if="isMobileSidebarOpen"
       @click="onRemoveMask"
-      class="backdrop-blur-sm z-[2001] fixed inset-0 w-screen h-screen"
+      class="backdrop-blur-sm z-[1000] fixed inset-0 w-screen h-screen"
     ></div>
   </div>
 </template>

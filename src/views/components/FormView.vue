@@ -53,6 +53,7 @@ const config = {
     },
   ],
 };
+
 const onSubmit = async (
   formEl: FormInstance | undefined,
   form: { [key: string]: any }
@@ -68,10 +69,12 @@ const onSubmit = async (
 };
 </script>
 <template>
-  <vd-form
-    class="lg:w-1/2"
-    :hasSubmit="true"
-    @formSubmit="onSubmit"
-    :config="config"
-  ></vd-form>
+  <vd-card>
+    <vd-form
+      class="lg:w-1/2"
+      :hasSubmit="true"
+      @formSubmit="onSubmit"
+      :config="config"
+    ></vd-form>
+  </vd-card>
 </template>

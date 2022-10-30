@@ -29,7 +29,7 @@ const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
 
 <template>
   <div
-    class="vd-sidebar z-[2002] bg-gradient-to-b from-gray-900 to-gray-700 transition-all h-screen"
+    class="vd-sidebar z-[1001] bg-gradient-to-b from-gray-900 to-gray-700 transition-all h-screen"
   >
     <p
       class="h-[60px] flex justify-center items-center border-b border-b-gray-800 text-center"

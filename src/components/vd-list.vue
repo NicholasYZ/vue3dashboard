@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, inject } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import type { FormInstance } from "element-plus";
 import Qs from "qs";
@@ -11,8 +11,9 @@ import { useSettingStore } from "@/store";
 const { setting } = useSettingStore();
 const router = useRouter();
 const route = useRoute();
-const props = defineProps(["config"]);
 const exportToCsv = useExport();
+
+const { config, updateFields } = inject<any>("config");
 
 const url = computed(() => {
   return `/products?${Qs.stringify(route.query)}`;
@@ -32,22 +33,21 @@ const initFormData = (item: any) => {
     title,
     rules,
     fields,
-    form: ref<ObjProps>(form),
     inline,
   };
 };
 
-const addConfig = initFormData(props.config.form);
-const searchConfig = initFormData(props.config.search);
+const addConfig = initFormData(config.value.form);
+const searchConfig = initFormData(config.value.search);
 
 const isAddFormVisable = ref<boolean>(false);
 
 const checkedColumns = ref<string[]>(
-  props.config.columns.map((i: ObjProps) => i.prop)
+  config.value.columns.map((i: ObjProps) => i.prop)
 );
 
 const columns = computed(() => {
-  return props.config.columns.filter(
+  return config.value.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
@@ -94,17 +94,12 @@ const onSave = (
 };
 
 const onAdd = () => {
-  const { fields } = props.config.form;
-  const form: ObjProps = {};
-  fields.forEach((i: any) => {
-    form[i.prop] = "";
-  });
-  addConfig.form.value = form;
+  updateFields(undefined, "form");
   isAddFormVisable.value = true;
 };
 
 const onEdit = (form: ObjProps) => {
-  addConfig.form.value = { ...form };
+  updateFields(form, "form");
   isAddFormVisable.value = true;
 };
 
@@ -113,7 +108,7 @@ const onDel = (form: ObjProps) => {
 };
 
 const onView = (form: ObjProps) => {
-  addConfig.form.value = { ...form };
+  updateFields(form, "form");
   isAddFormVisable.value = true;
 };
 
@@ -122,9 +117,11 @@ const onCancel = () => {
 };
 
 const onReset = () => {};
+
+const onSwitch = (form: ObjProps, type: string) => {};
 </script>
 <template>
-  <div v-loading="res.loading" class="vd-list">
+  <div class="vd-list">
     <div
       class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
@@ -136,16 +133,12 @@ const onReset = () => {};
           @formSubmit="onSearch"
         />
       </div>
-      <div class="flex md:justify-end justify-center">
+      <div class="flex md:justify-end justify-center items-center mb-4">
         <el-popover trigger="hover">
           <template #reference>
-            <el-button
-              size="large"
-              auto-insert-space
-              type="primary"
-              icon="Filter"
-              circle
-            />
+            <vd-pill>
+              <el-button type="primary" icon="Filter" size="large" link />
+            </vd-pill>
           </template>
           <el-checkbox-group v-model="checkedColumns">
             <el-checkbox
@@ -155,23 +148,24 @@ const onReset = () => {};
             />
           </el-checkbox-group>
         </el-popover>
-
-        <el-button
-          size="large"
-          auto-insert-space
-          icon="Plus"
-          @click="onAdd"
-          type="primary"
-          circle
-        />
-        <el-button
-          size="large"
-          icon="Download"
-          auto-insert-space
-          @click="onExport"
-          type="primary"
-          circle
-        />
+        <vd-pill>
+          <el-button
+            icon="Plus"
+            @click="onAdd"
+            type="primary"
+            size="large"
+            link
+          />
+        </vd-pill>
+        <vd-pill>
+          <el-button
+            icon="Download"
+            @click="onExport"
+            type="primary"
+            size="large"
+            link
+          />
+        </vd-pill>
       </div>
     </div>
     <el-dialog
@@ -189,15 +183,18 @@ const onReset = () => {};
         :config="addConfig"
       />
     </el-dialog>
-    <vd-table
-      :columns="columns"
-      :dataSource="res.result"
-      @edit="onEdit"
-      @add="onAdd"
-      @del="onDel"
-      @view="onView"
-      class="mb-4"
-    />
-    <vd-pagination @onPageChange="onPageChange" :pageInfo="res.pageInfo" />
+    <vd-card v-loading="res.loading">
+      <vd-table
+        :columns="columns"
+        :dataSource="res.result"
+        @edit="onEdit"
+        @add="onAdd"
+        @del="onDel"
+        @view="onView"
+        @switch="onSwitch"
+        class="mb-6"
+      />
+      <vd-pagination @onPageChange="onPageChange" :pageInfo="res.pageInfo" />
+    </vd-card>
   </div>
 </template>

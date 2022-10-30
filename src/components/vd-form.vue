@@ -1,14 +1,20 @@
 <script setup lang="ts">
-import type { FormInstance, FormRules } from "element-plus";
-import { computed, reactive, ref } from "vue";
+import type { FormInstance } from "element-plus";
+import { computed, ref } from "vue";
 import { useSettingStore } from "@/store";
 import { sleep } from "@/utils";
+import type { ObjProps } from "@/types";
 
 const store = useSettingStore();
 const props = defineProps(["config", "hasSubmit", "hasReset"]);
 const emit = defineEmits(["formSubmit", "cancel", "reset"]);
 
-const form = ref(props.config.form);
+const fields: ObjProps = {};
+props.config.fields.forEach((i: any) => {
+  fields[i.prop] = i.value || "";
+});
+
+const form = ref(fields);
 const rules = ref(props.config.rules);
 
 const loading = ref(false);
@@ -65,6 +71,7 @@ const isInline = computed(() => {
         size="large"
         auto-insert-space
         @click="onSubmit(formRef)"
+        round
         type="primary"
       >
         {{ $t("confirm") }}
@@ -74,6 +81,7 @@ const isInline = computed(() => {
         size="large"
         @click="onReset(formRef)"
         auto-insert-space
+        round
         type="default"
       >
         {{ $t("reset") }}
@@ -83,6 +91,7 @@ const isInline = computed(() => {
         size="large"
         @click="onCancel(formRef)"
         auto-insert-space
+        round
         type="default"
       >
         {{ $t("cancel") }}

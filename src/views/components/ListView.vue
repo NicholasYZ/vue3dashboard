@@ -1,6 +1,8 @@
 <script setup lang="tsx">
+import { ref, provide } from "vue";
 import { i18next } from "@/i18n";
-const config = {
+
+const config = ref<{ [key: string]: any }>({
   search: {
     title: "Form 表单",
     inline: true,
@@ -39,30 +41,38 @@ const config = {
     },
     {
       prop: "operation",
+      width: 200,
       formatter: (record: any, emit: any) => {
         return (
           <p>
             <el-button
               onClick={() => {
-                emit("edit", record);
-              }}
-              type="primary"
-            >
-              {i18next.t("edit")}
-            </el-button>
-            <el-button
-              onClick={() => {
                 emit("view", record);
               }}
-              type="primary"
+              size="small"
+              type="success"
+              round
             >
               {i18next.t("view")}
             </el-button>
             <el-button
               onClick={() => {
+                emit("edit", record);
+              }}
+              size="small"
+              type="primary"
+              round
+            >
+              {i18next.t("edit")}
+            </el-button>
+
+            <el-button
+              onClick={() => {
                 emit("del", record);
               }}
-              type="primary"
+              size="small"
+              type="danger"
+              round
             >
               {i18next.t("del")}
             </el-button>
@@ -104,10 +114,22 @@ const config = {
       },
     ],
   },
+});
+
+const updateFields = (
+  form: { [key: string]: any | undefined },
+  type: string
+) => {
+  const fields = config.value[type].fields.map((i: any) => {
+    i.value = (form && form[i.prop]) || "";
+    return i;
+  });
+  config.value[type].fields = fields;
 };
+provide("config", { config, updateFields });
 </script>
 <template>
   <main>
-    <vd-list :config="config"></vd-list>
+    <vd-list></vd-list>
   </main>
 </template>

@@ -3,7 +3,6 @@ import type { EChartsOption } from "echarts";
 import { ref, onMounted } from "vue";
 import { getList } from "@/api";
 import { sleep } from "@/utils";
-import VChart from "@/utils/charts";
 
 const columns = [
   {
@@ -150,62 +149,48 @@ const optionBar = ref<EChartsOption>({
 </script>
 <template>
   <div
-    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-4 text-sm mb-4"
+    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-6 text-sm mb-6"
   >
-    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
-      <vd-statistic
-        title="Total Orders"
-        color="#ec6769"
-        icon="ShoppingCartFull"
-        num="611"
-      />
-    </div>
-    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
-      <vd-statistic
-        title="Total Expenses"
-        color="#fedb6a"
-        icon="WalletFilled"
-        num="355"
-      />
-    </div>
-    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
-      <vd-statistic
-        title="Total Profit"
-        color="#95cb72"
-        icon="Money"
-        num="5655"
-      />
-    </div>
-    <div class="bg-[#fff] rounded-md px-6 py-5 hover:bg-gray-50">
-      <vd-statistic
-        title="Total Vistors"
-        color="#5976cb"
-        icon="UserFilled"
-        num="848"
-      />
-    </div>
+    <vd-statistic
+      title="Total Orders"
+      color="#ec6769"
+      icon="ShoppingCartFull"
+      num="611"
+      class="hover:shadow-lg transition-shadow duration-500"
+    />
+    <vd-statistic
+      title="Total Expenses"
+      color="#fedb6a"
+      icon="WalletFilled"
+      num="355"
+      class="hover:shadow-lg transition-shadow duration-500"
+    />
+    <vd-statistic
+      title="Total Profit"
+      color="#95cb72"
+      icon="Money"
+      num="5655"
+    />
+    <vd-statistic
+      title="Total Vistors"
+      color="#5976cb"
+      icon="UserFilled"
+      num="848"
+      class="hover:shadow-lg transition-shadow duration-500"
+    />
   </div>
-
   <div
-    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-4 text-sm mb-4"
+    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-6 text-sm mb-6"
   >
-    <div class="bg-[#fff] h-[340px] rounded-md p-6">
-      <v-chart autoresize :option="optionBar" />
-    </div>
-
-    <div class="bg-[#fff] h-[340px] rounded-md p-6">
-      <v-chart autoresize :option="optionPie" />
-    </div>
-
-    <div class="bg-[#fff] h-[340px] rounded-md p-6">
-      <v-chart autoresize :option="optionLine" />
-    </div>
+    <vd-chart class="h-[340px]" autoresize :option="optionBar" />
+    <vd-chart class="h-[340px]" autoresize :option="optionPie" />
+    <vd-chart class="h-[340px]" autoresize :option="optionLine" />
   </div>
 
-  <div class="bg-[#fff] rounded-md p-6">
+  <vd-card>
     <h2 class="text-xl mb-4 text-slate-600 leading-none">Records</h2>
     <vd-table :loading="loading" :columns="columns" :dataSource="dataSource" />
-  </div>
+  </vd-card>
 </template>
 
 <style></style>

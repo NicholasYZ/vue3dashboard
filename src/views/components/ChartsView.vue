@@ -57,7 +57,5 @@ const optionPie = ref<EChartsOption>({
 });
 </script>
 <template>
-  <div class="bg-[#fff] h-[340px] rounded-md p-8">
-    <v-chart autoresize :option="optionPie" />
-  </div>
+  <vd-chart autoresize class="h-[340px]" :option="optionPie" />
 </template>

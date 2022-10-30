@@ -1,21 +1,21 @@
 $--colors: (
   "primary": (
-    "base": #0c4a6e,
+    "base": #2b68e8,
   ),
   "success": (
-    "base": #075985,
+    "base": #23b883,
   ),
   "warning": (
-    "base": #f2711c,
+    "base": #e9b22b,
   ),
   "danger": (
-    "base": #db2828,
+    "base": #ed4649,
   ),
   "error": (
-    "base": #db2828,
+    "base": #ed4649,
   ),
   "info": (
-    "base": #42b8dd,
+    "base": #1f2937,
   ),
 );
 
@@ -25,7 +25,7 @@ $--colors: (
     'border-color': transparent,
   ),
   $dialog: (
-    'border-radius': 6px,
+    'border-radius': 10px,
     'padding-primary': 40px,
   )
 );
