@@ -52,6 +52,13 @@ const config = {
       rules: [{ required: true }],
     },
   ],
+  rules: {
+    username: [{ required: true }],
+    gender: [{ required: true }],
+    city: [{ required: true }],
+    nickname: [{ required: true }],
+    intro: [{ required: true }],
+  },
 };
 
 const onSubmit = async (
@@ -62,14 +69,14 @@ const onSubmit = async (
   try {
     await formEl.validate();
     console.log("success");
-    console.log(form)
+    console.log(form);
   } catch (error) {
     console.log(error);
   }
 };
 </script>
 <template>
-  <vd-card>
+  <vd-card class="py-20">
     <vd-form
       class="lg:w-1/2"
       :hasSubmit="true"

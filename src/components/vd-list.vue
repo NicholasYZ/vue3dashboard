@@ -137,34 +137,23 @@ const onSwitch = (form: ObjProps, type: string) => {};
         <el-popover trigger="hover">
           <template #reference>
             <vd-pill>
-              <el-button type="primary" icon="Filter" size="large" link />
+              <Icon icon="Filter" />
             </vd-pill>
           </template>
           <el-checkbox-group v-model="checkedColumns">
             <el-checkbox
               v-for="item in config.columns"
               :key="item.prop"
+              :disabled="item.prop === 'operation' || item.prop === 'id'"
               :label="item.prop"
             />
           </el-checkbox-group>
         </el-popover>
-        <vd-pill>
-          <el-button
-            icon="Plus"
-            @click="onAdd"
-            type="primary"
-            size="large"
-            link
-          />
+        <vd-pill @click="onAdd">
+          <Icon icon="Plus" />
         </vd-pill>
-        <vd-pill>
-          <el-button
-            icon="Download"
-            @click="onExport"
-            type="primary"
-            size="large"
-            link
-          />
+        <vd-pill @click="onExport">
+          <Icon icon="Download" />
         </vd-pill>
       </div>
     </div>

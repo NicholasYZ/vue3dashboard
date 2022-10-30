@@ -71,7 +71,6 @@ const isInline = computed(() => {
         size="large"
         auto-insert-space
         @click="onSubmit(formRef)"
-        round
         type="primary"
       >
         {{ $t("confirm") }}
@@ -81,7 +80,6 @@ const isInline = computed(() => {
         size="large"
         @click="onReset(formRef)"
         auto-insert-space
-        round
         type="default"
       >
         {{ $t("reset") }}
@@ -91,7 +89,6 @@ const isInline = computed(() => {
         size="large"
         @click="onCancel(formRef)"
         auto-insert-space
-        round
         type="default"
       >
         {{ $t("cancel") }}

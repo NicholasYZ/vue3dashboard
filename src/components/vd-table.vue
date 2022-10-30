@@ -16,7 +16,7 @@ const emit = defineEmits(["add", "edit", "view", "del", "switch"]);
       v-for="item in columns"
       :key="item.prop"
       :prop="item.prop"
-      :label="item.prop"
+      :label="$t(`tableTitle.${item.prop}`)"
       :width="item.width"
       :formatter="(record: any) => {
         if (item.formatter) {
