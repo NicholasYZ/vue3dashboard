@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import VChart from "@/utils/charts";
 import type { EChartsOption } from "echarts";
 import { ref } from "vue";
 const optionPie = ref<EChartsOption>({

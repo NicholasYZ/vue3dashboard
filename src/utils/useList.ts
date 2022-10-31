@@ -1,11 +1,10 @@
-import { ref } from "vue";
 import { useQuery } from "@/utils";
 
 export function useList(path?: string) {
   const { data, reload } = useQuery(path);
   const onEdit = (row: { [key: string]: any }) => {
     console.log(row);
-    reload()
+    reload();
   };
   const onDel = (row: { [key: string]: any }) => {
     console.log(row);

@@ -1,5 +1,4 @@
 import { watch, ref, isRef, computed } from "vue";
-import type { Ref } from "vue";
 import { getList } from "@/api";
 import { useRoute } from "vue-router";
 import Qs from "qs";
