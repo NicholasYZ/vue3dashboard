@@ -1,4 +1,7 @@
+import type { InjectionKey } from "vue";
+
 export interface MenuProps {
+  id: number;
   name?: string;
   path: string;
   component: string;
@@ -24,3 +27,4 @@ export interface BodyProps {
 export interface ObjProps {
   [key: string]: any;
 }
+export const ListKey: InjectionKey<{ [key: string]: any }> = Symbol("list");

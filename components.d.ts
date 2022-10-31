@@ -35,6 +35,7 @@ declare module '@vue/runtime-core' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTag: typeof import('element-plus/es')['ElTag']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     VdB: typeof import("./src/components/vd-b.vue")["default"]
@@ -52,6 +53,7 @@ declare module '@vue/runtime-core' {
     VdSearch: typeof import('./src/components/vd-search.vue')['default']
     VdStatistic: typeof import('./src/components/vd-statistic.vue')['default']
     VdTable: typeof import('./src/components/vd-table.vue')['default']
+    VdView: typeof import('./src/components/vd-view.vue')['default']
   }
   export interface ComponentCustomProperties {
     vLoading: typeof import('element-plus/es')['ElLoadingDirective']

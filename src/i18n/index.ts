@@ -86,7 +86,7 @@ const locales = {
     },
     setting: {
       index: "设置",
-      info: "用户管理",
+      info: "个人中心",
       role: "角色管理",
       menu: "菜单管理",
       users: "用户管理",

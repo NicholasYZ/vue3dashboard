@@ -2,7 +2,7 @@ import Mock from "mockjs"; // 引入mockjs
 // const Random = Mock.Random // Mock.Random 是一个工具类，用于生成各种随机数据
 import type { MenuProps } from "@/types";
 
-console.log(Mock.Random.first());
+// console.log(Mock.Random.first());
 
 const login = {
   username: "admin",
@@ -13,6 +13,7 @@ const login = {
 
 const menu: MenuProps[] = [
   {
+    id: 1,
     name: "components.index",
     path: "/components",
     component: "layouts/MainLayout",
@@ -23,7 +24,8 @@ const menu: MenuProps[] = [
       permissions: ["admin", "editor"],
     },
     children: [
-      {
+      { 
+        id: 11,
         name: "components.list",
         path: "/components/list",
         component: "components/ListView",
@@ -34,6 +36,7 @@ const menu: MenuProps[] = [
         },
       },
       {
+        id: 12,
         name: "components.form",
         path: "/components/form",
         component: "components/FormView",
@@ -44,6 +47,7 @@ const menu: MenuProps[] = [
         },
       },
       {
+        id: 13,
         name: "components.charts",
         path: "/components/charts",
         component: "components/ChartsView",
@@ -54,6 +58,7 @@ const menu: MenuProps[] = [
         },
       },
       {
+        id: 14,
         name: "components.icons",
         path: "/components/icons",
         component: "components/IconsView",
@@ -66,6 +71,7 @@ const menu: MenuProps[] = [
     ],
   },
   {
+    id: 2,
     name: "setting.index",
     path: "/setting",
     component: "layouts/MainLayout",
@@ -77,16 +83,18 @@ const menu: MenuProps[] = [
     },
     children: [
       {
+        id: 21,
         name: "setting.info",
         path: "/setting/info",
         component: "setting/InfoView",
         meta: {
-          title: "用户信息",
+          title: "个人中心",
           icon: "User",
           permissions: ["admin"],
         },
       },
       {
+        id: 22,
         name: "setting.role",
         path: "/setting/role",
         component: "setting/RoleView",
@@ -97,6 +105,7 @@ const menu: MenuProps[] = [
         },
       },
       {
+        id: 23,
         name: "setting.menu",
         path: "/setting/menu",
         component: "setting/MenuView",
@@ -107,6 +116,7 @@ const menu: MenuProps[] = [
         },
       },
       {
+        id: 24,
         name: "setting.users",
         path: "/setting/users",
         component: "setting/UsersView",
@@ -120,5 +130,21 @@ const menu: MenuProps[] = [
   },
 ];
 
+const roles: any[] = [
+  {
+    id: 1,
+    type: "admin",
+  },
+  {
+    id: 2,
+    type: "editor",
+  },
+  {
+    id: 3,
+    type: "vistor",
+  },
+];
+
+Mock.mock("/api/roles", "get", roles);
 Mock.mock("/api/menu", "get", menu);
 Mock.mock("/api/login", "post", login);

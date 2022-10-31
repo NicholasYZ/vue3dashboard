@@ -76,7 +76,8 @@ const onSubmit = async (
 };
 </script>
 <template>
-  <vd-card class="py-20">
+  <vd-card>
+    <h2 class="text-2xl mb-6">{{ config.title }}</h2>
     <vd-form
       class="lg:w-1/2"
       :hasSubmit="true"

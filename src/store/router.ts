@@ -16,7 +16,6 @@ interface Menu {
 }
 export const useRouterStore = defineStore("router", () => {
   const router = ref<Menu[]>([]);
-
   const getRouter = async () => {
     const res = await getMenu();
     router.value = res;

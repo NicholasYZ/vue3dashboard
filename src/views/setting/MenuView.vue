@@ -1,135 +1,60 @@
-<script setup lang="tsx">
-import { ref, provide } from "vue";
-import { i18next } from "@/i18n";
-
-const config = ref<{ [key: string]: any }>({
-  search: {
-    title: "Form 表单",
-    inline: true,
-    fields: [
-      {
-        prop: "username",
-        placeholder: "UserName",
-      },
-      {
-        prop: "city",
-        placeholder: "city",
-        type: "select",
-        dict: {
-          "1": "beijing",
-          "2": "shanghai",
-          "3": "guangzhou",
-        },
-      },
-    ],
-  },
-  columns: [
-    {
-      prop: "id",
-    },
-    {
-      prop: "name",
-    },
-    {
-      prop: "color",
-    },
-    {
-      prop: "pantone_value",
-    },
-    {
-      prop: "year",
-    },
-    {
-      prop: "operation",
-      width: 200,
-      formatter: (record: any, emit: any) => {
-        return (
-          <p>
-            <el-button
-              onClick={() => {
-                emit("view", record);
-              }}
-              size="small"
-              type="success"
-              round
-            >
-              {i18next.t("view")}
-            </el-button>
-            <el-button
-              onClick={() => {
-                emit("edit", record);
-              }}
-              size="small"
-              type="primary"
-              round
-            >
-              {i18next.t("edit")}
-            </el-button>
-
-            <el-button
-              onClick={() => {
-                emit("del", record);
-              }}
-              size="small"
-              type="danger"
-              round
-            >
-              {i18next.t("del")}
-            </el-button>
-          </p>
-        );
-      },
-    },
-  ],
-  form: {
-    title: "Form 表单",
-    fields: [
-      {
-        prop: "name",
-        name: "name",
-        placeholder: "name",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "color",
-        name: "color",
-        placeholder: "color",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "pantone_value",
-        name: "pantone_value",
-        placeholder: "pantone_value",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "year",
-        name: "year",
-        placeholder: "year",
-        type: "text",
-        rules: [{ required: true }],
-      },
-    ],
-  },
-});
-
-const updateFields = (
-  form: { [key: string]: any | undefined },
-  type: string
-) => {
-  const fields = config.value[type].fields.map((i: any) => {
-    i.value = (form && form[i.prop]) || "";
-    return i;
+<script setup lang="ts">
+import { useRouterStore } from "@/store";
+const { router } = useRouterStore();
+const getMenuItem = (menus: any) => {
+  return menus.map(({ name, meta, path, children }: any) => {
+    const item: any = {
+      name,
+      path,
+      icon: meta.icon,
+      permissions: meta.permissions,
+    };
+    if (children) {
+      item.children = getMenuItem(children);
+    }
+    return item;
   });
-  config.value[type].fields = fields;
 };
-provide("config", { config, updateFields });
+const dataSource = getMenuItem(router);
+const columns = ["name", "path", "permissions", "icon", "operation"];
 </script>
 <template>
-  <main>
-    <vd-list :config="config"></vd-list>
-  </main>
+  <vd-card>
+    <el-table
+      selection
+      stripe
+      size="large"
+      header-row-class-name="text-slate-900 capitalize text-center"
+      :data="dataSource"
+      row-key="name"
+    >
+      <el-table-column type="selection" width="55" />
+      <el-table-column
+        v-for="item in columns"
+        :key="item"
+        :prop="item"
+        :label="$t(item)"
+      >
+        <template #default="scope">
+          <el-icon v-if="item === 'icon'">
+            <Icon :icon="scope.row.icon" />
+          </el-icon>
+          <span v-else-if="item === 'operation'">
+            <el-button size="small" type="success" round>
+              {{ $t("view") }}
+            </el-button>
+            <el-button size="small" type="primary" round>
+              {{ $t("view") }}
+            </el-button>
+            <el-button size="small" type="danger" round>
+              {{ $t("del") }}
+            </el-button>
+          </span>
+          <span v-else-if="item === 'name'">
+            {{ $t(scope.row.name) }}
+          </span>
+        </template>
+      </el-table-column>
+    </el-table>
+  </vd-card>
 </template>

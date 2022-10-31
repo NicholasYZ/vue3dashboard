@@ -17,6 +17,7 @@ const request = {
 };
 
 export const getMenu = (): Promise<MenuProps[]> => request.get("/menu");
+export const getRoles = (): Promise<MenuProps[]> => request.get("/roles");
 
 const http = axios.create({
   baseURL: "https://reqres.in/api",

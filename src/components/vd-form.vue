@@ -7,7 +7,7 @@ import type { ObjProps } from "@/types";
 
 const store = useSettingStore();
 const props = defineProps(["config", "hasSubmit", "hasReset"]);
-const emit = defineEmits(["formSubmit", "cancel", "reset"]);
+const emit = defineEmits(["submit", "cancel", "reset"]);
 
 const fields: ObjProps = {};
 props.config.fields.forEach((i: any) => {
@@ -28,7 +28,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (!props.hasSubmit) {
       console.log(1);
     } else {
-      emit("formSubmit", formEl, form.value);
+      emit("submit", formEl, form.value);
     }
   } catch (error) {
     console.log(error);
@@ -38,6 +38,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
+  emit("reset");
 };
 
 const onCancel = (formEl: FormInstance | undefined) => {
