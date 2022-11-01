@@ -66,6 +66,7 @@ const isInline = computed(() => {
         auto-insert-space
         @click="onSubmit(formRef)"
         type="primary"
+        round
       >
         {{ $t("confirm") }}
       </el-button>
@@ -75,6 +76,7 @@ const isInline = computed(() => {
         @click="onReset(formRef)"
         auto-insert-space
         type="default"
+        round
       >
         {{ $t("reset") }}
       </el-button>
@@ -84,6 +86,7 @@ const isInline = computed(() => {
         @click="onCancel(formRef)"
         auto-insert-space
         type="default"
+        round
       >
         {{ $t("cancel") }}
       </el-button>

@@ -12,14 +12,14 @@ input:-webkit-autofill:active{
 .vd {
   &-fullbar {
     .vd-sidebar {
-      width: 260px !important;
+      width: 280px !important;
     }
     .vd-main {
-      margin-left: 260px;
-      width: calc(100% - 260px);
+      margin-left: 280px;
+      width: calc(100% - 280px);
     }
     .vd-header {
-      width: calc(100% - 260px);
+      width: calc(100% - 280px);
     }
   }
   &-desktop,
