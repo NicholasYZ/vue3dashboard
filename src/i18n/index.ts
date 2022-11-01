@@ -40,6 +40,10 @@ const locales = {
       menu: "Menu",
       users: "Users",
     },
+    pages: {
+      index: "Pages",
+      price: "Price",
+    },
     tableTitle: {
       id: "ID",
       name: "Name",
@@ -98,6 +102,10 @@ const locales = {
       role: "角色管理",
       menu: "菜单管理",
       users: "用户管理",
+    },
+    pages: {
+      index: "页面",
+      price: "价签",
     },
     tableTitle: {
       id: "ID",
