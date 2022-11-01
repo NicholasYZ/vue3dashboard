@@ -31,7 +31,7 @@ onMounted(() => {
 const getData = async () => {
   try {
     const { data } = await getList({
-      url: "/products",
+      url: "/products.json",
       params: {
         page: 1,
       },

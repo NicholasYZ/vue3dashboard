@@ -1,45 +1,107 @@
 <script setup lang="tsx">
-import { getRoles } from "@/api";
-import { onMounted, ref } from "vue";
-
-const dataSource = ref<any>([]);
-const columns = ref<string[]>(["id", "type", "operation"]);
-
-onMounted(async () => {
-  const res = await getRoles();
-  console.log(res)
-  dataSource.value = res;
-});
+import { ListKey } from "@/types";
+import { provide, ref } from "vue";
+import { useList } from "@/utils";
+const { data, isModelVisible, formData, methods } = useList("/roles.json");
+provide(ListKey, { data, isModelVisible, formData, methods });
+const config = {
+  list: {
+    search: {
+      title: "Form 表单",
+      extra: [],
+      inline: true,
+      fields: [
+        {
+          prop: "username",
+          placeholder: "UserName",
+        },
+        {
+          prop: "city",
+          placeholder: "city",
+          type: "select",
+          dict: {
+            "1": "beijing",
+            "2": "shanghai",
+            "3": "guangzhou",
+          },
+        },
+      ],
+    },
+    columns: [
+      {
+        prop: "id",
+      },
+      {
+        prop: "type",
+      },
+      {
+        prop: "operation",
+        width: 200,
+      },
+    ],
+  },
+  view: {
+    title: "Form 表单",
+    extra: [],
+    fields: [
+      {
+        prop: "name",
+        name: "name",
+        placeholder: "name",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "color",
+        name: "color",
+        placeholder: "color",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "pantone_value",
+        name: "pantone_value",
+        placeholder: "pantone_value",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "year",
+        name: "year",
+        placeholder: "year",
+        type: "text",
+        rules: [{ required: true }],
+      },
+    ],
+    rules: {
+      name: [{ required: true }],
+      color: [{ required: true }],
+      pantone_value: [{ required: true }],
+      year: [{ required: true }],
+    },
+  },
+};
 </script>
 <template>
-  <vd-card>
-    <el-table
-      selection
-      stripe
-      size="large"
-      header-row-class-name="text-slate-900 capitalize text-center"
-      :data="dataSource"
-      row-key="name"
-    >
-      <el-table-column type="selection" width="55" />
-      <el-table-column
-        v-for="item in columns"
-        :key="item"
-        :prop="item"
-        :label="$t(item)"
-      >
-        <template v-if="item === 'operation'" #default>
-          <el-button size="small" type="success" round>
-            {{ $t("view") }}
-          </el-button>
-          <el-button size="small" type="primary" round>
-            {{ $t("view") }}
-          </el-button>
-          <el-button size="small" type="danger" round>
-            {{ $t("del") }}
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-  </vd-card>
+  <vd-list :config="config.list">
+    <template #avatar="{ row }">
+      <img
+        class="w-10 h-10 rounded-full"
+        :src="row.avatar"
+        alt="Default avatar"
+      />
+    </template>
+    <template v-slot:operation="{ row }">
+      <el-button @click="methods.view(row)" size="small" type="success" round>
+        {{ $t("view") }}
+      </el-button>
+      <el-button @click="methods.edit(row)" size="small" type="primary" round>
+        {{ $t("edit") }}
+      </el-button>
+      <el-button @click="methods.del(row)" size="small" type="danger" round>
+        {{ $t("del") }}
+      </el-button>
+    </template>
+  </vd-list>
+  <vd-view :config="config.view" />
 </template>

@@ -18,7 +18,7 @@ export const useRouterStore = defineStore("router", () => {
   const router = ref<Menu[]>([]);
   const getRouter = async () => {
     const res = await getMenu();
-    router.value = res;
+    router.value = res.data;
   };
   return { router, getRouter };
 });

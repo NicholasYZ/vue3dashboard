@@ -1,10 +1,10 @@
 import { watch, ref, isRef } from "vue";
-import { httpRequest } from "@/api";
+import { request } from "@/api";
 
 export function useFetch(URL: string) {
   const data = ref({});
   const reload = async () => {
-    const res = await httpRequest.get(URL);
+    const res = await request.get(URL);
     data.value = res.data;
   };
   if (isRef(URL)) {

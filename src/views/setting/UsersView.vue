@@ -1,8 +1,8 @@
 <script setup lang="tsx">
 import { ListKey } from "@/types";
-import { provide, ref } from "vue";
+import { provide } from "vue";
 import { useList } from "@/utils";
-const { data, isModelVisible, formData, methods } = useList("/users");
+const { data, isModelVisible, formData, methods } = useList("/users.json");
 provide(ListKey, { data, isModelVisible, formData, methods });
 const config = {
   list: {

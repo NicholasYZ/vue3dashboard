@@ -2,7 +2,7 @@
 import { ListKey } from "@/types";
 import { provide } from "vue";
 import { useList } from "@/utils";
-const { data, isModelVisible, formData, methods } = useList("/products");
+const { data, isModelVisible, formData, methods } = useList("/products.json");
 provide(ListKey, { data, isModelVisible, formData, methods });
 const config = {
   list: {

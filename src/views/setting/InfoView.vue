@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useFetch } from "@/utils";
-const { data } = useFetch("/users/2");
+const { data } = useFetch("/users-1.json");
 const config = {
   title: "Form 表单",
   extra: ["submit", "reset"],

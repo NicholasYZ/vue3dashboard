@@ -28,7 +28,7 @@ export function useList(path?: string) {
   };
   const clear = () => {
     formData.value = {};
-  }
+  };
   return {
     data,
     isModelVisible,
