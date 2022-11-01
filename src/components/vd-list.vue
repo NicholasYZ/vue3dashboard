@@ -7,19 +7,20 @@ import { sleep, useExport } from "@/utils";
 import type { ObjProps } from "@/types";
 import { ListKey } from "@/types";
 
+const props = defineProps(["config"]);
 const route = useRoute();
 const router = useRouter();
 
 const exportToCsv = useExport();
 
-const { data, config, onAdd } = inject(ListKey, {});
+const { data, methods } = inject(ListKey, {});
 
 const checkedColumns = ref<string[]>(
-  config.columns.map((i: ObjProps) => i.prop)
+  props.config.columns.map((i: ObjProps) => i.prop)
 );
 
 const columns = computed(() => {
-  return config.columns.filter(
+  return props.config.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
@@ -93,7 +94,7 @@ const onExport = () => {
             />
           </el-checkbox-group>
         </el-popover>
-        <vd-pill @click="onAdd">
+        <vd-pill @click="methods.add">
           <Icon icon="Plus" />
         </vd-pill>
         <vd-pill @click="onExport">

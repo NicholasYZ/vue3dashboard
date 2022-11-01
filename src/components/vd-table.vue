@@ -9,6 +9,7 @@ defineProps(["columns", "dataSource", "loading"]);
     size="large"
     header-row-class-name="text-slate-900 capitalize text-center"
     selection
+    row-key="name"
   >
     <el-table-column type="selection" width="55" />
     <el-table-column

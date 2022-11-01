@@ -6,7 +6,9 @@ const dataSource = ref<any>([]);
 const columns = ref<string[]>(["id", "type", "operation"]);
 
 onMounted(async () => {
-  dataSource.value = await getRoles();
+  const res = await getRoles();
+  console.log(res)
+  dataSource.value = res;
 });
 </script>
 <template>

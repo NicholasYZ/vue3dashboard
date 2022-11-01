@@ -1,16 +1,20 @@
 <script setup lang="ts">
-defineProps(["isAddFormVisable", "config"]);
-const onCancel = () => {
-  console.log("hello");
+import { inject } from "vue";
+import { ListKey } from "@/types";
+const { methods, selectedItem, isModelVisible } = inject(ListKey, {});
+defineProps(["config"]);
+const onSubmit = (form: any) => {
+  methods.save(form);
 };
 </script>
 <template>
-  <el-dialog
-    @closed="onCancel"
-    destroy-on-close
-    :title="$t('create')"
-    :value="isAddFormVisable"
-  >
-    <vd-form :hasSubmit="true" :config="config" />
+  <el-dialog destroy-on-close :title="$t('create')" v-model="isModelVisible">
+    <vd-form
+      :hasSubmit="true"
+      @submit="onSubmit"
+      @cancel="methods.toggle"
+      :config="config"
+      :form="selectedItem"
+    />
   </el-dialog>
 </template>

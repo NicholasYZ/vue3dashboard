@@ -1,20 +1,35 @@
 import { useQuery } from "@/utils";
+import { ref } from "vue";
 
 export function useList(path?: string) {
   const { data, reload } = useQuery(path);
-  const onEdit = (row: { [key: string]: any }) => {
+  const isModelVisible = ref<boolean>(false);
+  const selectedItem = ref<{ [key: string]: any }>({});
+  const edit = (row: { [key: string]: any }) => {
+    selectedItem.value = row;
+    toggle(true);
+  };
+  const del = (row: { [key: string]: any }) => {
     console.log(row);
+  };
+  const view = (row: { [key: string]: any }) => {
+    console.log(row);
+  };
+  const add = () => {
+    selectedItem.value = {};
+    toggle(true);
+  };
+  const save = () => {
     reload();
+    toggle(false);
   };
-  const onDel = (row: { [key: string]: any }) => {
-    console.log(row);
+  const toggle = (type?: boolean) => {
+    isModelVisible.value = type || false;
   };
-  const onView = (row: { [key: string]: any }) => {
-    console.log(row);
+  return {
+    data,
+    isModelVisible,
+    selectedItem,
+    methods: { add, view, edit, del, save, toggle },
   };
-  const onAdd = (row: { [key: string]: any } | undefined) => {
-    console.log(row);
-    reload();
-  };
-  return { data, onAdd, onView, onEdit, onDel };
 }

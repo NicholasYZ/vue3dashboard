@@ -2,101 +2,105 @@
 import { ListKey } from "@/types";
 import { provide } from "vue";
 import { useList } from "@/utils";
-const { data, onAdd, onView, onEdit, onDel } = useList("/products");
+const { data, isModelVisible, selectedItem, methods } = useList("/products");
+provide(ListKey, { data, isModelVisible, selectedItem, methods });
 const config = {
-  search: {
-    title: "Form 表单",
-    inline: true,
-    fields: [
+  list: {
+    search: {
+      title: "Form 表单",
+      inline: true,
+      fields: [
+        {
+          prop: "username",
+          placeholder: "UserName",
+        },
+        {
+          prop: "city",
+          placeholder: "city",
+          type: "select",
+          dict: {
+            "1": "beijing",
+            "2": "shanghai",
+            "3": "guangzhou",
+          },
+        },
+      ],
+    },
+    columns: [
       {
-        prop: "username",
-        placeholder: "UserName",
+        prop: "id",
       },
       {
-        prop: "city",
-        placeholder: "city",
-        type: "select",
-        dict: {
-          "1": "beijing",
-          "2": "shanghai",
-          "3": "guangzhou",
+        prop: "name",
+      },
+      {
+        prop: "color",
+      },
+      {
+        prop: "pantone_value",
+      },
+      {
+        prop: "year",
+        formatter: (record: any) => {
+          return <el-tag>{record["year"]}</el-tag>;
         },
+      },
+      {
+        prop: "operation",
+        width: 200,
       },
     ],
   },
-  columns: [
-    {
-      prop: "id",
-    },
-    {
-      prop: "name",
-    },
-    {
-      prop: "color",
-    },
-    {
-      prop: "pantone_value",
-    },
-    {
-      prop: "year",
-      formatter: (record: any) => {
-        return <el-tag>{record["year"]}</el-tag>;
+  view: {
+    title: "Form 表单",
+    fields: [
+      {
+        prop: "name",
+        name: "name",
+        placeholder: "name",
+        type: "text",
       },
+      {
+        prop: "color",
+        name: "color",
+        placeholder: "color",
+        type: "text",
+      },
+      {
+        prop: "pantone_value",
+        name: "pantone_value",
+        placeholder: "pantone_value",
+        type: "text",
+      },
+      {
+        prop: "year",
+        name: "year",
+        placeholder: "year",
+        type: "text",
+      },
+    ],
+    rules: {
+      name: [{ required: true }],
+      color: [{ required: true }],
+      pantone_value: [{ required: true }],
+      year: [{ required: true }],
     },
-    {
-      prop: "operation",
-      width: 200,
-    },
-  ],
+  },
 };
-provide(ListKey, { data, config, onAdd, onView, onEdit, onDel });
-
-// form: {
-//     title: "Form 表单",
-//     fields: [
-//       {
-//         prop: "name",
-//         name: "name",
-//         placeholder: "name",
-//         type: "text",
-//         rules: [{ required: true }],
-//       },
-//       {
-//         prop: "color",
-//         name: "color",
-//         placeholder: "color",
-//         type: "text",
-//         rules: [{ required: true }],
-//       },
-//       {
-//         prop: "pantone_value",
-//         name: "pantone_value",
-//         placeholder: "pantone_value",
-//         type: "text",
-//         rules: [{ required: true }],
-//       },
-//       {
-//         prop: "year",
-//         name: "year",
-//         placeholder: "year",
-//         type: "text",
-//         rules: [{ required: true }],
-//       },
-//     ],
-//   },
 </script>
 <template>
-  <vd-list :config="config">
+  <vd-list :config="config.list">
     <template v-slot:operation="{ row }">
-      <el-button @click="onView(row)" size="small" type="success" round>
+      <el-button @click="methods.view(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="onEdit(row)" size="small" type="primary" round>
+      <el-button @click="methods.edit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="onDel(row)" size="small" type="danger" round>
+      <el-button @click="methods.del(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
   </vd-list>
+  <vd-view :config="config.view" />
 </template>

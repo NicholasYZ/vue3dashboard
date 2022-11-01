@@ -81,7 +81,7 @@ const onSubmit = async (
     <vd-form
       class="lg:w-1/2"
       :hasSubmit="true"
-      @formSubmit="onSubmit"
+      @submit="onSubmit"
       :config="config"
     ></vd-form>
   </vd-card>

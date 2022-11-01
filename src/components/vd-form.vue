@@ -3,19 +3,12 @@ import type { FormInstance } from "element-plus";
 import { computed, ref } from "vue";
 import { useSettingStore } from "@/store";
 import { sleep } from "@/utils";
-import type { ObjProps } from "@/types";
 
 const store = useSettingStore();
-const props = defineProps(["config", "hasSubmit", "hasReset"]);
+const props = defineProps(["config", "hasSubmit", "hasReset", "form"]);
 const emit = defineEmits(["submit", "cancel", "reset"]);
 
-const fields: ObjProps = {};
-props.config.fields.forEach((i: any) => {
-  fields[i.prop] = i.value || "";
-});
-
-const form = ref(fields);
-const rules = ref(props.config.rules);
+const form = props.form || {};
 
 const loading = ref(false);
 const formRef = ref<FormInstance>();
@@ -28,7 +21,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     if (!props.hasSubmit) {
       console.log(1);
     } else {
-      emit("submit", formEl, form.value);
+      emit("submit", form.value);
     }
   } catch (error) {
     console.log(error);
@@ -56,7 +49,7 @@ const isInline = computed(() => {
   <el-form
     :model="form"
     :inline="isInline"
-    :rules="rules"
+    :rules="config.rules"
     :label-width="!isInline ? '120px' : ''"
     ref="formRef"
     v-loading="loading"
