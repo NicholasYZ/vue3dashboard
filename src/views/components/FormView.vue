@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { FormInstance } from "element-plus";
-
+import { ref } from "vue";
 const config = {
   title: "Form 表单",
+  extra: ["submit"],
   fields: [
     {
       prop: "username",
@@ -10,7 +10,6 @@ const config = {
       placeholder: "username",
       value: "xiaoqing",
       type: "text",
-      rules: [{ required: true }],
     },
     {
       prop: "gender",
@@ -21,7 +20,6 @@ const config = {
         "2": "female",
       },
       placeholder: "gender",
-      rules: [{ required: true }],
     },
     {
       prop: "city",
@@ -33,7 +31,6 @@ const config = {
         "3": "guangzhou",
       },
       placeholder: "city",
-      rules: [{ required: true }],
     },
     {
       prop: "nickname",
@@ -41,7 +38,6 @@ const config = {
       value: "xiao",
       placeholder: "nickname",
       rows: 5,
-      rules: [{ required: true }],
     },
     {
       prop: "intro",
@@ -49,7 +45,6 @@ const config = {
       value: "I am an experienced frontend developer.",
       placeholder: "intro",
       rows: 5,
-      rules: [{ required: true }],
     },
   ],
   rules: {
@@ -60,16 +55,11 @@ const config = {
     intro: [{ required: true }],
   },
 };
-
-const onSubmit = async (
-  formEl: FormInstance | undefined,
-  form: { [key: string]: any }
-) => {
-  if (!formEl) return;
+const formData = ref({});
+const onSubmit = async (query: { [key: string]: any }) => {
   try {
-    await formEl.validate();
     console.log("success");
-    console.log(form);
+    console.log(query);
   } catch (error) {
     console.log(error);
   }
@@ -78,11 +68,6 @@ const onSubmit = async (
 <template>
   <vd-card>
     <h2 class="text-2xl mb-6">{{ config.title }}</h2>
-    <vd-form
-      class="lg:w-1/2"
-      :hasSubmit="true"
-      @submit="onSubmit"
-      :config="config"
-    ></vd-form>
+    <vd-form class="lg:w-1/2" @submit="onSubmit" :formData="formData" :config="config"></vd-form>
   </vd-card>
 </template>

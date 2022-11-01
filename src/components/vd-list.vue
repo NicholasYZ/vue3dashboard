@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import { ref, computed, inject } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import type { FormInstance } from "element-plus";
 import { i18next } from "@/i18n";
-import { sleep, useExport } from "@/utils";
+import { useExport } from "@/utils";
 import type { ObjProps } from "@/types";
 import { ListKey } from "@/types";
 
+const { data, methods } = inject(ListKey, {});
 const props = defineProps(["config"]);
 const route = useRoute();
 const router = useRouter();
 
-const exportToCsv = useExport();
+const formData: ObjProps = ref({});
+props.config.search.fields.forEach((i: any) => {
+  formData.value[i.prop] = route.query[i.prop] || "";
+});
 
-const { data, methods } = inject(ListKey, {});
+const exportToCsv = useExport();
 
 const checkedColumns = ref<string[]>(
   props.config.columns.map((i: ObjProps) => i.prop)
@@ -35,14 +38,14 @@ const onPageChange = (page: number) => {
   });
 };
 
-const onSearch = async (
-  formEl: FormInstance | undefined,
-  query: { [key: string]: any }
-) => {
-  if (!formEl) return;
+const onSearch = async (form: ObjProps) => {
+  const query: ObjProps = {};
   try {
-    await formEl.validate();
-    await sleep(200);
+    for (let prop in form) {
+      if (form[prop]) {
+        query[prop] = form[prop];
+      }
+    }
     router.push({
       path: route.path,
       query,
@@ -53,6 +56,7 @@ const onSearch = async (
 };
 
 const onReset = () => {
+  methods.clear();
   router.push({
     path: route.path,
     query: {},
@@ -72,8 +76,7 @@ const onExport = () => {
       <div class="vd-search">
         <vd-form
           :config="config.search"
-          :hasReset="true"
-          :hasSubmit="true"
+          :formData="formData"
           @submit="onSearch"
           @reset="onReset"
         />

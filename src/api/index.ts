@@ -1,7 +1,7 @@
 import axios from "axios";
 import type { AxiosResponse } from "axios";
 
-import type { MenuProps, LoginProps, BodyProps } from "@/types";
+import type { MenuProps, LoginProps, BodyProps, getProps } from "@/types";
 
 const instance = axios.create({
   baseURL: "/api",
@@ -10,7 +10,7 @@ const instance = axios.create({
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-const request = {
+export const request = {
   get: (url: string) => instance.get(url).then(responseBody),
   post: (url: string, body: BodyProps) =>
     instance.post(url, body).then(responseBody),
@@ -19,25 +19,23 @@ const request = {
 export const getMenu = (): Promise<MenuProps[]> => request.get("/menu");
 export const getRoles = (): Promise<MenuProps[]> => request.get("/roles");
 
-const http = axios.create({
+export const http = axios.create({
   baseURL: "https://reqres.in/api",
   timeout: 15000,
 });
 
-const httpRequest = {
-  get: (url: string, params: { [key: string]: string | number }) =>
+export const httpRequest = {
+  get: (url: string, params?: { [key: string]: string | number }) =>
     http.get(url, { params }).then(responseBody),
   post: (url: string, body: BodyProps) =>
     http.post(url, body).then(responseBody),
 };
 
-export const getList = ({
-  url,
-  params,
-}: {
-  url: string;
-  params: { [key: string]: string | number };
-}): Promise<any> => {
+export const getUser = (id: string | number): Promise<any> => {
+  return httpRequest.get(`/users/${id}`);
+};
+
+export const getList = ({ url, params }: getProps): Promise<any> => {
   return httpRequest.get(url, params);
 };
 

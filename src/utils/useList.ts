@@ -4,9 +4,9 @@ import { ref } from "vue";
 export function useList(path?: string) {
   const { data, reload } = useQuery(path);
   const isModelVisible = ref<boolean>(false);
-  const selectedItem = ref<{ [key: string]: any }>({});
+  const formData = ref<{ [key: string]: any }>({});
   const edit = (row: { [key: string]: any }) => {
-    selectedItem.value = row;
+    formData.value = row;
     toggle(true);
   };
   const del = (row: { [key: string]: any }) => {
@@ -16,7 +16,7 @@ export function useList(path?: string) {
     console.log(row);
   };
   const add = () => {
-    selectedItem.value = {};
+    formData.value = {};
     toggle(true);
   };
   const save = () => {
@@ -26,10 +26,13 @@ export function useList(path?: string) {
   const toggle = (type?: boolean) => {
     isModelVisible.value = type || false;
   };
+  const clear = () => {
+    formData.value = {};
+  }
   return {
     data,
     isModelVisible,
-    selectedItem,
-    methods: { add, view, edit, del, save, toggle },
+    formData,
+    methods: { add, view, edit, del, save, toggle, clear },
   };
 }

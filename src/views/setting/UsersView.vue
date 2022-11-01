@@ -2,99 +2,97 @@
 import { ListKey } from "@/types";
 import { provide, ref } from "vue";
 import { useList } from "@/utils";
-const { data, methods } = useList("/users");
+const { data, isModelVisible, formData, methods } = useList("/users");
+provide(ListKey, { data, isModelVisible, formData, methods });
 const config = {
-  search: {
-    title: "Form 表单",
-    inline: true,
-    fields: [
+  list: {
+    search: {
+      title: "Form 表单",
+      extra: [],
+      inline: true,
+      fields: [
+        {
+          prop: "username",
+          placeholder: "UserName",
+        },
+        {
+          prop: "city",
+          placeholder: "city",
+          type: "select",
+          dict: {
+            "1": "beijing",
+            "2": "shanghai",
+            "3": "guangzhou",
+          },
+        },
+      ],
+    },
+    columns: [
       {
-        prop: "username",
-        placeholder: "UserName",
+        prop: "id",
       },
       {
-        prop: "city",
-        placeholder: "city",
-        type: "select",
-        dict: {
-          "1": "beijing",
-          "2": "shanghai",
-          "3": "guangzhou",
-        },
+        prop: "email",
+      },
+      {
+        prop: "first_name",
+      },
+      {
+        prop: "last_name",
+      },
+      {
+        prop: "avatar",
+      },
+      {
+        prop: "operation",
+        width: 200,
       },
     ],
   },
-  columns: [
-    {
-      prop: "id",
+  view: {
+    title: "Form 表单",
+    extra: [],
+    fields: [
+      {
+        prop: "name",
+        name: "name",
+        placeholder: "name",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "color",
+        name: "color",
+        placeholder: "color",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "pantone_value",
+        name: "pantone_value",
+        placeholder: "pantone_value",
+        type: "text",
+        rules: [{ required: true }],
+      },
+      {
+        prop: "year",
+        name: "year",
+        placeholder: "year",
+        type: "text",
+        rules: [{ required: true }],
+      },
+    ],
+    rules: {
+      name: [{ required: true }],
+      color: [{ required: true }],
+      pantone_value: [{ required: true }],
+      year: [{ required: true }],
     },
-    {
-      prop: "email",
-    },
-    {
-      prop: "first_name",
-    },
-    {
-      prop: "last_name",
-    },
-    {
-      prop: "avatar",
-    },
-    {
-      prop: "operation",
-      width: 200,
-    },
-  ],
-};
-provide(ListKey, { data, config, methods });
-const isAddFormVisable = ref<boolean>(false);
-const form = {
-  title: "Form 表单",
-  fields: [
-    {
-      prop: "name",
-      name: "name",
-      placeholder: "name",
-      type: "text",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "color",
-      name: "color",
-      placeholder: "color",
-      type: "text",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "pantone_value",
-      name: "pantone_value",
-      placeholder: "pantone_value",
-      type: "text",
-      rules: [{ required: true }],
-    },
-    {
-      prop: "year",
-      name: "year",
-      placeholder: "year",
-      type: "text",
-      rules: [{ required: true }],
-    },
-  ],
-  rules: {
-    username: [{ required: true }],
-    gender: [{ required: true }],
-    city: [{ required: true }],
-    nickname: [{ required: true }],
-    intro: [{ required: true }],
   },
-};
-
-const onShow = () => {
-  isAddFormVisable.value = true;
 };
 </script>
 <template>
-  <vd-list @add="onShow" :config="config">
+  <vd-list :config="config.list">
     <template #avatar="{ row }">
       <img
         class="w-10 h-10 rounded-full"
@@ -114,5 +112,5 @@ const onShow = () => {
       </el-button>
     </template>
   </vd-list>
-  <vd-view :config="form" v-model="isAddFormVisable"></vd-view>
+  <vd-view :config="config.view" />
 </template>

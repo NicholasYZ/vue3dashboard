@@ -23,9 +23,11 @@ $--colors: (
   $colors: $--colors,
   $menu: (
     'border-color': transparent,
+    'item-height': 54px,
+    'sub-item-height': 50px,
   ),
   $dialog: (
     'border-radius': 10px,
     'padding-primary': 40px,
-  )
+  ),
 );

@@ -28,3 +28,7 @@ export interface ObjProps {
   [key: string]: any;
 }
 export const ListKey: InjectionKey<{ [key: string]: any }> = Symbol("list");
+
+export interface getProps {
+  [key: string]: any;
+}

@@ -5,11 +5,8 @@ import { useSettingStore } from "@/store";
 import { sleep } from "@/utils";
 
 const store = useSettingStore();
-const props = defineProps(["config", "hasSubmit", "hasReset", "form"]);
+const props = defineProps(["config", "formData"]);
 const emit = defineEmits(["submit", "cancel", "reset"]);
-
-const form = props.form || {};
-
 const loading = ref(false);
 const formRef = ref<FormInstance>();
 
@@ -18,10 +15,10 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   try {
     await formEl.validate();
     await sleep(200);
-    if (!props.hasSubmit) {
-      console.log(1);
+    if (props.config.extra.includes("submit")) {
+      emit("submit", props.formData);
     } else {
-      emit("submit", form.value);
+      console.log(1);
     }
   } catch (error) {
     console.log(error);
@@ -47,7 +44,7 @@ const isInline = computed(() => {
 </script>
 <template>
   <el-form
-    :model="form"
+    :model="formData"
     :inline="isInline"
     :rules="config.rules"
     :label-width="!isInline ? '120px' : ''"
@@ -58,7 +55,7 @@ const isInline = computed(() => {
       v-for="item in config.fields"
       :key="item.prop"
       :item="item"
-      v-model:val="form[item.prop]"
+      v-model:val="formData![item.prop]"
     />
     <el-form-item>
       <el-button
@@ -71,7 +68,7 @@ const isInline = computed(() => {
         {{ $t("confirm") }}
       </el-button>
       <el-button
-        v-if="hasReset"
+        v-if="props.config.extra.includes('reset')"
         size="large"
         @click="onReset(formRef)"
         auto-insert-space

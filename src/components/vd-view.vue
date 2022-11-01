@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { inject } from "vue";
 import { ListKey } from "@/types";
-const { methods, selectedItem, isModelVisible } = inject(ListKey, {});
+const { methods, formData, isModelVisible } = inject(ListKey, {});
 defineProps(["config"]);
 const onSubmit = (form: any) => {
   methods.save(form);
@@ -14,7 +14,7 @@ const onSubmit = (form: any) => {
       @submit="onSubmit"
       @cancel="methods.toggle"
       :config="config"
-      :form="selectedItem"
+      :formData="formData"
     />
   </el-dialog>
 </template>

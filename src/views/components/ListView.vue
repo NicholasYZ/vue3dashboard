@@ -2,13 +2,14 @@
 import { ListKey } from "@/types";
 import { provide } from "vue";
 import { useList } from "@/utils";
-const { data, isModelVisible, selectedItem, methods } = useList("/products");
-provide(ListKey, { data, isModelVisible, selectedItem, methods });
+const { data, isModelVisible, formData, methods } = useList("/products");
+provide(ListKey, { data, isModelVisible, formData, methods });
 const config = {
   list: {
     search: {
       title: "Form 表单",
       inline: true,
+      extra: ["reset", "submit"],
       fields: [
         {
           prop: "username",
@@ -53,6 +54,7 @@ const config = {
   },
   view: {
     title: "Form 表单",
+    extra: ["reset", "submit"],
     fields: [
       {
         prop: "name",
