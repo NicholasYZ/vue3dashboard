@@ -46,4 +46,8 @@ const Icon = (props: { icon: string }) => {
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Icon", Icon);
 
+app.config.globalProperties.$log = (text: string): void => {
+  console.log(text);
+};
+
 app.mount("#app");

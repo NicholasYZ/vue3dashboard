@@ -1,36 +1,40 @@
 <script setup lang="ts">
-import { computed, inject } from "vue";
+import { computed, ref, onBeforeUnmount } from "vue";
 import { useSettingStore } from "@/store";
-import { ListKey } from "@/types";
+import bus from "@/utils/bus";
 
 const settingStore = useSettingStore();
-const { methods, formData, isModelVisible } = inject(ListKey, {});
-defineProps(["config"]);
+const props = defineProps(["config"]);
+const emit = defineEmits(["onSave"]);
+const isModelVisible = ref<boolean>(false);
+
 const onSubmit = (form: any) => {
-  methods.save(form);
+  emit("onSave", form);
+  isModelVisible.value = false;
 };
 
 const isFullScreen = computed(() => {
   return settingStore.setting.deviceType === "mobile";
-})
+});
 
+const toggleModel = () => {
+  isModelVisible.value = !isModelVisible.value;
+};
+
+defineExpose({
+  toggleModel,
+});
 </script>
 <template>
   <el-dialog
     destroy-on-close
     :fullscreen="isFullScreen"
-    :title="$t('create')"
+    :title="$t('add')"
     v-model="isModelVisible"
     :style="{
       borderRadius: isFullScreen ? 0 : '10px',
     }"
   >
-    <vd-form
-      :hasSubmit="true"
-      @submit="onSubmit"
-      @cancel="methods.toggle"
-      :config="config"
-      :formData="formData"
-    />
+    <vd-form :hasSubmit="true" @submit="onSubmit" :config="config" />
   </el-dialog>
 </template>

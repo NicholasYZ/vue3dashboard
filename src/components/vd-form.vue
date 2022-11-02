@@ -5,7 +5,7 @@ import { useSettingStore } from "@/store";
 import { sleep } from "@/utils";
 
 const store = useSettingStore();
-const props = defineProps(["config", "formData"]);
+const props = defineProps(["config"]);
 const emit = defineEmits(["submit", "cancel", "reset"]);
 const loading = ref(false);
 const formRef = ref<FormInstance>();
@@ -16,7 +16,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
     await formEl.validate();
     await sleep(200);
     if (props.config.extra.includes("submit")) {
-      emit("submit", props.formData);
+      emit("submit", props.config.formData);
     } else {
       console.log(1);
     }
@@ -44,7 +44,7 @@ const isInline = computed(() => {
 </script>
 <template>
   <el-form
-    :model="formData"
+    :model="config.formData"
     :inline="isInline"
     :rules="config.rules"
     :label-width="!isInline ? '120px' : ''"
@@ -55,7 +55,7 @@ const isInline = computed(() => {
       v-for="item in config.fields"
       :key="item.prop"
       :item="item"
-      v-model:val="formData![item.prop]"
+      v-model:val="config.formData.value![item.prop]"
     />
     <el-form-item>
       <el-button

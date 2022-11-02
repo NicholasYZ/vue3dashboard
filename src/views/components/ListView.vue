@@ -1,57 +1,57 @@
 <script setup lang="tsx">
-import { ListKey } from "@/types";
-import { provide } from "vue";
-import { useList } from "@/utils";
-const { data, isModelVisible, formData, methods } = useList("/products.json");
-provide(ListKey, { data, isModelVisible, formData, methods });
+import { ref } from "vue";
+/**
+ * List Config
+ */
 const config = {
-  list: {
-    search: {
-      title: "Form 表单",
-      inline: true,
-      extra: ["reset", "submit"],
-      fields: [
-        {
-          prop: "username",
-          placeholder: "UserName",
+  search: {
+    title: "Form 表单",
+    inline: true,
+    extra: ["reset", "submit"],
+    fields: [
+      {
+        prop: "username",
+        placeholder: "UserName",
+      },
+      {
+        prop: "city",
+        placeholder: "city",
+        type: "select",
+        dict: {
+          "1": "beijing",
+          "2": "shanghai",
+          "3": "guangzhou",
         },
-        {
-          prop: "city",
-          placeholder: "city",
-          type: "select",
-          dict: {
-            "1": "beijing",
-            "2": "shanghai",
-            "3": "guangzhou",
-          },
-        },
-      ],
-    },
-    columns: [
-      {
-        prop: "id",
-      },
-      {
-        prop: "name",
-      },
-      {
-        prop: "color",
-      },
-      {
-        prop: "pantone_value",
-      },
-      {
-        prop: "year",
-        formatter: (record: any) => {
-          return <el-tag>{record["year"]}</el-tag>;
-        },
-      },
-      {
-        prop: "operation",
-        width: 200,
       },
     ],
+    formData: ref<any>({}),
   },
+  columns: [
+    {
+      prop: "id",
+      filterDisabled: true,
+    },
+    {
+      prop: "name",
+    },
+    {
+      prop: "color",
+    },
+    {
+      prop: "pantone_value",
+    },
+    {
+      prop: "year",
+      formatter: (record: any) => {
+        return <el-tag>{record["year"]}</el-tag>;
+      },
+    },
+    {
+      prop: "operation",
+      width: 200,
+      filterDisabled: true
+    },
+  ],
   view: {
     title: "Form 表单",
     extra: ["reset", "submit"],
@@ -87,22 +87,32 @@ const config = {
       pantone_value: [{ required: true }],
       year: [{ required: true }],
     },
+    formData: ref<any>({}),
   },
 };
+/**
+ * Ref child
+ * Get methods from child node like onAdd onEdit onDel onView
+ */
+const child = ref<InstanceType<any> | null>(null);
 </script>
 <template>
-  <vd-list :config="config.list">
-    <template v-slot:operation="{ row }">
-      <el-button @click="methods.view(row)" size="small" type="success" round>
+  <vd-list
+    ref="child"
+    :columns="config.columns"
+    :search="config.search"
+    :view="config.view"
+  >
+    <template #operation="{ row }">
+      <el-button @click="child.onView(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="methods.edit(row)" size="small" type="primary" round>
+      <el-button @click="child.onEdit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="methods.del(row)" size="small" type="danger" round>
+      <el-button @click="child.onDel(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
   </vd-list>
-  <vd-view :config="config.view" />
 </template>

@@ -55,6 +55,7 @@ const onSubmit = async (query: { [key: string]: any }) => {
   <vd-card>
     <h2 class="text-2xl mb-6">{{ config.title }}</h2>
     <vd-form
+      xxx="0000"
       class="lg:w-1/2"
       :formData="formData"
       @submit="onSubmit"

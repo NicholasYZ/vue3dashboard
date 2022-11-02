@@ -1,29 +1,32 @@
 <script setup lang="ts">
-import { ref, computed, inject } from "vue";
+import { ref, computed, defineExpose } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { i18next } from "@/i18n";
-import { useExport } from "@/utils";
+import { useExport, useQuery } from "@/utils";
 import type { ObjProps } from "@/types";
-import { ListKey } from "@/types";
 
-const { data, methods } = inject(ListKey, {});
-const props = defineProps(["config"]);
+const { data, reload } = useQuery("/products.json");
+const props = defineProps(["view", "columns", "search"]);
 const route = useRoute();
 const router = useRouter();
+const child = ref<InstanceType<any> | null>(null);
 
-const formData: ObjProps = ref({});
-props.config.search.fields.forEach((i: any) => {
-  formData.value[i.prop] = route.query[i.prop] || "";
+props.search.fields.forEach((i: any) => {
+  props.search.formData!.value[i.prop] = route.query[i.prop] || "";
 });
 
 const exportToCsv = useExport();
 
 const checkedColumns = ref<string[]>(
-  props.config.columns.map((i: ObjProps) => i.prop)
+  props.columns.map((i: ObjProps) => i.prop)
 );
 
-const columns = computed(() => {
-  return props.config.columns.filter(
+const filterColumns = computed(() => {
+  return props.columns.filter((i: ObjProps) => i.prop !== "operation");
+});
+
+const computedColumns = computed(() => {
+  return props.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
@@ -41,9 +44,9 @@ const onPageChange = (page: number) => {
 const onSearch = async (form: ObjProps) => {
   const query: ObjProps = {};
   try {
-    for (let prop in form) {
-      if (form[prop]) {
-        query[prop] = form[prop];
+    for (let prop in form.value) {
+      if (form.value[prop]) {
+        query[prop] = form.value[prop];
       }
     }
     router.push({
@@ -56,7 +59,6 @@ const onSearch = async (form: ObjProps) => {
 };
 
 const onReset = () => {
-  methods.clear();
   router.push({
     path: route.path,
     query: {},
@@ -67,6 +69,35 @@ const onExport = () => {
   const title = i18next.t(route.name as string);
   exportToCsv(data.value.result, title);
 };
+
+const onAdd = () => {
+  props.view!.formData.value = {};
+  child.value.toggleModel();
+};
+const onView = (form: ObjProps) => {
+  props.view!.formData.value = form;
+  child.value.toggleModel();
+};
+const onEdit = (form: ObjProps) => {
+  props.view!.formData.value = form;
+  child.value.toggleModel();
+};
+const onDel = (form: ObjProps) => {
+  props.view!.formData.value = form;
+  child.value.toggleModel();
+};
+const onSave = (form: ObjProps) => {
+  child.value.toggleModel();
+  reload();
+};
+
+defineExpose({
+  onAdd,
+  onView,
+  onEdit,
+  onDel,
+  onSave,
+});
 </script>
 <template>
   <div class="vd-list">
@@ -74,12 +105,7 @@ const onExport = () => {
       class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
       <div class="vd-search">
-        <vd-form
-          :config="config.search"
-          :formData="formData"
-          @submit="onSearch"
-          @reset="onReset"
-        />
+        <vd-form :config="search" @submit="onSearch" @reset="onReset" />
       </div>
       <div class="flex md:justify-end justify-center items-center mb-4">
         <el-popover trigger="hover">
@@ -89,15 +115,16 @@ const onExport = () => {
             </vd-pill>
           </template>
           <el-checkbox-group v-model="checkedColumns">
-            <el-checkbox
-              v-for="item in config.columns"
-              :key="item.prop"
-              :disabled="item.prop === 'operation' || item.prop === 'id'"
-              :label="item.prop"
-            />
+            <p :key="item.prop" v-for="item in filterColumns">
+              <el-checkbox
+                :disabled="item.filterDisabled"
+                :key="item.prop"
+                :label="item.prop"
+              />
+            </p>
           </el-checkbox-group>
         </el-popover>
-        <vd-pill @click="methods.add">
+        <vd-pill @click="onAdd">
           <Icon icon="Plus" />
         </vd-pill>
         <vd-pill @click="onExport">
@@ -106,12 +133,17 @@ const onExport = () => {
       </div>
     </div>
     <vd-card v-loading="data.loading">
-      <vd-table :columns="columns" :dataSource="data.result" class="mb-6">
-        <template v-for="(index, name) in $slots" #[name]="{ row }">
+      <vd-table
+        :columns="computedColumns"
+        :dataSource="data.result"
+        class="mb-6"
+      >
+        <template v-for="(index, name) in $slots" v-slot:[name]="{ row }">
           <slot :name="name" :row="row"></slot>
         </template>
       </vd-table>
       <vd-pagination @onPageChange="onPageChange" :pageInfo="data.pageInfo" />
     </vd-card>
   </div>
+  <vd-view v-if="view" ref="child" :config="view" @onSave="onSave" />
 </template>
