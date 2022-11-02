@@ -24,7 +24,7 @@ const menu: MenuProps[] = [
       permissions: ["admin", "editor"],
     },
     children: [
-      { 
+      {
         id: 11,
         name: "components.list",
         path: "/components/list",

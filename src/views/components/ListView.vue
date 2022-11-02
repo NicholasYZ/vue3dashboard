@@ -4,6 +4,7 @@ import { ref } from "vue";
  * List Config
  */
 const config = {
+  url: "/products.json",
   search: {
     title: "Form 表单",
     inline: true,
@@ -49,7 +50,7 @@ const config = {
     {
       prop: "operation",
       width: 200,
-      filterDisabled: true
+      filterDisabled: true,
     },
   ],
   view: {
@@ -102,6 +103,7 @@ const child = ref<InstanceType<any> | null>(null);
     :columns="config.columns"
     :search="config.search"
     :view="config.view"
+    :url="config.url"
   >
     <template #operation="{ row }">
       <el-button @click="child.onView(row)" size="small" type="success" round>

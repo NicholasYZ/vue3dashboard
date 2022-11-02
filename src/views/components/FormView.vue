@@ -54,6 +54,7 @@ const config = {
     nickname: [{ required: true }],
     intro: [{ required: true }],
   },
+  formData: ref<any>({}),
 };
 const formData = ref({});
 const onSubmit = async (query: { [key: string]: any }) => {

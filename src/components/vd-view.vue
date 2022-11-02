@@ -1,14 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, onBeforeUnmount } from "vue";
+import { computed, ref } from "vue";
 import { useSettingStore } from "@/store";
-import bus from "@/utils/bus";
 
 const settingStore = useSettingStore();
 const props = defineProps(["config"]);
 const emit = defineEmits(["onSave"]);
 const isModelVisible = ref<boolean>(false);
 
-const onSubmit = (form: any) => {
+const onSubmit = async (form: any) => {
   emit("onSave", form);
   isModelVisible.value = false;
 };

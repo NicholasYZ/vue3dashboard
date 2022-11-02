@@ -1,7 +1,8 @@
 import { watch, ref, isRef, computed } from "vue";
-import { getList } from "@/api";
 import { useRoute } from "vue-router";
 import Qs from "qs";
+import { sleep } from "@/utils";
+import { getList } from "@/api";
 
 type resProps = {
   result: any[];
@@ -37,6 +38,7 @@ export function useQuery(path?: string) {
       url: URL.value,
       params: {},
     });
+    await sleep(500);
     data.value = {
       result,
       loading: false,

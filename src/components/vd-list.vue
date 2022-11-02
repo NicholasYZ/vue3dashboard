@@ -5,11 +5,11 @@ import { i18next } from "@/i18n";
 import { useExport, useQuery } from "@/utils";
 import type { ObjProps } from "@/types";
 
-const { data, reload } = useQuery("/products.json");
-const props = defineProps(["view", "columns", "search"]);
+const props = defineProps(["view", "columns", "search", "url"]);
 const route = useRoute();
 const router = useRouter();
 const child = ref<InstanceType<any> | null>(null);
+const { data, reload } = useQuery(props.url || "/products.json");
 
 props.search.fields.forEach((i: any) => {
   props.search.formData!.value[i.prop] = route.query[i.prop] || "";
@@ -75,18 +75,18 @@ const onAdd = () => {
   child.value.toggleModel();
 };
 const onView = (form: ObjProps) => {
-  props.view!.formData.value = form;
+  props.view!.formData.value = { ...form };
   child.value.toggleModel();
 };
 const onEdit = (form: ObjProps) => {
-  props.view!.formData.value = form;
+  props.view!.formData.value = { ...form };
   child.value.toggleModel();
 };
 const onDel = (form: ObjProps) => {
-  props.view!.formData.value = form;
+  props.view!.formData.value = { ...form };
   child.value.toggleModel();
 };
-const onSave = (form: ObjProps) => {
+const onSave = async (form: ObjProps) => {
   child.value.toggleModel();
   reload();
 };

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useFetch } from "@/utils";
+import { useFetch, sleep } from "@/utils";
+import { ElMessage } from "element-plus";
+
 const { data } = useFetch("/users-1.json");
+
 const config = {
   title: "Form 表单",
   extra: ["submit", "reset"],
@@ -35,30 +38,44 @@ const config = {
     },
   ],
   rules: {
-    username: [{ required: true }],
-    gender: [{ required: true }],
-    city: [{ required: true }],
-    nickname: [{ required: true }],
-    intro: [{ required: true }],
+    id: [{ required: true }],
+    name: [{ required: true }],
+    email: [{ required: true }],
+    first_name: [{ required: true }],
+    last_name: [{ required: true }],
+    avatar: [{ required: true }],
   },
+  formData: ref<any>(data),
 };
-const formData = ref(data);
+
+const loading = ref<boolean>(false);
+
 const onSubmit = async (query: { [key: string]: any }) => {
   try {
     console.log(query);
+    ElMessage({
+      message: "Congrats, this is a success message.",
+      type: "success",
+    });
+    loading.value = true;
+    await sleep(500);
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
+const onReset = () => {
+
+}
 </script>
 <template>
-  <vd-card>
+  <vd-card v-loading="loading">
     <h2 class="text-2xl mb-6">{{ config.title }}</h2>
     <vd-form
-      xxx="0000"
       class="lg:w-1/2"
-      :formData="formData"
       @submit="onSubmit"
+      @reset="onReset"
       :config="config"
     ></vd-form>
   </vd-card>

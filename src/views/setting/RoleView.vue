@@ -1,48 +1,44 @@
 <script setup lang="tsx">
-import { ListKey } from "@/types";
-import { provide, ref } from "vue";
-import { useList } from "@/utils";
-const { data, isModelVisible, formData, methods } = useList("/roles.json");
-provide(ListKey, { data, isModelVisible, formData, methods });
+import { ref } from "vue";
 const config = {
-  list: {
-    search: {
-      title: "Form 表单",
-      extra: [],
-      inline: true,
-      fields: [
-        {
-          prop: "username",
-          placeholder: "UserName",
-        },
-        {
-          prop: "city",
-          placeholder: "city",
-          type: "select",
-          dict: {
-            "1": "beijing",
-            "2": "shanghai",
-            "3": "guangzhou",
-          },
-        },
-      ],
-    },
-    columns: [
-      {
-        prop: "id",
-      },
-      {
-        prop: "type",
-      },
-      {
-        prop: "operation",
-        width: 200,
-      },
-    ],
-  },
-  view: {
+  url: "/roles.json",
+  search: {
     title: "Form 表单",
     extra: [],
+    inline: true,
+    fields: [
+      {
+        prop: "username",
+        placeholder: "UserName",
+      },
+      {
+        prop: "city",
+        placeholder: "city",
+        type: "select",
+        dict: {
+          "1": "beijing",
+          "2": "shanghai",
+          "3": "guangzhou",
+        },
+      },
+    ],
+    formData: ref<any>({}),
+  },
+  columns: [
+    {
+      prop: "id",
+    },
+    {
+      prop: "type",
+    },
+    {
+      prop: "operation",
+      width: 200,
+    },
+  ],
+  view: {
+    title: "Form 表单",
+    extra: ["submit"],
     fields: [
       {
         prop: "name",
@@ -79,11 +75,19 @@ const config = {
       pantone_value: [{ required: true }],
       year: [{ required: true }],
     },
+    formData: ref<any>({}),
   },
 };
+const child = ref<InstanceType<any> | null>(null);
 </script>
 <template>
-  <vd-list :config="config.list">
+  <vd-list
+    ref="child"
+    :columns="config.columns"
+    :search="config.search"
+    :view="config.view"
+    :url="config.url"
+  >
     <template #avatar="{ row }">
       <img
         class="w-10 h-10 rounded-full"
@@ -92,16 +96,15 @@ const config = {
       />
     </template>
     <template v-slot:operation="{ row }">
-      <el-button @click="methods.view(row)" size="small" type="success" round>
+      <el-button @click="child.onView(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="methods.edit(row)" size="small" type="primary" round>
+      <el-button @click="child.onEdit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="methods.del(row)" size="small" type="danger" round>
+      <el-button @click="child.onDel(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
   </vd-list>
-  <vd-view :config="config.view" />
 </template>

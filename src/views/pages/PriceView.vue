@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, reactive, toRefs } from "vue";
 const node = ref<HTMLElement | null>(null);
-console.log(node)
-const a = reactive({b: 1});
+console.log(node);
+const a = reactive({ b: 1 });
 setTimeout(() => {
-  a.b = 3
+  a.b = 3;
 }, 1000);
-
 </script>
 
 <template>
@@ -16,7 +15,7 @@ setTimeout(() => {
         <h2
           class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"
         >
-          Designed for business teams like yours 
+          Designed for business teams like yours
         </h2>
         <p class="mb-5 font-light text-gray-500 sm:text-xl dark:text-gray-400">
           Here at Flowbite we focus on markets where technology, innovation, and
