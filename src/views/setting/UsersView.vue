@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from "vue";
 const config = {
-  url: "/users.json",
+  url: "/users",
   search: {
     title: "Form 表单",
     extra: [],

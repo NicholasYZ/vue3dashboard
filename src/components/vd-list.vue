@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, defineExpose } from "vue";
+import { ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { i18next } from "@/i18n";
 import { useExport, useQuery } from "@/utils";
@@ -9,7 +9,7 @@ const props = defineProps(["view", "columns", "search", "url"]);
 const route = useRoute();
 const router = useRouter();
 const child = ref<InstanceType<any> | null>(null);
-const { data, reload } = useQuery(props.url || "/products.json");
+const { data, reload } = useQuery(props.url || "/products");
 
 props.search.fields.forEach((i: any) => {
   props.search.formData!.value[i.prop] = route.query[i.prop] || "";

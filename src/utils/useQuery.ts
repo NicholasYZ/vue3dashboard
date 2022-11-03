@@ -38,6 +38,7 @@ export function useQuery(path?: string) {
       url: URL.value,
       params: {},
     });
+    console.log(pageInfo)
     await sleep(500);
     data.value = {
       result,

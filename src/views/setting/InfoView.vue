@@ -3,7 +3,9 @@ import { ref } from "vue";
 import { useFetch, sleep } from "@/utils";
 import { ElMessage } from "element-plus";
 
-const { data } = useFetch("/users-1.json");
+const { data } = useFetch("/users/1");
+
+console.log(data)
 
 const config = {
   title: "Form 表单",

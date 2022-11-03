@@ -83,9 +83,10 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   loading.value = true;
   try {
     await formEl.validate();
-    const userInfo = await Login(form);
+    const { result } = await Login(form);
+    console.log(result)
     authStore.saveUserData({
-      ...userInfo,
+      ...result,
       init: true,
       role: "admin",
     });

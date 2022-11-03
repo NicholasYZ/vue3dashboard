@@ -1,7 +1,7 @@
 <script setup lang="tsx">
 import { ref } from "vue";
 const config = {
-  url: "/menu.json",
+  url: "/menu",
   search: {
     title: "Form 表单",
     extra: [],
@@ -61,16 +61,16 @@ const config = {
         rules: [{ required: true }],
       },
       {
-        prop: "color",
-        name: "color",
-        placeholder: "color",
+        prop: "path",
+        name: "path",
+        placeholder: "path",
         type: "text",
         rules: [{ required: true }],
       },
       {
-        prop: "pantone_value",
-        name: "pantone_value",
-        placeholder: "pantone_value",
+        prop: "permissions",
+        name: "permissions",
+        placeholder: "permissions",
         type: "text",
         rules: [{ required: true }],
       },

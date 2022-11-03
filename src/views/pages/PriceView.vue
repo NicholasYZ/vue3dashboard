@@ -1,13 +1,4 @@
-<script setup lang="ts">
-import { ref, reactive, toRefs } from "vue";
-const node = ref<HTMLElement | null>(null);
-console.log(node);
-const a = reactive({ b: 1 });
-setTimeout(() => {
-  a.b = 3;
-}, 1000);
-</script>
-
+<script setup lang="ts"></script>
 <template>
   <section ref="node" class="bg-white dark:bg-gray-900 rounded-md">
     <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">

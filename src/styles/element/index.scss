@@ -30,4 +30,8 @@ $--colors: (
     // 'border-radius': 10px,
     'padding-primary': 40px,
   ),
+  $message: (
+    'bg-color':#000,
+    'border-color': getCssVar('color', 'info', 'light-9')
+  )
 );
