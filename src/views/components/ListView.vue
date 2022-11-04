@@ -1,10 +1,21 @@
 <script setup lang="tsx">
-import { ref } from "vue";
+import { reactive } from "vue";
+import { useList } from "@/utils";
 /**
  * List Config
  */
-const config = {
-  url: "/products.json",
+const {
+  data,
+  config,
+  isModelVisible,
+  reload,
+  onDel,
+  onAdd,
+  onEdit,
+  onView,
+  onSave
+} = useList({
+  url: "/products",
   search: {
     title: "Form 表单",
     inline: true,
@@ -25,7 +36,6 @@ const config = {
         },
       },
     ],
-    formData: ref<any>({}),
   },
   columns: [
     {
@@ -55,66 +65,65 @@ const config = {
   ],
   view: {
     title: "Form 表单",
-    extra: ["reset", "submit"],
-    fields: [
-      {
-        prop: "name",
-        name: "name",
-        placeholder: "name",
-        type: "text",
-      },
-      {
-        prop: "color",
-        name: "color",
-        placeholder: "color",
-        type: "text",
-      },
-      {
-        prop: "pantone_value",
-        name: "pantone_value",
-        placeholder: "pantone_value",
-        type: "text",
-      },
-      {
-        prop: "year",
-        name: "year",
-        placeholder: "year",
-        type: "text",
-      },
-    ],
+    form: reactive({
+      name: "",
+      color: "",
+      pantone_value: "",
+      year: "",
+    }),
     rules: {
       name: [{ required: true }],
       color: [{ required: true }],
       pantone_value: [{ required: true }],
       year: [{ required: true }],
     },
-    formData: ref<any>({}),
   },
-};
-/**
- * Ref child
- * Get methods from child node like onAdd onEdit onDel onView
- */
-const child = ref<InstanceType<any> | null>(null);
+});
 </script>
 <template>
-  <vd-list
-    ref="child"
-    :columns="config.columns"
-    :search="config.search"
-    :view="config.view"
-    :url="config.url"
-  >
+  <vd-list @reload="reload" @add="onAdd" :dataSource="data" :config="config">
     <template #operation="{ row }">
-      <el-button @click="child.onView(row)" size="small" type="success" round>
+      <el-button @click="onView(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="child.onEdit(row)" size="small" type="primary" round>
+      <el-button @click="onEdit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="child.onDel(row)" size="small" type="danger" round>
+      <el-button @click="onDel(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
   </vd-list>
+  <vd-view v-model="isModelVisible" title="表单">
+    <vd-form :config="config.view" @submit="onSave">
+      <vd-field
+        name="Name"
+        prop="name"
+        type="text"
+        v-model:val="config.view.form.name"
+        size="large"
+      />
+      <vd-field
+        name="Color"
+        prop="color"
+        type="text"
+        v-model:val="config.view.form.color"
+        size="large"
+      />
+      <vd-field
+        name="Value"
+        prop="pantone_value"
+        type="text"
+        v-model:val="config.view.form.pantone_value"
+        size="large"
+      />
+      <vd-field
+        name="Year"
+        prop="year"
+        type="text"
+        v-model:val="config.view.form.year"
+        size="large"
+      />
+    </vd-form>
+  </vd-view>
 </template>

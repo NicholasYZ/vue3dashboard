@@ -27,7 +27,7 @@ Mock.mock(/\/api\/roles/, "get", (options) => {
     per_page: 6,
     total: 12,
     total_pages: 2,
-    data: roles,
+    result: roles,
   };
 });
 Mock.mock(/\/api\/users\/1/, "get", user);
@@ -38,7 +38,7 @@ Mock.mock(/\/api\/users/, "get", (options) => {
     per_page: 6,
     total: 12,
     total_pages: 2,
-    data: users,
+    result: users,
   };
 });
 Mock.mock(/\/api\/menu/, "get", (options) => {
@@ -48,7 +48,7 @@ Mock.mock(/\/api\/menu/, "get", (options) => {
     per_page: 6,
     total: 12,
     total_pages: 2,
-    data: menu,
+    result: menu,
   };
 });
 Mock.mock(/\/api\/products/, "get", (options) => {
@@ -58,7 +58,7 @@ Mock.mock(/\/api\/products/, "get", (options) => {
     per_page: 6,
     total: 12,
     total_pages: 2,
-    data: products,
+    result: products,
   };
 });
 Mock.mock("/api/login", "post", function (req: any, res: any) {

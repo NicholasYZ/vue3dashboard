@@ -2,31 +2,40 @@
 import { ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { i18next } from "@/i18n";
-import { useExport, useQuery } from "@/utils";
+import { useExport } from "@/utils";
 import type { ObjProps } from "@/types";
 
-const props = defineProps(["view", "columns", "search", "url"]);
 const route = useRoute();
 const router = useRouter();
-const child = ref<InstanceType<any> | null>(null);
-const { data, reload } = useQuery(props.url || "/products");
 
-props.search.fields.forEach((i: any) => {
-  props.search.formData!.value[i.prop] = route.query[i.prop] || "";
-});
+const props = defineProps(["config", "dataSource"]);
+const emit = defineEmits(["reload", "add"]);
+
+const initFormData = (
+  { fields }: { fields: any[] },
+  defaultData: { [key: string]: any }
+) => {
+  const form: any = {};
+  fields.forEach((i: any) => {
+    form[i.prop] = defaultData[i.prop] || "";
+  });
+  return form;
+};
+
+const searchForm: any = ref(initFormData(props.config.search, route.query));
 
 const exportToCsv = useExport();
 
 const checkedColumns = ref<string[]>(
-  props.columns.map((i: ObjProps) => i.prop)
+  props.config.columns.map((i: ObjProps) => i.prop)
 );
 
 const filterColumns = computed(() => {
-  return props.columns.filter((i: ObjProps) => i.prop !== "operation");
+  return props.config.columns.filter((i: ObjProps) => i.prop !== "operation");
 });
 
 const computedColumns = computed(() => {
-  return props.columns.filter(
+  return props.config.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
@@ -41,16 +50,11 @@ const onPageChange = (page: number) => {
   });
 };
 
-const onSearch = async (form: ObjProps) => {
-  const query: ObjProps = {};
+const onSearch = async (query: ObjProps) => {
+  const { path } = route;
   try {
-    for (let prop in form.value) {
-      if (form.value[prop]) {
-        query[prop] = form.value[prop];
-      }
-    }
     router.push({
-      path: route.path,
+      path,
       query,
     });
   } catch (error) {
@@ -59,45 +63,16 @@ const onSearch = async (form: ObjProps) => {
 };
 
 const onReset = () => {
+  const { path } = route;
   router.push({
-    path: route.path,
+    path,
     query: {},
   });
 };
 
 const onExport = () => {
-  const title = i18next.t(route.name as string);
-  exportToCsv(data.value.result, title);
+  exportToCsv(props.dataSource.result, "title");
 };
-
-const onAdd = () => {
-  props.view!.formData.value = {};
-  child.value.toggleModel();
-};
-const onView = (form: ObjProps) => {
-  props.view!.formData.value = { ...form };
-  child.value.toggleModel();
-};
-const onEdit = (form: ObjProps) => {
-  props.view!.formData.value = { ...form };
-  child.value.toggleModel();
-};
-const onDel = (form: ObjProps) => {
-  props.view!.formData.value = { ...form };
-  child.value.toggleModel();
-};
-const onSave = async (form: ObjProps) => {
-  child.value.toggleModel();
-  reload();
-};
-
-defineExpose({
-  onAdd,
-  onView,
-  onEdit,
-  onDel,
-  onSave,
-});
 </script>
 <template>
   <div class="vd-list">
@@ -105,7 +80,12 @@ defineExpose({
       class="vd-list-bar flex md:flex-row flex-col md:mb-0 mb-4 justify-between"
     >
       <div class="vd-search">
-        <vd-form :config="search" @submit="onSearch" @reset="onReset" />
+        <vd-search
+          :config="config.search"
+          :form="searchForm"
+          @submit="onSearch"
+          @reset="onReset"
+        />
       </div>
       <div class="flex md:justify-end justify-center items-center mb-4">
         <el-popover trigger="hover">
@@ -124,7 +104,7 @@ defineExpose({
             </p>
           </el-checkbox-group>
         </el-popover>
-        <vd-pill @click="onAdd">
+        <vd-pill @click="emit('add')">
           <Icon icon="Plus" />
         </vd-pill>
         <vd-pill @click="onExport">
@@ -132,18 +112,20 @@ defineExpose({
         </vd-pill>
       </div>
     </div>
-    <vd-card v-loading="data.loading">
+    <vd-card v-loading="dataSource.loading">
       <vd-table
         :columns="computedColumns"
-        :dataSource="data.result"
+        :dataSource="dataSource.result"
         class="mb-6"
       >
         <template v-for="(index, name) in $slots" v-slot:[name]="{ row }">
           <slot :name="name" :row="row"></slot>
         </template>
       </vd-table>
-      <vd-pagination @onPageChange="onPageChange" :pageInfo="data.pageInfo" />
+      <vd-pagination
+        @onPageChange="onPageChange"
+        :pageInfo="dataSource.pageInfo"
+      />
     </vd-card>
   </div>
-  <vd-view v-if="view" ref="child" :config="view" @onSave="onSave" />
 </template>

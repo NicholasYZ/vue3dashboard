@@ -1,79 +1,74 @@
 <script setup lang="ts">
 import { ref } from "vue";
-const config = {
-  title: "Form 表单",
-  extra: ["submit"],
-  fields: [
-    {
-      prop: "username",
-      name: "用户名",
-      placeholder: "username",
-      value: "xiaoqing",
-      type: "text",
-    },
-    {
-      prop: "gender",
-      type: "radio",
-      value: "1",
-      dict: {
-        "1": "male",
-        "2": "female",
-      },
-      placeholder: "gender",
-    },
-    {
-      prop: "city",
-      type: "select",
-      value: "1",
-      dict: {
-        "1": "beijing",
-        "2": "shanghai",
-        "3": "guangzhou",
-      },
-      placeholder: "city",
-    },
-    {
-      prop: "nickname",
-      type: "text",
-      value: "xiao",
-      placeholder: "nickname",
-      rows: 5,
-    },
-    {
-      prop: "intro",
-      type: "textarea",
-      value: "I am an experienced frontend developer.",
-      placeholder: "intro",
-      rows: 5,
-    },
-  ],
-  rules: {
-    username: [{ required: true }],
-    gender: [{ required: true }],
-    city: [{ required: true }],
-    nickname: [{ required: true }],
-    intro: [{ required: true }],
-  },
-  formData: ref<any>({}),
+import { useFetch, sleep } from "@/utils";
+import { ElMessage } from "element-plus";
+const { dataSource, loading } = useFetch("/users/1");
+type formProps = {
+  [key: string]: any;
 };
-const formData = ref({});
-const onSubmit = async (query: { [key: string]: any }) => {
+const config = ref({
+  title: "Form 表单",
+  form: ref<formProps>(dataSource),
+  rules: {
+    id: [{ required: true }],
+    name: [{ required: true }],
+    email: [{ required: true }],
+    first_name: [{ required: true }],
+    last_name: [{ required: true }],
+    avatar: [{ required: true }],
+  },
+});
+const onSave = async (query: { [key: string]: any }) => {
   try {
-    console.log("success");
     console.log(query);
+    loading.value = true;
+    await sleep(500);
+    ElMessage({
+      message: "Congrats, this is a success message.",
+      type: "success",
+    });
   } catch (error) {
     console.log(error);
+  } finally {
+    loading.value = false;
   }
 };
+console.log(dataSource)
 </script>
 <template>
-  <vd-card>
+  <vd-card v-loading="loading">
     <h2 class="text-2xl mb-6">{{ config.title }}</h2>
-    <vd-form
-      class="lg:w-1/2"
-      @submit="onSubmit"
-      :formData="formData"
-      :config="config"
-    ></vd-form>
+    <vd-form class="w-[50%]"  :config="config" @submit="onSave">
+      <vd-field
+        name="ID"
+        prop="id"
+        type="text"
+        v-model:val="config.form.id"
+        size="large"
+      />
+      <vd-field
+        name="Email"
+        prop="email"
+        type="text"
+        v-model:val="config.form.email"
+        size="large"
+      />
+      <vd-field
+        name="First Name"
+        prop="first_name"
+        type="text"
+        v-model:val="config.form.first_name"
+        size="large"
+      />
+      <vd-field
+        name="Avatar"
+        prop="avatar"
+        type="text"
+        v-model:val="config.form.avatar"
+        size="large"
+      >
+        <img :src="config.form.avatar" class="w-20 h-20 rounded" />
+      </vd-field>
+    </vd-form>
   </vd-card>
 </template>

@@ -1,38 +1,45 @@
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
 import { useQuery } from "@/utils";
-import { ref } from "vue";
 
-export function useList(path?: string) {
-  const { data, reload } = useQuery(path);
+export function useList(config: any) {
+  const route = useRoute();
   const isModelVisible = ref<boolean>(false);
-  const formData = ref<{ [key: string]: any }>({});
-  const edit = (row: { [key: string]: any }) => {
-    formData.value = row;
-    toggle(true);
+  const query = computed(() => {
+    return route.query;
+  });
+  const { data, reload } = useQuery({
+    path: config.url || route.path,
+    query,
+  });
+  const onDel = (form: any) => {
+    console.log(`${form.id} Deleted succussful`);
   };
-  const del = (row: { [key: string]: any }) => {
-    console.log(row);
+  const onView = (form: any) => {
+    config.view.form = { ...form };
+    isModelVisible.value = true;
   };
-  const view = (row: { [key: string]: any }) => {
-    console.log(row);
+  const onEdit = (form: any) => {
+    config.view.form = { ...form };
+    isModelVisible.value = true;
   };
-  const add = () => {
-    formData.value = {};
-    toggle(true);
-  };
-  const save = () => {
+  const onSave = (form: any) => {
+    isModelVisible.value = false;
+    console.log(form);
     reload();
-    toggle(false);
   };
-  const toggle = (type?: boolean) => {
-    isModelVisible.value = type || false;
-  };
-  const clear = () => {
-    formData.value = {};
+  const onAdd = () => {
+    isModelVisible.value = true;
   };
   return {
     data,
+    config: ref(config),
     isModelVisible,
-    formData,
-    methods: { add, view, edit, del, save, toggle, clear },
+    reload,
+    onDel,
+    onView,
+    onEdit,
+    onSave,
+    onAdd,
   };
 }

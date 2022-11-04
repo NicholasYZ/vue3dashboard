@@ -1,6 +1,14 @@
 <script setup lang="ts">
 import { computed } from "vue";
-const props = defineProps(["val", "item"]);
+const props = defineProps([
+  "val",
+  "prop",
+  "name",
+  "size",
+  "dict",
+  "type",
+  "rows",
+]);
 const emit = defineEmits(["update:val"]);
 const value = computed({
   get() {
@@ -12,46 +20,48 @@ const value = computed({
 });
 </script>
 <template>
-  <el-form-item :class="item.cls" :label="$t(item.prop)" :prop="item.prop">
-    <el-input
-      v-if="item.type === 'text' || !item.type"
-      :size="item.size || 'large'"
-      v-model="value"
-      :placeholder="$t(item.prop)"
-      type="text"
-    />
-
-    <el-select
-      v-if="item.type === 'select'"
-      v-model="value"
-      :placeholder="$t(item.prop)"
-      :size="item.size || 'large'"
-    >
-      <el-option
-        v-for="(val, key) in item.dict"
-        :key="key"
-        :label="$t(val)"
-        :value="key"
+  <el-form-item :label="$t(name)" :prop="prop">
+    <slot>
+      <el-input
+        v-if="type === 'text' || !type"
+        :size="size || 'large'"
+        v-model="value"
+        :placeholder="$t(prop)"
+        type="text"
       />
-    </el-select>
 
-    <el-input
-      v-if="item.type === 'textarea'"
-      v-model="value"
-      :rows="item.rows"
-      type="textarea"
-      :placeholder="$t(item.prop)"
-    />
-
-    <el-radio-group v-if="item.type === 'radio'" v-model="value">
-      <el-radio
-        :size="item.size"
-        v-for="(val, key) in item.dict"
-        :key="key"
-        :label="key"
+      <el-select
+        v-if="type === 'select'"
+        v-model="value"
+        :placeholder="$t(prop)"
+        :size="size || 'large'"
       >
-        {{ $t(val) }}
-      </el-radio>
-    </el-radio-group>
+        <el-option
+          v-for="(val, key) in dict"
+          :key="key"
+          :label="$t(val)"
+          :value="key"
+        />
+      </el-select>
+
+      <el-input
+        v-if="type === 'textarea'"
+        v-model="value"
+        :rows="rows"
+        type="textarea"
+        :placeholder="$t(prop)"
+      />
+
+      <el-radio-group v-if="type === 'radio'" v-model="value">
+        <el-radio
+          :size="size"
+          v-for="(val, key) in dict"
+          :key="key"
+          :label="key"
+        >
+          {{ $t(val) }}
+        </el-radio>
+      </el-radio-group>
+    </slot>
   </el-form-item>
 </template>

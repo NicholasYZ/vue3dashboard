@@ -1,17 +1,32 @@
 <script setup lang="tsx">
-import { ref } from "vue";
-const config = {
+import { reactive } from "vue";
+import { useList } from "@/utils";
+/**
+ * List Config
+ */
+const {
+  data,
+  config,
+  isModelVisible,
+  reload,
+  onDel,
+  onAdd,
+  onEdit,
+  onView,
+  onSave,
+} = useList({
   url: "/users",
   search: {
     title: "Form 表单",
-    extra: [],
     inline: true,
     fields: [
       {
+        name: "UserName",
         prop: "username",
         placeholder: "UserName",
       },
       {
+        name: "City",
         prop: "city",
         placeholder: "city",
         type: "select",
@@ -22,7 +37,6 @@ const config = {
         },
       },
     ],
-    formData: ref<any>({}),
   },
   columns: [
     {
@@ -46,57 +60,25 @@ const config = {
     },
   ],
   view: {
-    title: "Form 表单",
-    extra: ["submit"],
-    fields: [
-      {
-        prop: "name",
-        name: "name",
-        placeholder: "name",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "color",
-        name: "color",
-        placeholder: "color",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "pantone_value",
-        name: "pantone_value",
-        placeholder: "pantone_value",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "year",
-        name: "year",
-        placeholder: "year",
-        type: "text",
-        rules: [{ required: true }],
-      },
-    ],
+    form: reactive({
+      id: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      avatar: "https://reqres.in/img/faces/5-image.jpg",
+    }),
     rules: {
-      name: [{ required: true }],
-      color: [{ required: true }],
-      pantone_value: [{ required: true }],
-      year: [{ required: true }],
+      id: [{ required: true }],
+      email: [{ required: true }],
+      first_name: [{ required: true }],
+      last_name: [{ required: true }],
+      avatar: [{ required: true }],
     },
-    formData: ref<any>({}),
   },
-};
-const child = ref<InstanceType<any> | null>(null);
+});
 </script>
 <template>
-  <vd-list
-    ref="child"
-    :columns="config.columns"
-    :search="config.search"
-    :view="config.view"
-    :url="config.url"
-  >
+  <vd-list @reload="reload" @add="onAdd" :dataSource="data" :config="config">
     <template #avatar="{ row }">
       <img
         class="w-10 h-10 rounded-full"
@@ -105,15 +87,49 @@ const child = ref<InstanceType<any> | null>(null);
       />
     </template>
     <template v-slot:operation="{ row }">
-      <el-button @click="child.onView(row)" size="small" type="success" round>
+      <el-button @click="onView(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="child.onEdit(row)" size="small" type="primary" round>
+      <el-button @click="onEdit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="child.onDel(row)" size="small" type="danger" round>
+      <el-button @click="onDel(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
   </vd-list>
+  <vd-view v-model="isModelVisible" title="表单">
+    <vd-form :config="config.view" @submit="onSave">
+      <vd-field
+        name="ID"
+        prop="id"
+        type="text"
+        v-model:val="config.view.form.id"
+        size="large"
+      />
+      <vd-field
+        name="Email"
+        prop="email"
+        type="text"
+        v-model:val="config.view.form.email"
+        size="large"
+      />
+      <vd-field
+        name="First Name"
+        prop="first_name"
+        type="text"
+        v-model:val="config.view.form.first_name"
+        size="large"
+      />
+      <vd-field
+        name="Avatar"
+        prop="avatar"
+        type="text"
+        v-model:val="config.view.form.avatar"
+        size="large"
+      >
+        <img :src="config.view.form.avatar" class="w-20 h-20 rounded" />
+      </vd-field>
+    </vd-form>
+  </vd-view>
 </template>

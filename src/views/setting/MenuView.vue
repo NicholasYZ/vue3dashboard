@@ -1,10 +1,21 @@
 <script setup lang="tsx">
-import { ref } from "vue";
-const config = {
+import { computed } from "vue";
+import { useList } from "@/utils";
+const {
+  data,
+  config,
+  isModelVisible,
+  reload,
+  onDel,
+  onAdd,
+  onEdit,
+  onView,
+  onSave,
+} = useList({
   url: "/menu",
   search: {
     title: "Form 表单",
-    extra: [],
+    extra: ["submit", "reset"],
     inline: true,
     fields: [
       {
@@ -22,7 +33,6 @@ const config = {
         },
       },
     ],
-    formData: ref<any>({}),
   },
   columns: [
     {
@@ -33,13 +43,20 @@ const config = {
     },
     {
       prop: "permissions",
+      formatter: (record: any) => {
+        return (
+          <el-icon>
+            <icon icon={record.icon} />
+          </el-icon>
+        );
+      },
     },
     {
       prop: "icon",
       formatter: (record: any) => {
         return (
           <el-icon>
-            <icon icon={record.meta.icon} />
+            <icon icon={record.icon} />
           </el-icon>
         );
       },
@@ -51,73 +68,76 @@ const config = {
   ],
   view: {
     title: "Form 表单",
-    extra: ["submit"],
-    fields: [
-      {
-        prop: "name",
-        name: "name",
-        placeholder: "name",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "path",
-        name: "path",
-        placeholder: "path",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "permissions",
-        name: "permissions",
-        placeholder: "permissions",
-        type: "text",
-        rules: [{ required: true }],
-      },
-      {
-        prop: "year",
-        name: "year",
-        placeholder: "year",
-        type: "text",
-        rules: [{ required: true }],
-      },
-    ],
+    form: {
+      id: "",
+      name: "",
+      path: "",
+      permissions: "",
+    },
     rules: {
       name: [{ required: true }],
-      color: [{ required: true }],
-      pantone_value: [{ required: true }],
-      year: [{ required: true }],
+      path: [{ required: true }],
+      permissions: [{ required: true }],
     },
-    formData: ref<any>({}),
   },
-};
-const child = ref<InstanceType<any> | null>(null);
+});
+const dataSource = computed(() => {
+  return {
+    ...data.value,
+    result: data.value.result.map(({ name, path, meta }: any) => {
+      const { icon, permissions } = meta;
+      return {
+        name,
+        path,
+        permissions,
+        icon,
+      };
+    }),
+  };
+});
 </script>
 <template>
   <vd-list
-    ref="child"
-    :columns="config.columns"
-    :search="config.search"
-    :view="config.view"
-    :url="config.url"
+    @reload="reload"
+    @add="onAdd"
+    :dataSource="dataSource"
+    :config="config"
   >
-    <template #operation="{ row }">
-      <el-button @click="child.onView(row)" size="small" type="success" round>
+    <template v-slot:operation="{ row }">
+      <el-button @click="onView(row)" size="small" type="success" round>
         {{ $t("view") }}
       </el-button>
-      <el-button @click="child.onEdit(row)" size="small" type="primary" round>
+      <el-button @click="onEdit(row)" size="small" type="primary" round>
         {{ $t("edit") }}
       </el-button>
-      <el-button @click="child.onDel(row)" size="small" type="danger" round>
+      <el-button @click="onDel(row)" size="small" type="danger" round>
         {{ $t("del") }}
       </el-button>
     </template>
-    <template #permissions="scope">
-      {{ scope.row.meta.permissions }}
-    </template>
-    <template #name="scope">
-      {{ $t(scope.row.name) }}
-    </template>
   </vd-list>
-  <vd-view :config="config.view" />
+  <vd-view v-model="isModelVisible" title="表单">
+    <vd-form :config="config.view" @submit="onSave">
+      <vd-field
+        name="ID"
+        prop="id"
+        type="text"
+        v-model:val="config.view.form.name"
+        size="large"
+      />
+      <vd-field
+        name="Email"
+        prop="email"
+        type="text"
+        v-model:val="config.view.form.path"
+        size="large"
+      />
+      <vd-field
+        name="First Name"
+        prop="first_name"
+        type="text"
+        v-model:val="config.view.form.permissions"
+        size="large"
+      />
+    </vd-form>
+  </vd-view>
 </template>

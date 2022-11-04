@@ -1,6 +1,5 @@
-import { watch, ref, isRef, computed } from "vue";
-import { useRoute } from "vue-router";
-import Qs from "qs";
+import { watch, ref, isRef } from "vue";
+import type { Ref } from "vue";
 import { sleep } from "@/utils";
 import { getList } from "@/api";
 
@@ -12,12 +11,8 @@ type resProps = {
   };
 };
 
-export function useQuery(path?: string) {
-  const route = useRoute();
-  const URL = computed(() => {
-    return path ? `${path}?${Qs.stringify(route.query)}` : route.fullPath;
-  });
-
+export function useQuery(route: { path: string; query: Ref<any> }) {
+  const { query, path } = route;
   const data = ref<resProps>({
     result: [],
     loading: false,
@@ -30,15 +25,10 @@ export function useQuery(path?: string) {
   });
   const reload = async () => {
     data.value.loading = true;
-    const {
-      data: result,
-      support,
-      ...pageInfo
-    } = await getList({
-      url: URL.value,
-      params: {},
+    const { result, ...pageInfo } = await getList({
+      path,
+      query: query.value,
     });
-    console.log(pageInfo)
     await sleep(500);
     data.value = {
       result,
@@ -46,8 +36,8 @@ export function useQuery(path?: string) {
       pageInfo,
     };
   };
-  if (isRef(URL)) {
-    watch(URL, reload);
+  if (isRef(route.query)) {
+    watch(route.query, reload);
   }
   reload();
   return { data, reload };

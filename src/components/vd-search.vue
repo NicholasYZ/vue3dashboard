@@ -1,33 +1,99 @@
 <script setup lang="ts">
-defineProps(["config"]);
+import type { FormInstance } from "element-plus";
+import { computed, ref } from "vue";
+import { useSettingStore } from "@/store";
+import { sleep } from "@/utils";
+
+const store = useSettingStore();
+const props = defineProps(["config", "form"]);
+const emit = defineEmits(["submit", "cancel", "reset"]);
+const loading = ref(false);
+const formRef = ref<FormInstance>();
+
+const onSubmit = async (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  try {
+    await formEl.validate();
+    await sleep(200);
+    emit("submit", props.form);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const onReset = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  emit("reset");
+};
+
+const onCancel = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  emit("cancel");
+};
+
+const isInline = computed(() => {
+  const isMobile = store.setting.deviceType === "mobile";
+  return props.config.inline && !isMobile;
+});
 </script>
 <template>
-  <div class="vd-search">
-    <vd-form :config="config" />
-  </div>
+  <el-form
+    :model="form"
+    :inline="isInline"
+    :rules="config.rules"
+    :label-width="!isInline ? '120px' : ''"
+    ref="formRef"
+    v-loading="loading"
+  >
+    <vd-field
+      v-for="item in config.fields"
+      :key="item.prop"
+      :rows="item.rows"
+      :name="item.prop"
+      v-model:val="form![item.prop]"
+    />
+    <el-form-item>
+      <el-button
+        size="large"
+        auto-insert-space
+        @click="onSubmit(formRef)"
+        type="primary"
+        round
+      >
+        {{ $t("confirm") }}
+      </el-button>
+      <el-button
+        size="large"
+        @click="onReset(formRef)"
+        auto-insert-space
+        type="default"
+        round
+      >
+        {{ $t("reset") }}
+      </el-button>
+      <!-- <el-button
+        size="large"
+        @click="onCancel(formRef)"
+        auto-insert-space
+        type="default"
+        round
+      >
+        {{ $t("cancel") }}
+      </el-button> -->
+    </el-form-item>
+  </el-form>
 </template>
 
-<!-- <template>
-  <div class="vd-search">
-    <el-form  :inline="true">
-      <el-form-item>
-        <el-input size="large" placeholder="Please input">
-          <template #prepend>
-            <el-select size="large" class="w-[100px]" placeholder="Select">
-              <el-option label="Restaurant" value="1" />
-              <el-option label="Order No." value="2" />
-              <el-option label="Tel" value="3" />
-            </el-select>
-          </template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-form-item>
-          <el-button size="large" type="primary">
-            {{ $t("confirm") }}
-          </el-button>
-        </el-form-item>
-      </el-form-item>
-    </el-form>
-  </div>
-</template> -->
+<style lang="scss">
+.el-form--inline {
+  .el-form-item {
+    margin-right: 12px;
+    &__label {
+      height: 40px;
+      line-height: 40px;
+    }
+  }
+}
+</style>
