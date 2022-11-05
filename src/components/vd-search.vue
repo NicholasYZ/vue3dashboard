@@ -52,6 +52,7 @@ const isInline = computed(() => {
       :key="item.prop"
       :rows="item.rows"
       :name="item.prop"
+      :prop="item.prop"
       v-model:val="form![item.prop]"
     />
     <el-form-item>

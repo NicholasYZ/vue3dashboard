@@ -3,7 +3,7 @@ import type { FormInstance } from "element-plus";
 import { ref } from "vue";
 import { sleep } from "@/utils";
 
-const props = defineProps(["config"]);
+const props = defineProps(["form", "rules"]);
 const emit = defineEmits(["submit", "reset"]);
 const loading = ref(false);
 const formRef = ref<FormInstance>();
@@ -13,7 +13,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   try {
     await formEl.validate();
     await sleep(200);
-    emit("submit", props.config.form);
+    emit("submit", props.form);
   } catch (error) {
     console.log(error);
   }
@@ -27,8 +27,8 @@ const onReset = (formEl: FormInstance | undefined) => {
 </script>
 <template>
   <el-form
-    :model="config.form"
-    :rules="config.rules"
+    :model="form"
+    :rules="rules"
     label-width="120px"
     ref="formRef"
     v-loading="loading"

@@ -8,8 +8,8 @@ import type { ObjProps } from "@/types";
 const route = useRoute();
 const router = useRouter();
 
-const props = defineProps(["config", "dataSource"]);
-const emit = defineEmits(["reload", "add"]);
+const props = defineProps(["tableConfig", "formConfig", "dataSource"]);
+const emit = defineEmits(["reload"]);
 
 const initFormData = (
   { fields }: { fields: any[] },
@@ -22,20 +22,27 @@ const initFormData = (
   return form;
 };
 
-const searchForm: any = ref(initFormData(props.config.search, route.query));
+const form = ref<any>(props.formConfig.form);
+const isModelVisible = ref<boolean>(false);
+
+const searchForm: any = ref(
+  initFormData(props.tableConfig.search, route.query)
+);
 
 const exportToCsv = useExport();
 
 const checkedColumns = ref<string[]>(
-  props.config.columns.map((i: ObjProps) => i.prop)
+  props.tableConfig.columns.map((i: ObjProps) => i.prop)
 );
 
 const filterColumns = computed(() => {
-  return props.config.columns.filter((i: ObjProps) => i.prop !== "operation");
+  return props.tableConfig.columns.filter(
+    (i: ObjProps) => i.prop !== "operation"
+  );
 });
 
 const computedColumns = computed(() => {
-  return props.config.columns.filter(
+  return props.tableConfig.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
@@ -73,6 +80,41 @@ const onReset = () => {
 const onExport = () => {
   exportToCsv(props.dataSource.result, "title");
 };
+
+const onAdd = () => {
+  form.value = {};
+  isModelVisible.value = true;
+};
+
+const onEdit = (item: any) => {
+  form.value = item;
+  isModelVisible.value = true;
+};
+
+const onView = (item: any) => {
+  form.value = item;
+  isModelVisible.value = true;
+};
+
+const onDel = (item: any) => {
+  form.value = item;
+  isModelVisible.value = true;
+};
+
+const onSave = (item: any) => {
+  console.log(item);
+  emit("reload");
+  isModelVisible.value = false;
+};
+
+defineExpose({
+  onAdd,
+  onSave,
+  onEdit,
+  onView,
+  onDel,
+  isModelVisible,
+});
 </script>
 <template>
   <div class="vd-list">
@@ -81,7 +123,7 @@ const onExport = () => {
     >
       <div class="vd-search">
         <vd-search
-          :config="config.search"
+          :config="tableConfig.search"
           :form="searchForm"
           @submit="onSearch"
           @reset="onReset"
@@ -104,7 +146,7 @@ const onExport = () => {
             </p>
           </el-checkbox-group>
         </el-popover>
-        <vd-pill @click="emit('add')">
+        <vd-pill @click="onAdd">
           <Icon icon="Plus" />
         </vd-pill>
         <vd-pill @click="onExport">
@@ -118,7 +160,7 @@ const onExport = () => {
         :dataSource="dataSource.result"
         class="mb-6"
       >
-        <template v-for="(index, name) in $slots" v-slot:[name]="{ row }">
+        <template v-for="(index, name) in $slots" #[name]="{ row }">
           <slot :name="name" :row="row"></slot>
         </template>
       </vd-table>
@@ -128,4 +170,5 @@ const onExport = () => {
       />
     </vd-card>
   </div>
+  <slot name="view" :form="form" :rules="formConfig.rules"></slot>
 </template>

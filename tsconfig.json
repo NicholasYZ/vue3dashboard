@@ -14,5 +14,6 @@
   ],
   "compilerOptions": {
     "types": ["element-plus/global"],
+    "strictNullChecks": false
   },
 }

@@ -33,12 +33,11 @@ const onSave = async (query: { [key: string]: any }) => {
     loading.value = false;
   }
 };
-console.log(dataSource)
 </script>
 <template>
   <vd-card v-loading="loading">
     <h2 class="text-2xl mb-6">{{ config.title }}</h2>
-    <vd-form class="w-[50%]"  :config="config" @submit="onSave">
+    <vd-form :config="config" @submit="onSave">
       <vd-field
         name="ID"
         prop="id"
