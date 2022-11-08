@@ -146,6 +146,7 @@ const optionBar = ref<EChartsOption>({
       color="#95cb72"
       icon="Money"
       num="5655"
+      class="hover:shadow-lg transition-shadow duration-500"
     />
     <vd-statistic
       title="Total Vistors"
