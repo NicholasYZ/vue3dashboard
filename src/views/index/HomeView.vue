@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
-import { ref, onMounted } from "vue";
-import { getList } from "@/api";
-import { sleep } from "@/utils";
-
+import { ref } from "vue";
+import { useList } from "@/utils";
+const { data, reload } = useList("/products");
 const columns = [
   {
     prop: "id",
@@ -21,29 +20,6 @@ const columns = [
     prop: "year",
   },
 ];
-const dataSource = ref<any[]>([]);
-const loading = ref<boolean>(true);
-
-onMounted(() => {
-  getData();
-});
-
-const getData = async () => {
-  try {
-    const { data } = await getList({
-      url: "/products.json",
-      params: {
-        page: 1,
-      },
-    });
-    await sleep(200);
-    dataSource.value = data;
-  } catch (error: any) {
-    console.log(error);
-  } finally {
-    loading.value = false;
-  }
-};
 
 const optionLine = ref<EChartsOption>({
   grid: {
@@ -179,6 +155,7 @@ const optionBar = ref<EChartsOption>({
       class="hover:shadow-lg transition-shadow duration-500"
     />
   </div>
+
   <div
     class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-6 text-sm mb-6"
   >
@@ -187,10 +164,7 @@ const optionBar = ref<EChartsOption>({
     <vd-chart class="h-[340px]" autoresize :option="optionLine" />
   </div>
 
-  <vd-card>
-    <h2 class="text-xl mb-4 text-slate-600 leading-none">Records</h2>
-    <vd-table :loading="loading" :columns="columns" :dataSource="dataSource" />
-  </vd-card>
+  <vd-simple-table title="Records" :columns="columns" :data="data" />
 </template>
 
 <style></style>

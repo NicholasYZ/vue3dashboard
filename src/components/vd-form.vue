@@ -22,7 +22,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  emit("reset");
+  // emit("reset");
 };
 </script>
 <template>

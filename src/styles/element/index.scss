@@ -33,5 +33,11 @@ $--colors: (
   $message: (
     'bg-color':#000,
     'border-color': getCssVar('color', 'info', 'light-9')
+  ),
+  $border-radius: (
+    'base': 8px,
+    'small': 4px,
+    'round': 20px,
+    'circle': 100%,
   )
 );

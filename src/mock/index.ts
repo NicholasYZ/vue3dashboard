@@ -6,6 +6,7 @@ import { roles } from "./system/roles";
 import { users } from "./users/index";
 import { user } from "./users/user";
 import { products } from "./products/index";
+import { system } from "./system/system";
 
 const getQuery = (url: string, name: any) => {
   const index = url.indexOf("?");
@@ -31,6 +32,7 @@ Mock.mock(/\/api\/roles/, "get", (options) => {
   };
 });
 Mock.mock(/\/api\/users\/1/, "get", user);
+Mock.mock(/\/api\/system/, "get", system);
 Mock.mock(/\/api\/users/, "get", (options) => {
   const page = Number(getQuery(options.url, "page"));
   return {

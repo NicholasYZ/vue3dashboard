@@ -4,13 +4,10 @@ import { useRouter, useRoute } from "vue-router";
 import { i18next } from "@/i18n";
 import { useExport } from "@/utils";
 import type { ObjProps } from "@/types";
-
 const route = useRoute();
 const router = useRouter();
-
 const props = defineProps(["tableConfig", "formConfig", "dataSource"]);
 const emit = defineEmits(["reload"]);
-
 const initFormData = (
   { fields }: { fields: any[] },
   defaultData: { [key: string]: any }
@@ -21,32 +18,25 @@ const initFormData = (
   });
   return form;
 };
-
 const form = ref<any>(props.formConfig.form);
 const isModelVisible = ref<boolean>(false);
-
 const searchForm: any = ref(
   initFormData(props.tableConfig.search, route.query)
 );
-
 const exportToCsv = useExport();
-
 const checkedColumns = ref<string[]>(
   props.tableConfig.columns.map((i: ObjProps) => i.prop)
 );
-
 const filterColumns = computed(() => {
   return props.tableConfig.columns.filter(
     (i: ObjProps) => i.prop !== "operation"
   );
 });
-
 const computedColumns = computed(() => {
   return props.tableConfig.columns.filter(
     (i: ObjProps) => checkedColumns.value.indexOf(i.prop) > -1
   );
 });
-
 const onPageChange = (page: number) => {
   router.push({
     path: route.path,
@@ -56,7 +46,6 @@ const onPageChange = (page: number) => {
     },
   });
 };
-
 const onSearch = async (query: ObjProps) => {
   const { path } = route;
   try {
@@ -68,7 +57,6 @@ const onSearch = async (query: ObjProps) => {
     console.log(error);
   }
 };
-
 const onReset = () => {
   const { path } = route;
   router.push({
@@ -76,37 +64,30 @@ const onReset = () => {
     query: {},
   });
 };
-
 const onExport = () => {
-  exportToCsv(props.dataSource.result, "title");
+  // exportToCsv(props.dataSource.result, "title");
 };
-
 const onAdd = () => {
   form.value = {};
   isModelVisible.value = true;
 };
-
 const onEdit = (item: any) => {
   form.value = item;
   isModelVisible.value = true;
 };
-
 const onView = (item: any) => {
   form.value = item;
   isModelVisible.value = true;
 };
-
 const onDel = (item: any) => {
   form.value = item;
   isModelVisible.value = true;
 };
-
 const onSave = (item: any) => {
   console.log(item);
   emit("reload");
   isModelVisible.value = false;
 };
-
 defineExpose({
   onAdd,
   onSave,

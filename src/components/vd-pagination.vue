@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { useRoute, useRouter } from "vue-router";
 defineProps(["pageInfo"]);
-const emit = defineEmits(["onPageChange"]);
-const handleCurrentPageChange = (num: number) => {
-  emit("onPageChange", num);
+const route = useRoute();
+const router = useRouter();
+const onChange = (page: number) => {
+  router.push({
+    path: route.path,
+    query: {
+      ...route.query,
+      page,
+    },
+  });
 };
 </script>
 <template>
@@ -12,7 +20,7 @@ const handleCurrentPageChange = (num: number) => {
       :current-page="pageInfo.page"
       :total="pageInfo.total"
       background
-      @current-change="handleCurrentPageChange"
+      @current-change="onChange"
     />
   </div>
 </template>

@@ -37,9 +37,10 @@ const locales = {
     setting: {
       index: "Setting",
       info: "Info",
-      role: "Role",
+      roles: "Roles",
       menu: "Menu",
       users: "Users",
+      system: "Setting"
     },
     pages: {
       index: "Pages",
@@ -101,9 +102,10 @@ const locales = {
     setting: {
       index: "设置",
       info: "个人中心",
-      role: "角色管理",
+      roles: "角色管理",
       menu: "菜单管理",
       users: "用户管理",
+      system: "系统管理",
     },
     pages: {
       index: "页面",

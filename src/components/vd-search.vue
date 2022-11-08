@@ -1,21 +1,32 @@
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
-import { computed, ref } from "vue";
-import { useSettingStore } from "@/store";
+import { ref } from "vue";
 import { sleep } from "@/utils";
+import { useRouter, useRoute } from "vue-router";
 
-const store = useSettingStore();
-const props = defineProps(["config", "form"]);
-const emit = defineEmits(["submit", "cancel", "reset"]);
+defineProps(["config"]);
+
 const loading = ref(false);
 const formRef = ref<FormInstance>();
+const router = useRouter();
+const route = useRoute();
+const { path, query } = route;
+const form = ref<{ [key: string]: any }>({});
+
+for (let prop in query) {
+  form.value[prop] = query[prop];
+}
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   try {
     await formEl.validate();
     await sleep(200);
-    emit("submit", props.form);
+    form.value.page = 1;
+    router.push({
+      path,
+      query: form.value,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -24,67 +35,61 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
 const onReset = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  emit("reset");
+  form.value = {};
+  router.push({
+    path,
+    query: form.value,
+  });
 };
-
-const onCancel = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  emit("cancel");
-};
-
-const isInline = computed(() => {
-  const isMobile = store.setting.deviceType === "mobile";
-  return props.config.inline && !isMobile;
-});
 </script>
 <template>
-  <el-form
-    :model="form"
-    :inline="isInline"
-    :rules="config.rules"
-    :label-width="!isInline ? '120px' : ''"
-    ref="formRef"
-    v-loading="loading"
-  >
-    <vd-field
-      v-for="item in config.fields"
-      :key="item.prop"
-      :rows="item.rows"
-      :name="item.prop"
-      :prop="item.prop"
-      v-model:val="form![item.prop]"
-    />
-    <el-form-item>
-      <el-button
-        size="large"
-        auto-insert-space
-        @click="onSubmit(formRef)"
-        type="primary"
-        round
-      >
-        {{ $t("confirm") }}
-      </el-button>
-      <el-button
-        size="large"
-        @click="onReset(formRef)"
-        auto-insert-space
-        type="default"
-        round
-      >
-        {{ $t("reset") }}
-      </el-button>
-      <!-- <el-button
-        size="large"
-        @click="onCancel(formRef)"
-        auto-insert-space
-        type="default"
-        round
-      >
-        {{ $t("cancel") }}
-      </el-button> -->
-    </el-form-item>
-  </el-form>
+  <div>
+    <el-form :model="form" inline ref="formRef" v-loading="loading">
+      <el-form-item v-for="field in config" :key="field.prop">
+        <el-input
+          v-if="field.type === 'text' || !field.type"
+          :size="field.size || 'large'"
+          v-model="form[field.prop]"
+          :placeholder="$t(field.placeholder)"
+          type="text"
+        />
+
+        <el-select
+          v-if="field.type === 'select' || !field.type"
+          v-model="form[field.prop]"
+          style="width: 100%"
+          :placeholder="$t(field.placeholder)"
+          :size="field.size || 'large'"
+        >
+          <el-option
+            v-for="(val, key) in field.dict"
+            :key="key"
+            :label="$t(val)"
+            :value="key"
+          />
+        </el-select>
+      </el-form-item>
+
+      <el-form-item>
+        <el-button
+          size="large"
+          auto-insert-space
+          @click="onSubmit(formRef)"
+          type="primary"
+        >
+          {{ $t("confirm") }}
+        </el-button>
+        <el-button
+          size="large"
+          @click="onReset(formRef)"
+          auto-insert-space
+          type="default"
+        >
+          {{ $t("reset") }}
+        </el-button>
+      </el-form-item>
+    </el-form>
+  </div>
 </template>
 
 <style lang="scss">

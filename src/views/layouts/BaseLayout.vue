@@ -7,11 +7,9 @@ import { useDevice } from "@/utils";
 import BaseSidebar from "@/views/layouts/BaseSidebar.vue";
 import BaseHeader from "@/views/layouts/BaseHeader.vue";
 
-const router = useRoute();
+const route = useRoute();
 const store = useSettingStore();
-const currRouteName = computed(
-  () => router.matched.slice(-1)[0].name as string
-);
+const currRouteName = computed(() => route.matched.slice(-1)[0].name as string);
 
 useDevice();
 

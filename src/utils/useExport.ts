@@ -15,11 +15,12 @@ const options = {
 };
 
 export function useExport() {
-  return (dataSource: any, title: string) => {
+  const onExport = (dataSource: any, title: string) => {
     const now = dayjs().format("YYYY-MM-DD HH:mm:ss");
     options.title = title;
     options.filename = `${title}-${now}`;
     const csvExporter = new ExportToCsv(options);
     csvExporter.generateCsv(dataSource);
   };
+  return { onExport };
 }

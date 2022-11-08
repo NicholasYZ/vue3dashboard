@@ -14,7 +14,7 @@ const handleLanguage = (language: string) => {
   <div
     class="vd-header z-40 h-[60px] transition-all flex items-center justify-between border-b bg-gray-50 border-gray-200 px-4"
   >
-    <div class="flex">
+    <div class="flex items-center justify-between">
       <el-icon
         class="cursor-pointer"
         @click.stop="handleSidebarStatus"
