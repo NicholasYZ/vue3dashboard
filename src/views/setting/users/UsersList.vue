@@ -20,16 +20,27 @@
       :data="data.result"
       class="mb-6"
     >
-      <el-table-column prop="id" :label="$t('tableTitle.id')" />
-      <el-table-column prop="email" :label="$t('tableTitle.email')" />
-      <el-table-column prop="first_name" :label="$t('tableTitle.first_name')" />
-      <el-table-column prop="last_name" :label="$t('tableTitle.last_name')" />
-      <el-table-column prop="avatar" :label="$t('tableTitle.avatar')">
+      <el-table-column prop="id"  width="80" :label="$t('tableTitle.id')" />
+      <el-table-column prop="avatar" width="200" :label="$t('tableTitle.avatar')">
         <template #default="{ row }">
           <img :src="row.avatar" class="w-10 h-10 rounded" />
         </template>
       </el-table-column>
-
+      <el-table-column prop="username" width="200" :label="$t('tableTitle.username')" />
+      <el-table-column prop="roles" :label="$t('tableTitle.roles')">
+        <template #default="{ row }">
+          <el-tag
+            :key="item"
+            class="mx-1"
+            round
+            effect="dark"
+            v-for="item in row.roles"
+          >
+            {{ item }}
+          </el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column prop="email" :label="$t('tableTitle.email')" />
       <el-table-column width="200px" :label="$t('tableTitle.operation')">
         <template #default="{ row }">
           <el-button size="small" @click="handleEdit(row)" type="primary" round>

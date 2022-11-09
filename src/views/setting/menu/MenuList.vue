@@ -72,25 +72,30 @@ const config = {
     },
   ],
 };
+
 const dataSource = computed(() => {
-  return data.value.result.map(({ name, id, path, meta }: any) => {
-    const { icon, permissions } = meta;
-    return {
-      id,
-      name,
-      path,
-      permissions,
-      icon,
-    };
-  });
+  const loadMenu = (arr: any[]): any => {
+    return arr.map(({ name, id, path, children = [], meta }: any) => {
+      const { icon, permissions } = meta;
+      return {
+        id,
+        name,
+        path,
+        permissions,
+        icon,
+        children: loadMenu(children),
+      };
+    });
+  };
+  return loadMenu(data.value.result);
 });
-console.log(dataSource)
+
 const handleAdd = () => {
   viewRef.value?.showForm();
 };
 
 const handleEdit = (row: any) => {
-  viewRef.value?.showForm(row);
+  viewRef.value?.showForm(row, "edit");
 };
 
 const handleDel = (row: any) => {};

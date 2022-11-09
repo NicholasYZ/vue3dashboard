@@ -48,6 +48,7 @@ const isSidebarOpened = computed(() => {
         :collapse-transition="false"
         :collapse="settingStore.setting.sidebarStatus === 'close'"
         router
+        unique-opened
         style="--el-menu-hover-bg-color: #1e293b"
       >
         <el-sub-menu

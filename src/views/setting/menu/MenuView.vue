@@ -15,20 +15,49 @@
       label-width="80px"
       :rules="rules"
     >
-      <vd-field
-        name="ID"
-        prop="id"
-        type="text"
-        v-model:val="form.id"
-        size="large"
-      />
-      <vd-field
-        name="Type"
-        prop="type"
-        type="select"
-        v-model:val="form.type"
-        size="large"
-      />
+      <el-row>
+        <vd-field
+          name="ID"
+          prop="id"
+          type="text"
+          v-model:val="form.id"
+          size="large"
+          v-if="formType !== 'add'"
+        />
+        <vd-field name="Pid" prop="pid" v-model:val="form.pid" size="large">
+          <el-tree-select
+            v-model="form.pid"
+            :data="treeData"
+            :render-after-expand="false"
+            :check-strictly="true"
+            size="large"
+            style="width: 100%"
+          />
+        </vd-field>
+        <vd-field
+          name="Name"
+          prop="name"
+          type="text"
+          v-model:val="form.name"
+          size="large"
+        />
+        <vd-field
+          name="Icon"
+          prop="icon"
+          type="text"
+          v-model:val="form.icon"
+          size="large"
+        >
+          <vd-icon-box :icon="form.icon" />
+        </vd-field>
+        <vd-field
+          name="Path"
+          prop="path"
+          type="text"
+          v-model:val="form.path"
+          size="large"
+        />
+      </el-row>
     </el-form>
     <template #footer>
       <el-button
@@ -56,22 +85,24 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { FormInstance } from "element-plus";
-
+import { getMenu } from "@/api";
 defineProps(["title"]);
 
 const isModelVisible = ref<boolean>(false);
 const loading = ref(false);
 const formRef = ref<FormInstance>();
+const formType = ref<string>("add");
 
-type formProps = {
-  id: string;
-  type: string;
+type treeProps = {
+  value: string;
+  label: string;
+  children: treeProps;
 };
 
-const form = ref<formProps>({
-  id: "",
-  type: "",
-});
+type formProps = { [key: string]: any };
+
+const treeData = ref<treeProps>({} as treeProps);
+const form = ref<formProps>({} as formProps);
 
 const rules = {
   id: [{ required: true }],
@@ -97,8 +128,25 @@ const onReset = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
 };
 
-const showForm = (item = { id: "", type: "" }) => {
+const loadTree = async () => {
+  const { result } = await getMenu();
+  const loadMenu = (arr: any[]): any => {
+    return arr.map(({ id, children = [], meta }: any) => {
+      const { title } = meta;
+      return {
+        value: id,
+        label: title,
+        children: loadMenu(children),
+      };
+    });
+  };
+  return loadMenu(result);
+};
+
+const showForm = async (item = { id: "", type: "" }, type = "add") => {
+  treeData.value = await loadTree();
   isModelVisible.value = true;
+  formType.value = type;
   form.value = { ...item };
 };
 

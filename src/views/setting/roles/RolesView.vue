@@ -28,11 +28,23 @@
       <vd-field
         name="Type"
         prop="type"
-        type="select"
+        type="text"
         :span="24"
         v-model:val="form.type"
         size="large"
       />
+      <vd-field name="Menu" prop="menu" v-model:val="form.menu" size="large">
+        <el-tree-select
+          v-model="form.menu"
+          :data="treeData"
+          :render-after-expand="false"
+          :check-strictly="true"
+          multiple
+          show-checkbox
+          size="large"
+          style="width: 100%"
+        />
+      </vd-field>
     </el-form>
     <template #footer>
       <el-button
@@ -60,21 +72,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { FormInstance } from "element-plus";
+import { getMenu } from "@/api";
 
 const isModelVisible = ref<boolean>(false);
 const loading = ref(false);
 const formRef = ref<FormInstance>();
 const formType = ref<string>("add");
 
-type formProps = {
-  id: string;
-  type: string;
+type treeProps = {
+  value: string;
+  label: string;
+  children: treeProps;
 };
 
-const form = ref<formProps>({
-  id: "",
-  type: "",
-});
+type formProps = { [key: string]: any };
+
+const treeData = ref<treeProps>({} as treeProps);
+const form = ref<formProps>({} as formProps);
 
 const rules = {
   id: [{ required: true }],
@@ -100,11 +114,28 @@ const onReset = (formEl: FormInstance | undefined) => {
   formEl.resetFields();
 };
 
-const showForm = (item = { id: "", type: "" }, type = "add") => {
+const loadTree = async () => {
+  const { result } = await getMenu();
+  const loadMenu = (arr: any[]): any => {
+    return arr.map(({ id, children = [], meta }: any) => {
+      const { title } = meta;
+      return {
+        value: id,
+        label: title,
+        children: loadMenu(children),
+      };
+    });
+  };
+  return loadMenu(result);
+};
+
+const showForm = async (item = { id: "", type: "" }, type = "add") => {
+  treeData.value = await loadTree();
   isModelVisible.value = true;
   formType.value = type;
   form.value = { ...item };
 };
+
 
 defineExpose({
   showForm,
