@@ -58,13 +58,13 @@
 import { ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
-import { useAuthStore } from "@/store";
+import { useUserStore } from "@/store";
 import { sleep } from "@/utils";
 import { Login } from "@/api";
 
 const router = useRouter();
 const route = useRoute();
-const authStore = useAuthStore();
+const authStore = useUserStore();
 
 const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();

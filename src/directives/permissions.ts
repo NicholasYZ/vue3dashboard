@@ -1,11 +1,11 @@
 import type { DirectiveBinding } from "vue";
 type CurElement = HTMLInputElement | HTMLTextAreaElement;
 
-import { useAuthStore } from "@/store";
+import { useUserStore } from "@/store";
 
 export default {
   mounted(el: CurElement, binding: DirectiveBinding) {
-    const authStore = useAuthStore();
+    const authStore = useUserStore();
     if (binding.value.indexOf(authStore.userInfo.role) < 0) {
       el.remove();
     }

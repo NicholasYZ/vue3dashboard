@@ -26,16 +26,21 @@
         size="large"
       />
       <vd-field
-        name="Type"
+        name="角色名"
         prop="type"
         type="text"
         :span="24"
         v-model:val="form.type"
         size="large"
       />
-      <vd-field name="Menu" prop="menu" v-model:val="form.menu" size="large">
+      <vd-field
+        name="菜单"
+        prop="menu"
+        v-model:val="form.permissions"
+        size="large"
+      >
         <el-tree-select
-          v-model="form.menu"
+          v-model="form.permissions"
           :data="treeData"
           :render-after-expand="false"
           :check-strictly="true"
@@ -129,14 +134,18 @@ const loadTree = async () => {
   return loadMenu(result);
 };
 
-const showForm = async (item = { id: "", type: "" }, type = "add") => {
+const showForm = async (
+  item = { id: "", type: "", permissions: [] },
+  type = "add"
+) => {
   treeData.value = await loadTree();
   isModelVisible.value = true;
   formType.value = type;
-  form.value = { ...item };
+  form.value = {
+    ...item,
+    permissions: item.permissions.map((i: any) => i.id),
+  };
 };
-
-
 defineExpose({
   showForm,
 });

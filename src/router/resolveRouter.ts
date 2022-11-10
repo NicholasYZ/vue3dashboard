@@ -4,7 +4,7 @@ export const addRoutes = (asyncRoutes: any) => {
   const routes = filterAsyncRoutes(asyncRoutes);
   routes.forEach((route: any) => {
     if (!router.hasRoute(route.name)) {
-      router.addRoute("layout", route);
+      router.addRoute(route);
     }
   });
   if (!router.hasRoute("404")) {

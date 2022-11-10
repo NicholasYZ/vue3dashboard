@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import { getMenu } from "@/api";
 
 interface Menu {
-  name?: string;
+  name: string;
   path: string;
   component: string;
   redirect?: string;
@@ -14,11 +14,31 @@ interface Menu {
     permissions?: string[];
   };
 }
+
+const routesFilter = (routes: any, permissions: any) => {
+  const permissionIds = permissions.map(({ id }: { id: number }) => {
+    return id;
+  });
+  return routes
+    .filter((item: any) => {
+      const hasPermission = permissionIds.indexOf(item.id) > -1;
+      return hasPermission;
+    })
+    .map((item: any) => {
+      if (item.children && item.children.length) {
+        item.children = routesFilter(item.children, permissions);
+      }
+      return item;
+    });
+};
+
 export const useRouterStore = defineStore("router", () => {
-  const router = ref<Menu[]>([]);
-  const getRouter = async () => {
+  const routes = ref<Menu[]>([]);
+  const isLoaded = ref<boolean>(false);
+  const getRoutes = async (permissions: any[]) => {
     const { result } = await getMenu();
-    router.value = result;
+    routes.value = routesFilter(result, permissions);
+    isLoaded.value = true;
   };
-  return { router, getRouter };
+  return { routes, isLoaded, getRoutes };
 });

@@ -3,12 +3,11 @@ export const menu = [
     id: 1,
     name: "components.index",
     path: "/components",
-    component: "layouts/MainLayout",
+    component: "layouts/BaseLayout",
     redirect: "/components/list",
     meta: {
       title: "组件",
       icon: "Operation",
-      permissions: ["admin", "editor"],
     },
     children: [
       {
@@ -19,7 +18,6 @@ export const menu = [
         meta: {
           title: "列表",
           icon: "List",
-          permissions: ["admin", "editor"],
         },
       },
       {
@@ -30,7 +28,6 @@ export const menu = [
         meta: {
           title: "表单",
           icon: "DocumentCopy",
-          permissions: ["admin"],
         },
       },
       {
@@ -41,7 +38,6 @@ export const menu = [
         meta: {
           title: "表单",
           icon: "DocumentCopy",
-          permissions: ["admin"],
         },
       },
       {
@@ -52,7 +48,6 @@ export const menu = [
         meta: {
           title: "表单",
           icon: "DocumentCopy",
-          permissions: ["admin"],
         },
       },
     ],
@@ -61,12 +56,11 @@ export const menu = [
     id: 2,
     name: "setting.index",
     path: "/setting",
-    component: "layouts/MainLayout",
+    component: "layouts/BaseLayout",
     redirect: "setting/info",
     meta: {
       title: "设置",
       icon: "Setting",
-      permissions: ["admin"],
     },
     children: [
       {
@@ -77,7 +71,6 @@ export const menu = [
         meta: {
           title: "个人中心",
           icon: "User",
-          permissions: ["admin"],
         },
       },
       {
@@ -88,7 +81,6 @@ export const menu = [
         meta: {
           title: "角色管理",
           icon: "Monitor",
-          permissions: ["admin"],
         },
       },
       {
@@ -99,7 +91,6 @@ export const menu = [
         meta: {
           title: "菜单管理",
           icon: "Menu",
-          permissions: ["admin"],
         },
       },
       {
@@ -110,7 +101,6 @@ export const menu = [
         meta: {
           title: "用户管理",
           icon: "Avatar",
-          permissions: ["admin"],
         },
       },
       {
@@ -121,7 +111,6 @@ export const menu = [
         meta: {
           title: "系统管理",
           icon: "Setting",
-          permissions: ["admin"],
         },
       },
     ],
@@ -130,12 +119,11 @@ export const menu = [
     id: 3,
     name: "pages.index",
     path: "/pages",
-    component: "layouts/MainLayout",
+    component: "layouts/BaseLayout",
     redirect: "/pages/info",
     meta: {
       title: "页面",
       icon: "Setting",
-      permissions: ["admin"],
     },
     children: [
       {
@@ -146,7 +134,6 @@ export const menu = [
         meta: {
           title: "价签",
           icon: "PriceTag",
-          permissions: ["admin"],
         },
       },
     ],

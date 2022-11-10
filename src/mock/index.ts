@@ -8,6 +8,8 @@ import { user } from "./users/user";
 import { products } from "./products/index";
 import { system } from "./system/system";
 
+import { login } from "./auth/login";
+
 const getQuery = (url: string, name: any) => {
   const index = url.indexOf("?");
   if (index !== -1) {
@@ -70,8 +72,6 @@ Mock.mock("/api/login", "post", function (req: any, res: any) {
     type: 1,
     code: 200,
     msg: "登录成功",
-    result: {
-      token: "QpwL5tke4Pnpja7X4",
-    },
+    result: login,
   };
 });

@@ -1,7 +1,8 @@
 import NProgress from "nprogress";
+import { storeToRefs } from "pinia";
 import router from "@/router";
 import { addRoutes } from "@/router/resolveRouter";
-import { useAuthStore, useRouterStore, useSettingStore } from "@/store";
+import { useUserStore, useRouterStore, useSettingStore } from "@/store";
 
 import "nprogress/nprogress.css";
 
@@ -12,31 +13,25 @@ NProgress.configure({
 const whiteList: string[] = ["/login", "/no-permission"];
 
 router.beforeEach(async (to) => {
-  const store = useRouterStore();
-  const authStore = useAuthStore();
+  const routerStore = useRouterStore();
+  const userStore = useUserStore();
 
   NProgress.start();
 
   if (whiteList.indexOf(to.path) !== -1) {
     return true;
-  } else if (authStore.userInfo.token) {
-    if (store.router.length === 0) {
-      await store.getRouter();
-      addRoutes(store.router);
-      return to.fullPath;
-    } else {
-      if (
-        to.meta.permissions &&
-        to.meta.permissions.indexOf(authStore.userInfo.role as string) < 0
-      ) {
-        router.push("/no-permission");
-      } else {
-        return true;
-      }
-    }
-  } else {
+  }
+
+  if (!userStore.userInfo.token) {
     router.push("/login");
   }
+  if (routerStore.isLoaded) {
+    return true;
+  }
+  await routerStore.getRoutes(userStore.userInfo.permissions);
+  addRoutes(routerStore.routes);
+  console.log(routerStore.routes)
+  return to.fullPath;
 });
 
 router.afterEach((to) => {

@@ -5,15 +5,21 @@ const initUserData = JSON.parse(
   window.localStorage.getItem("userData") || "{}"
 );
 
+type permissionsProps = {
+  id: number;
+  label: string;
+};
+
 interface userInfoProps {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
   token?: string;
-  role?: string;
-  init?: boolean;
+  role: string;
+  init: boolean;
+  permissions: permissionsProps[];
 }
 
-export const useAuthStore = defineStore("auth", () => {
+export const useUserStore = defineStore("user", () => {
   const userInfo = ref<userInfoProps>(initUserData as userInfoProps);
   const saveUserData = (state: userInfoProps) => {
     userInfo.value = state;

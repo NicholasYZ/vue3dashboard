@@ -1,31 +1,10 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { useSettingStore, useRouterStore, useAuthStore } from "@/store";
+import { useSettingStore, useRouterStore } from "@/store";
 import { computed } from "vue";
 const settingStore = useSettingStore();
 const routerStore = useRouterStore();
-const authStore = useAuthStore();
 const route = useRoute();
-
-const menuFilter = (arr: any, str: any) => {
-  return arr
-    .filter((item: { children: any; meta: { permissions: any } }) => {
-      const {
-        meta: { permissions },
-      } = item;
-      const hasPermission =
-        permissions && permissions?.indexOf(str as string) > -1;
-      return hasPermission;
-    })
-    .map((item: any) => {
-      if (item.children && item.children.length) {
-        item.children = menuFilter(item.children, str);
-      }
-      return item;
-    });
-};
-
-const menu = menuFilter(routerStore.router, authStore.userInfo.role as string);
 
 const isSidebarOpened = computed(() => {
   return settingStore.setting.sidebarStatus === "open";
@@ -53,7 +32,7 @@ const isSidebarOpened = computed(() => {
       >
         <el-sub-menu
           popper-class="bg-slate-900 rounded-md px-2"
-          v-for="item in menu"
+          v-for="item in routerStore.routes"
           :key="item.name"
           :index="item.path"
         >
