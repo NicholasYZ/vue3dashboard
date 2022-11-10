@@ -30,7 +30,6 @@ router.beforeEach(async (to) => {
   }
   await routerStore.getRoutes(userStore.userInfo.permissions);
   addRoutes(routerStore.routes);
-  console.log(routerStore.routes)
   return to.fullPath;
 });
 
