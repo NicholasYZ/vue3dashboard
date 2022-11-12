@@ -1,42 +1,22 @@
 import { createRouter, createWebHistory } from "vue-router";
+import type { RouteRecordRaw } from "vue-router";
+import {
+  IndexRoute,
+  LoginRoute,
+  NoPermissionRoute,
+  ErrorRoute,
+} from "./constantRoutes";
+
+const routes: RouteRecordRaw[] = [
+  IndexRoute,
+  LoginRoute,
+  NoPermissionRoute,
+  ErrorRoute,
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: "/",
-      name: "layout",
-      component: () => import("@/views/layouts/BaseLayout.vue"),
-      redirect: "/index",
-      meta: {
-        permissions: ["admin", "editor"],
-      },
-      children: [
-        {
-          path: "/index",
-          component: () => import("@/views/index/HomeView.vue"),
-          name: "home",
-          meta: {
-            title: "首页",
-            icon: "index",
-            permissions: ["admin", "editor"],
-          },
-        },
-      ],
-    },
-    {
-      path: "/login",
-      name: "login",
-      meta: { title: "登录", icon: "index" },
-      component: () => import("@/views/auth/LoginView.vue"),
-    },
-    {
-      path: "/no-permission",
-      name: "no-permission",
-      meta: { title: "没有权限", icon: "index" },
-      component: () => import("@/views/errors/NoPermission.vue"),
-    },
-  ],
+  routes,
 });
 
 export default router;

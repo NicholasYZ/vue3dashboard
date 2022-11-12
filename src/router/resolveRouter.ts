@@ -7,16 +7,6 @@ export const addRoutes = (asyncRoutes: any) => {
       router.addRoute(route);
     }
   });
-  if (!router.hasRoute("404")) {
-    router.addRoute({
-      path: "/:catchAll(.*)",
-      name: "404",
-      meta: {
-        title: "404",
-      },
-      component: () => import("@/views/errors/NotFound.vue"),
-    });
-  }
 };
 
 const _modules = import.meta.glob("../views/**/*.vue");

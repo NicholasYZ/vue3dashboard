@@ -7,12 +7,12 @@ interface Menu {
   path: string;
   component: string;
   redirect?: string;
-  children?: Menu[];
   meta: {
     icon?: string;
     title?: string;
     permissions?: string[];
   };
+  children?: Menu[];
 }
 
 const routesFilter = (routes: any, permissions: any) => {
