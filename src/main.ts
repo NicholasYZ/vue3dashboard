@@ -4,11 +4,9 @@ import router from "@/router";
 import ElementPlus from "element-plus";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import { I18NextVue, i18next } from "@/i18n";
-// import VueGtag from "vue-gtag";
 import "element-plus/dist/index.css";
 import "virtual:svg-icons-register";
 import App from "@/App.vue";
-import "@/router/permission";
 import "@/mock";
 import "@/assets/main.scss";
 
@@ -21,13 +19,7 @@ app.use(directives); // 调用安装指令
 app.use(ElementPlus);
 app.use(createPinia());
 app.use(router);
-// app.use(
-//   VueGtag,
-//   {
-//     config: { id: "G-FB8YMFEX89" },
-//   },
-//   router
-// );
+
 import "@/components";
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
@@ -46,8 +38,13 @@ const Icon = (props: { icon: string }) => {
 // eslint-disable-next-line vue/multi-word-component-names
 app.component("Icon", Icon);
 
-app.config.globalProperties.$log = (text: string): void => {
-  console.log(text);
-};
-
 app.mount("#app");
+
+// import VueGtag from "vue-gtag";
+// app.use(
+//   VueGtag,
+//   {
+//     config: { id: "G-FB8YMFEX89" },
+//   },
+//   router
+// );

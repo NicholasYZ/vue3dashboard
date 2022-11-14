@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteRecordRaw, Router } from "vue-router";
+import { setupRouterGuards } from "./routerGuards";
 import {
   IndexRoute,
   LoginRoute,
@@ -14,9 +15,11 @@ const routes: RouteRecordRaw[] = [
   ErrorRoute,
 ];
 
-const router = createRouter({
+const router: Router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
+
+setupRouterGuards(router);
 
 export default router;
