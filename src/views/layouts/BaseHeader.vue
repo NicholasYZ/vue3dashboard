@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { i18next } from "@/i18n";
+import { useRouter } from "vue-router";
 import { useSettingStore } from "@/store";
+import { i18next } from "@/i18n";
+import { storage } from "@/utils";
+
+const router = useRouter();
 const store = useSettingStore();
 const handleSidebarStatus = () => {
   store.setSidebarStatus();
@@ -8,6 +12,10 @@ const handleSidebarStatus = () => {
 const handleLanguage = (language: string) => {
   store.setLanguage(language);
   i18next.changeLanguage(language);
+};
+const handleLogout = () => {
+  storage.clear();
+  router.push("/login");
 };
 </script>
 <template>
@@ -46,9 +54,9 @@ const handleLanguage = (language: string) => {
         <template #dropdown>
           <el-dropdown-menu>
             <el-dropdown-item icon="SwitchButton">
-              <router-link class="text-slate-500 pl-2 text-base" to="/login">
+              <p class="text-slate-500 pl-2 text-base" @click="handleLogout">
                 {{ $t("logout") }}
-              </router-link>
+              </p>
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

@@ -35,10 +35,12 @@ const routesFilter = (routes: any, permissions: any) => {
 export const useRouterStore = defineStore("router", () => {
   const routes = ref<Menu[]>([]);
   const isLoaded = ref<boolean>(false);
+
   const getRoutes = async (permissions: any[]) => {
     const { result } = await getMenu();
     routes.value = routesFilter(result, permissions);
     isLoaded.value = true;
   };
+
   return { routes, isLoaded, getRoutes };
 });

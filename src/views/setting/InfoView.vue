@@ -1,24 +1,23 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { sleep } from "@/utils";
 import { useFetch } from "@/hooks";
+import { sleep } from "@/utils";
 import { ElMessage } from "element-plus";
 const { dataSource, loading } = useFetch("/users/1");
 type formProps = {
   [key: string]: any;
 };
-const config = ref({
-  title: "Form 表单",
-  form: ref<formProps>(dataSource),
-  rules: {
-    id: [{ required: true }],
-    name: [{ required: true }],
-    email: [{ required: true }],
-    first_name: [{ required: true }],
-    last_name: [{ required: true }],
-    avatar: [{ required: true }],
-  },
-});
+
+const form = ref<formProps>(dataSource);
+const rules = {
+  id: [{ required: true }],
+  name: [{ required: true }],
+  email: [{ required: true }],
+  first_name: [{ required: true }],
+  last_name: [{ required: true }],
+  avatar: [{ required: true }],
+};
+
 const onSave = async (query: { [key: string]: any }) => {
   try {
     console.log(query);
@@ -34,42 +33,47 @@ const onSave = async (query: { [key: string]: any }) => {
     loading.value = false;
   }
 };
-console.log(dataSource)
 </script>
 <template>
   <vd-card v-loading="loading">
-    <h2 class="text-2xl mb-6">{{ config.title }}</h2>
-    <vd-form :config="config" @submit="onSave">
+    <h2 class="text-2xl mb-6">表单</h2>
+    <el-form
+      v-loading="loading"
+      ref="formRef"
+      :model="form"
+      label-width="120px"
+      :rules="rules"
+    >
       <vd-field
         name="ID"
         prop="id"
         type="text"
-        v-model:val="config.form.id"
+        v-model:val="form.id"
         size="large"
       />
       <vd-field
         name="Email"
         prop="email"
         type="text"
-        v-model:val="config.form.email"
+        v-model:val="form.email"
         size="large"
       />
       <vd-field
         name="First Name"
         prop="first_name"
         type="text"
-        v-model:val="config.form.first_name"
+        v-model:val="form.first_name"
         size="large"
       />
       <vd-field
         name="Avatar"
         prop="avatar"
         type="text"
-        v-model:val="config.form.avatar"
+        v-model:val="form.avatar"
         size="large"
       >
-        <img :src="config.form.avatar" class="w-20 h-20 rounded" />
+        <img :src="form.avatar" class="w-20 h-20 rounded" />
       </vd-field>
-    </vd-form>
+    </el-form>
   </vd-card>
 </template>

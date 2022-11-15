@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import ElementPlus from "element-plus";
+import "virtual:svg-icons-register";
 
 import { I18NextVue, i18next } from "@/i18n";
 import directives from "@/directives";

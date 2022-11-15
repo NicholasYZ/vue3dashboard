@@ -1,3 +1,6 @@
+export { storage } from "./storage";
+export * as Storage from "./storage";
+
 export const sleep = (time: number) => {
   return new Promise<void>((resolve) => {
     setTimeout(() => {

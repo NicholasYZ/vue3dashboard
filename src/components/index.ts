@@ -1,6 +1,5 @@
 import { createVNode } from "vue";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
-import "virtual:svg-icons-register";
 
 import type { App } from "vue";
 type Module = { [key: string]: any };

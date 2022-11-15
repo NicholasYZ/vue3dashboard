@@ -37,7 +37,13 @@ const onSave = async (query: { [key: string]: any }) => {
 <template>
   <vd-card v-loading="loading">
     <h2 class="text-2xl mb-6">表单</h2>
-    <vd-form :form="form" :rules="rules" @submit="onSave">
+    <el-form
+      v-loading="loading"
+      ref="formRef"
+      :model="form"
+      label-width="120px"
+      :rules="rules"
+    >
       <vd-field
         name="ID"
         prop="id"
@@ -68,6 +74,6 @@ const onSave = async (query: { [key: string]: any }) => {
       >
         <img :src="form.avatar" class="w-20 h-20 rounded" />
       </vd-field>
-    </vd-form>
+    </el-form>
   </vd-card>
 </template>

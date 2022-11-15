@@ -1,29 +1,36 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+import { storage } from "@/utils";
+import { Login } from "@/api";
 
-const initUserData = JSON.parse(
-  window.localStorage.getItem("userData") || "{}"
-);
+const initUserData = storage.getItem("userData");
 
 type permissionsProps = {
   id: number;
   label: string;
 };
 
-interface userInfoProps {
+type userInfoProps = {
   username: string;
   password: string;
   token?: string;
   role: string;
   init: boolean;
   permissions: permissionsProps[];
-}
+};
+
+type LoginProps = {
+  username: string;
+  password: string;
+};
 
 export const useUserStore = defineStore("user", () => {
   const userInfo = ref<userInfoProps>(initUserData as userInfoProps);
-  const saveUserData = (state: userInfoProps) => {
-    userInfo.value = state;
-    window.localStorage.setItem("userData", JSON.stringify(state));
+  const userLogin = async (state: LoginProps) => {
+    const { result } = await Login(state);
+    userInfo.value = result;
+    storage.setItem("userData", result);
   };
-  return { userInfo, saveUserData };
+
+  return { userInfo, userLogin };
 });

@@ -67,7 +67,6 @@ Mock.mock(/\/api\/products/, "get", (options) => {
 });
 Mock.mock("/api/login", "post", function (req: any, res: any) {
   console.log(req);
-  console.log(res);
   return {
     type: 1,
     code: 200,

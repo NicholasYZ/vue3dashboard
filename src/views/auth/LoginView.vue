@@ -60,11 +60,10 @@ import { useRouter, useRoute } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { useUserStore } from "@/store";
 import { sleep } from "@/utils";
-import { Login } from "@/api";
 
 const router = useRouter();
 const route = useRoute();
-const authStore = useUserStore();
+const userStore = useUserStore();
 
 const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();
@@ -83,13 +82,7 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   loading.value = true;
   try {
     await formEl.validate();
-    const { result } = await Login(form);
-    console.log(result)
-    authStore.saveUserData({
-      ...result,
-      init: true,
-      role: "admin",
-    });
+    userStore.userLogin(form);
     await sleep(200);
     router.push({
       path: (route.query.redirect || "/") as string,
