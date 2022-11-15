@@ -20,13 +20,21 @@
       :data="data.result"
       class="mb-6"
     >
-      <el-table-column prop="id"  width="80" :label="$t('tableTitle.id')" />
-      <el-table-column prop="avatar" width="200" :label="$t('tableTitle.avatar')">
+      <el-table-column prop="id" width="80" :label="$t('tableTitle.id')" />
+      <el-table-column
+        prop="avatar"
+        width="200"
+        :label="$t('tableTitle.avatar')"
+      >
         <template #default="{ row }">
           <img :src="row.avatar" class="w-10 h-10 rounded" />
         </template>
       </el-table-column>
-      <el-table-column prop="username" width="200" :label="$t('tableTitle.username')" />
+      <el-table-column
+        prop="username"
+        width="200"
+        :label="$t('tableTitle.username')"
+      />
       <el-table-column prop="roles" :label="$t('tableTitle.roles')">
         <template #default="{ row }">
           <el-tag
@@ -62,7 +70,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useList, useExport } from "@/utils";
+import { useList, useExport } from "@/hooks";
 import UsersView from "./UsersView.vue";
 const { data, reload } = useList("/users");
 const { onExport } = useExport();

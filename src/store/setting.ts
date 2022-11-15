@@ -1,13 +1,13 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { deviceDetector } from "@/utils/deviceDetector";
+import { getDevice } from "@/utils";
 
 type SettingProps = {
   [key: string]: string;
 };
 
 export const useSettingStore = defineStore("setting", () => {
-  const deviceType = deviceDetector();
+  const deviceType = getDevice();
   const initalData: SettingProps = {
     sidebarStatus: "open",
     deviceType,

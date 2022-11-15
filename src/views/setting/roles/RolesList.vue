@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { useList, useExport } from "@/utils";
+import { useList, useExport } from "@/hooks";
 import RolesView from "./RolesView.vue";
 const { data, reload } = useList("/roles");
 const { onExport } = useExport();

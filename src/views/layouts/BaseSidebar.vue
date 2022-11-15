@@ -1,62 +1,28 @@
 <script setup lang="ts">
+import { toRefs } from "vue";
 import { useRoute } from "vue-router";
 import { useSettingStore, useRouterStore } from "@/store";
-import { computed } from "vue";
+import Menu from "@/views/layouts/components/BaseMenu.vue";
+import MenuItem from "@/views/layouts/components/BaseMenuItem.vue";
+
 const settingStore = useSettingStore();
 const routerStore = useRouterStore();
-const route = useRoute();
+const { routes } = toRefs(routerStore);
+const { setting } = toRefs(settingStore);
 
-const isSidebarOpened = computed(() => {
-  return settingStore.setting.sidebarStatus === "open";
-});
+const route = useRoute();
 </script>
 
 <template>
   <div class="vd-sidebar z-[1001] bg-slate-900 transition-all h-screen">
-    <p
+    <h1
       class="h-[60px] flex justify-center items-center border-b border-b-slate-800 text-center"
     >
       <router-link to="/" class="text-slate-50 text-xl">VD</router-link>
-    </p>
-    <el-scrollbar class="transition-all" :class="{ 'p-2': isSidebarOpened }">
-      <el-menu
-        text-color="#f8fafc"
-        active-text-color="#fbbf24"
-        background-color="bg-slate-900"
-        :default-active="route.path"
-        :collapse-transition="false"
-        :collapse="settingStore.setting.sidebarStatus === 'close'"
-        router
-        unique-opened
-        style="--el-menu-hover-bg-color: #1e293b"
-      >
-        <el-sub-menu
-          popper-class="bg-slate-900 rounded-md px-2"
-          v-for="item in routerStore.routes"
-          :key="item.name"
-          :index="item.path"
-        >
-          <template #title>
-            <el-icon>
-              <Icon :icon="item.meta.icon" />
-            </el-icon>
-            <span>{{ $t(item.name) }}</span>
-          </template>
-          <el-menu-item
-            style="--el-menu-hover-bg-color: #1e293b"
-            v-for="subItem in item.children"
-            :key="subItem.name"
-            :index="subItem.path"
-            class="my-1 rounded-md"
-          >
-            <el-icon>
-              <Icon :icon="subItem.meta.icon" />
-            </el-icon>
-            <span>{{ $t(subItem.name) }}</span>
-          </el-menu-item>
-        </el-sub-menu>
-      </el-menu>
-    </el-scrollbar>
+    </h1>
+    <Menu :active="route.path" :sidebarStatus="setting.sidebarStatus">
+      <MenuItem :key="item.name" :route="item" v-for="item in routes" />
+    </Menu>
   </div>
 </template>
 <style lang="scss">

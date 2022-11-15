@@ -1,13 +1,13 @@
 import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
 import { debounce } from "lodash";
 import { useSettingStore } from "@/store";
-import { deviceDetector } from "@/utils";
+import { getDevice } from "@/utils";
 
 const store = useSettingStore();
 
 export function useDevice() {
   const resizeWindow = debounce(() => {
-    const deviceType: string = deviceDetector();
+    const deviceType: string = getDevice();
     if (store.setting.deviceType !== "desktop" && deviceType === "desktop") {
       store.setSidebarStatus("open");
     } else if (deviceType === "mobile") {

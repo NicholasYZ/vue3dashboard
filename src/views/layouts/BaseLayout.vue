@@ -3,7 +3,8 @@ import { computed } from "vue";
 import { RouterView, useRoute } from "vue-router";
 
 import { useSettingStore } from "@/store";
-import { useDevice } from "@/utils";
+import { useDevice } from "@/hooks";
+
 import BaseSidebar from "@/views/layouts/BaseSidebar.vue";
 import BaseHeader from "@/views/layouts/BaseHeader.vue";
 

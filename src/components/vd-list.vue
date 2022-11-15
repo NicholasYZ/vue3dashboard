@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
-import { i18next } from "@/i18n";
-import { useExport } from "@/utils";
+import { useExport } from "@/hooks";
 import type { ObjProps } from "@/types";
 const route = useRoute();
 const router = useRouter();
@@ -114,7 +113,7 @@ defineExpose({
         <el-popover trigger="hover">
           <template #reference>
             <vd-pill>
-              <Icon icon="Filter" />
+              <vd-icon icon="Filter" />
             </vd-pill>
           </template>
           <el-checkbox-group v-model="checkedColumns">
@@ -128,10 +127,10 @@ defineExpose({
           </el-checkbox-group>
         </el-popover>
         <vd-pill @click="onAdd">
-          <Icon icon="Plus" />
+          <vd-icon icon="Plus" />
         </vd-pill>
         <vd-pill @click="onExport">
-          <Icon icon="Download" />
+          <vd-icon icon="Download" />
         </vd-pill>
       </div>
     </div>

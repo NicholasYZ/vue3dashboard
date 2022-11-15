@@ -25,7 +25,7 @@
       <el-table-column prop="icon" :label="$t('tableTitle.icon')">
         <template #default="{ row }">
           <el-icon>
-            <Icon :icon="row.icon" />
+            <vd-icon :icon="row.icon" />
           </el-icon>
         </template>
       </el-table-column>
@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { useList, useExport } from "@/utils";
+import { useList, useExport } from "@/hooks";
 import MenuView from "./MenuView.vue";
 const { data, reload } = useList("/menu");
 const { onExport } = useExport();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
 import { ref } from "vue";
-import { useList } from "@/utils";
+import { useList } from "@/hooks";
 const { data, reload } = useList("/products");
 const columns = [
   {

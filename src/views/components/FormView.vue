@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { useFetch, sleep } from "@/utils";
+import { useFetch } from "@/hooks";
+import { sleep } from "@/utils";
 import { ElMessage } from "element-plus";
 const { dataSource, loading } = useFetch("/users/1");
 type formProps = {

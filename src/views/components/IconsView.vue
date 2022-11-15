@@ -303,7 +303,7 @@ const icons = [
       class="flex justify-center items-center h-10 w-10 border border-slate-200 m-2 rounded-md text-slate-700"
     >
       <el-icon size="20px">
-        <Icon :icon="name" />
+        <vd-icon :icon="name" />
       </el-icon>
     </div>
   </vd-card>

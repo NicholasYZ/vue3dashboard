@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { useList, useExport } from "@/utils";
+import { useList, useExport } from "@/hooks";
 const { data } = useList("/products");
 const { onExport } = useExport();
 const config = {

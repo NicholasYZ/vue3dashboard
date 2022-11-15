@@ -1,6 +1,6 @@
 <template>
   <div>
-    <svg aria-hidden="true" class="vd-icon">
+    <svg aria-hidden="true" class="vd-svg-icon">
       <use :xlink:href="symbolId" :fill="color" />
     </svg>
   </div>
@@ -24,7 +24,7 @@ const props = defineProps({
 const symbolId = computed(() => `#${props.prefix}-${props.name}`);
 </script>
 <style scoped>
-.vd-icon {
+.vd-svg-icon {
   width: 1.2rem;
   height: 1.2rem;
   vertical-align: middle;

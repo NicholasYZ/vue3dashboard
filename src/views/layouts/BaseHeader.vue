@@ -20,7 +20,7 @@ const handleLanguage = (language: string) => {
         @click.stop="handleSidebarStatus"
         color="text-gray-900"
       >
-        <Icon
+        <vd-icon
           :icon="store.setting.sidebarStatus !== 'open' ? 'Expand' : 'Fold'"
         />
       </el-icon>
@@ -29,7 +29,7 @@ const handleLanguage = (language: string) => {
     <div class="flex">
       <el-dropdown @command="handleLanguage" trigger="click">
         <p class="flex items-center cursor-pointer">
-          <vd-icon color="#333" name="language" />
+          <vd-svg-icon color="#333" name="language" />
         </p>
         <template #dropdown>
           <el-dropdown-menu>
@@ -40,7 +40,7 @@ const handleLanguage = (language: string) => {
       </el-dropdown>
       <el-dropdown trigger="click">
         <p class="flex items-center cursor-pointer">
-          <el-icon><User /></el-icon>
+          <el-icon><vd-icon icon="User" /></el-icon>
           <span class="text-slate-500 pl-2 text-base">admin</span>
         </p>
         <template #dropdown>

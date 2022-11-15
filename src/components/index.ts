@@ -1,3 +1,7 @@
+import { createVNode } from "vue";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
+import "virtual:svg-icons-register";
+
 import type { App } from "vue";
 type Module = { [key: string]: any };
 
@@ -14,7 +18,21 @@ export default {
       //组件实例
       const component: Module = COMS[key].default;
       //全局注册
-      Vue.component(name, component);
+      Vue.component(`vd-${name}`, component);
     });
+
+    // 注册所有Element Icon
+    // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    //   Vue.component(key, component);
+    // }
+
+    // 创建Icon组件
+    const Icon = (props: { icon: string }) => {
+      const { icon } = props;
+      return createVNode(
+        ElementPlusIconsVue[icon as keyof typeof ElementPlusIconsVue]
+      );
+    };
+    Vue.component("vd-icon", Icon);
   },
 };

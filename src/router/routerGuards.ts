@@ -1,6 +1,6 @@
 import NProgress from "nprogress";
 import type { Router } from "vue-router";
-import { addRoutes } from "@/router/resolveRouter";
+import { addRoutes } from "@/router/createAsyncRoutes";
 import { useUserStore, useRouterStore, useSettingStore } from "@/store";
 import "nprogress/nprogress.css";
 
@@ -39,7 +39,7 @@ export const setupRouterGuards = (router: Router) => {
     if (store.setting.deviceType === "mobile") {
       store.setSidebarStatus("close");
     }
-    NProgress.done();
     document.title = `${to.meta.title} - VD`;
+    NProgress.done();
   });
 };
