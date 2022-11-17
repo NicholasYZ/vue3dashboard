@@ -8,7 +8,7 @@ export default {
   mounted(el: CurElement, binding: DirectiveBinding) {
     const hasPermission = ref<boolean>(false);
     const store = useUserStore();
-    store.userInfo.roles.forEach((i: string) => {
+    store.userData.roles.forEach((i: string) => {
       if (binding.value.indexOf(i) > -1) {
         hasPermission.value = true;
       }

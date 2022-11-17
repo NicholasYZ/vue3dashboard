@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useSettingStore } from "@/store";
+import { useSettingStore, useUserStore, useRouterStore } from "@/store";
 import { i18next } from "@/i18n";
-import { storage } from "@/utils";
 
 const router = useRouter();
-const store = useSettingStore();
+const settingStore = useSettingStore();
+const userStore = useUserStore();
+const routerStore = useRouterStore();
 const handleSidebarStatus = () => {
-  store.setSidebarStatus();
+  settingStore.setSidebarStatus();
 };
 const handleLanguage = (language: string) => {
-  store.setLanguage(language);
+  settingStore.setLanguage(language);
   i18next.changeLanguage(language);
 };
 const handleLogout = () => {
-  storage.clear();
+  userStore.logout();
+  routerStore.reset();
   router.push("/login");
 };
 </script>
@@ -29,7 +31,9 @@ const handleLogout = () => {
         color="text-gray-900"
       >
         <vd-icon
-          :icon="store.setting.sidebarStatus !== 'open' ? 'Expand' : 'Fold'"
+          :icon="
+            settingStore.setting.sidebarStatus !== 'open' ? 'Expand' : 'Fold'
+          "
         />
       </el-icon>
     </div>

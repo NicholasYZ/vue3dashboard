@@ -63,7 +63,6 @@ import { sleep } from "@/utils";
 
 const router = useRouter();
 const route = useRoute();
-const userStore = useUserStore();
 
 const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();
@@ -78,11 +77,12 @@ const rules = reactive<FormRules>({
 });
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
+  const store = useUserStore();
   if (!formEl) return;
   loading.value = true;
   try {
     await formEl.validate();
-    userStore.userLogin(form);
+    await store.login(form);
     await sleep(200);
     router.push({
       path: (route.query.redirect || "/") as string,

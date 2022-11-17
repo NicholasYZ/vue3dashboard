@@ -42,5 +42,9 @@ export const useRouterStore = defineStore("router", () => {
     isLoaded.value = true;
   };
 
-  return { routes, isLoaded, getRoutes };
+  const reset = () => {
+    isLoaded.value = false;
+  };
+
+  return { routes, isLoaded, getRoutes, reset };
 });

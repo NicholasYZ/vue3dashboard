@@ -24,12 +24,19 @@ type LoginProps = {
 };
 
 export const useUserStore = defineStore("user", () => {
-  const userInfo = ref<userInfoProps>(initUserData as userInfoProps);
-  const userLogin = async (state: LoginProps) => {
+  const userData = ref<userInfoProps>(initUserData as userInfoProps);
+
+  const login = async (state: LoginProps) => {
     const { result } = await Login(state);
-    userInfo.value = result;
+    userData.value = result;
     storage.setItem("userData", result);
+    return Promise.resolve(result);
   };
 
-  return { userInfo, userLogin };
+  const logout = () => {
+    userData.value = {} as userInfoProps;
+    storage.removeItem("userData");
+  };
+
+  return { userData, login, logout };
 });
