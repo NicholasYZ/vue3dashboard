@@ -41,6 +41,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     VdBreadcrumb: typeof import('./src/components/vd-breadcrumb.vue')['default']
     VdCard: typeof import('./src/components/vd-card.vue')['default']
+    VdCardChart: typeof import('./src/components/vd-card-chart.vue')['default']
     VdChart: typeof import('./src/components/vd-chart.vue')['default']
     VdField: typeof import('./src/components/vd-field.vue')['default']
     VdForm: typeof import('./src/components/vd-form.vue')['default']
