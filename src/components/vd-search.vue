@@ -75,6 +75,7 @@ const onReset = (formEl: FormInstance | undefined) => {
           size="large"
           auto-insert-space
           @click="onSubmit(formRef)"
+          round
           type="primary"
         >
           {{ $t("confirm") }}
@@ -83,6 +84,7 @@ const onReset = (formEl: FormInstance | undefined) => {
           size="large"
           @click="onReset(formRef)"
           auto-insert-space
+          round
           type="default"
         >
           {{ $t("reset") }}

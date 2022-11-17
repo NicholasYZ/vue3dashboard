@@ -1,29 +1,48 @@
 <script setup lang="ts">
 import type { EChartsOption } from "echarts";
 import { ref } from "vue";
+const optionLine = ref<EChartsOption>({
+  grid: {
+    bottom: "25px",
+    left: "30px",
+    right: "0",
+  },
+  title: {
+    text: "Sales Data",
+    // left: "center",
+  },
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [10, 230, 224, 618, 135, 147, 760],
+      type: "line",
+    },
+  ],
+});
+
 const optionPie = ref<EChartsOption>({
   title: {
     text: "Sales Data",
     // left: "center",
   },
-  grid: {
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-  },
   tooltip: {
     trigger: "item",
   },
   legend: {
-    bottom: 0,
     left: "center",
+    top: "bottom",
   },
   series: [
     {
       name: "Access From",
       type: "pie",
-      radius: ["40%", "70%"],
+      radius: ["25%", "55%"],
       avoidLabelOverlap: false,
       itemStyle: {
         borderRadius: 10,
@@ -54,7 +73,42 @@ const optionPie = ref<EChartsOption>({
     },
   ],
 });
+
+const optionBar = ref<EChartsOption>({
+  grid: {
+    bottom: "25px",
+    left: "30px",
+    right: "0",
+  },
+  title: {
+    text: "Weekday",
+    // left: "center",
+  },
+  xAxis: {
+    type: "category",
+    data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+  },
+  yAxis: {
+    type: "value",
+  },
+  series: [
+    {
+      data: [120, 200, 150, 80, 70, 110, 130],
+      type: "bar",
+      showBackground: true,
+      backgroundStyle: {
+        color: "rgba(180, 180, 180, 0.2)",
+      },
+    },
+  ],
+});
 </script>
 <template>
-  <vd-chart autoresize class="h-[340px]" :option="optionPie" />
+  <div
+    class="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-3 gap-6 text-sm mb-6"
+  >
+    <vd-chart autoresize class="h-[340px]" :option="optionLine" />
+    <vd-chart autoresize class="h-[340px]" :option="optionPie" />
+    <vd-chart autoresize class="h-[340px]" :option="optionBar" />
+  </div>
 </template>

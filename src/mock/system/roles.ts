@@ -55,6 +55,14 @@ export const roles = [
         id: 31,
         label: "价签",
       },
+      {
+        id: 4,
+        label: "页面",
+      },
+      {
+        id: 41,
+        label: "价签",
+      },
     ],
   },
   {

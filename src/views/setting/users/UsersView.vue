@@ -52,7 +52,6 @@
         @click="onSubmit(formRef)"
         auto-insert-space
         type="primary"
-        round
       >
         {{ $t("confirm") }}
       </el-button>
@@ -61,7 +60,6 @@
         @click="onReset(formRef)"
         auto-insert-space
         type="default"
-        round
       >
         {{ $t("reset") }}
       </el-button>

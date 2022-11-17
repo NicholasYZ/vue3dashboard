@@ -44,6 +44,7 @@ declare module '@vue/runtime-core' {
     VdChart: typeof import('./src/components/vd-chart.vue')['default']
     VdField: typeof import('./src/components/vd-field.vue')['default']
     VdForm: typeof import('./src/components/vd-form.vue')['default']
+    VdFormButton: typeof import('./src/components/vd-form-button.vue')['default']
     VdIcon: typeof import('./src/components/vd-icon.vue')['default']
     VdIconBox: typeof import('./src/components/vd-icon-box.vue')['default']
     VdList: typeof import('./src/components/vd-list.vue')['default']
@@ -54,6 +55,7 @@ declare module '@vue/runtime-core' {
     VdStatistic: typeof import('./src/components/vd-statistic.vue')['default']
     VdSvgIcon: typeof import('./src/components/vd-svg-icon.vue')['default']
     VdTag: typeof import('./src/components/vd-tag.vue')['default']
+    VdToast: typeof import('./src/components/vd-toast.vue')['default']
     VdView: typeof import('./src/components/vd-view.vue')['default']
   }
   export interface ComponentCustomProperties {

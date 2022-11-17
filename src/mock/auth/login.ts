@@ -1,6 +1,5 @@
 export const login = {
   username: "admin",
-  role: "admin",
   password: "Iamxiaoqing@0",
   token: "login:ok",
   roles: ["admin"],
@@ -24,6 +23,10 @@ export const login = {
     {
       id: 14,
       label: "图标",
+    },
+    {
+      id: 15,
+      label: "富文本编辑器",
     },
     {
       id: 2,

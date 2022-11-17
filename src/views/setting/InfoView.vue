@@ -35,7 +35,7 @@ const onSave = async (query: { [key: string]: any }) => {
 };
 </script>
 <template>
-  <vd-card v-loading="loading">
+  <vd-card class="lg:w-[50%]" v-loading="loading">
     <h2 class="text-2xl mb-6">表单</h2>
     <el-form ref="formRef" :model="form" label-width="120px" :rules="rules">
       <vd-field

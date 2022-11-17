@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ElMessage } from "element-plus";
 const icons = [
   "Plus",
   "Minus",
@@ -294,17 +295,41 @@ const icons = [
   "SwitchFilled",
   "WindPower",
 ];
+const onSelect = (name: string, svg?: string) => {
+  let icon = `<vd-icon icon="${name}" />`;
+  if (svg) {
+    icon = `<vd-svg-icon icon="${name}" />`;
+  }
+  window.navigator.clipboard.writeText(icon).then(() => {
+    ElMessage({
+      message: `图标 ${name} 复制成功!`,
+      type: "success",
+    });
+  });
+};
 </script>
 <template>
-  <vd-card class="flex justify-center flex-wrap">
+  <h2 class="mb-4">Element Plus Icons</h2>
+  <vd-card class="flex flex-wrap mb-4">
     <div
       v-for="name in icons"
       :key="name"
-      class="flex justify-center items-center h-10 w-10 border border-slate-200 m-2 rounded-md text-slate-700"
+      class="flex justify-center items-center h-16 w-16 border border-slate-200 m-2 cursor-pointer rounded-md text-slate-700 hover:bg-slate-50"
+      @click="onSelect(name)"
     >
       <el-icon size="20px">
         <vd-icon :icon="name" />
       </el-icon>
+    </div>
+  </vd-card>
+
+  <h2 class="mb-4">Svg Icons</h2>
+  <vd-card class="flex flex-wrap">
+    <div
+      class="flex justify-center items-center h-16 w-16 border border-slate-200 m-2 cursor-pointer rounded-md text-slate-700 hover:bg-slate-50"
+      @click="onSelect('language', 'svg')"
+    >
+      <vd-svg-icon color="#333" name="language" />
     </div>
   </vd-card>
 </template>

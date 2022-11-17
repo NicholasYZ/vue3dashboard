@@ -50,6 +50,16 @@ export const menu = [
           icon: "DocumentCopy",
         },
       },
+      {
+        id: 15,
+        name: "components.editor",
+        path: "/components/editor",
+        component: "components/EditorView",
+        meta: {
+          title: "富文本编辑器",
+          icon: "DocumentCopy",
+        },
+      },
     ],
   },
   {

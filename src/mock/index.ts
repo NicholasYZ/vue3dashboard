@@ -1,6 +1,5 @@
 import Mock from "mockjs"; // 引入mockjs
 // const Random = Mock.Random // Mock.Random 是一个工具类，用于生成各种随机数据
-import type { MenuProps } from "@/types";
 import { menu } from "./system/menu";
 import { roles } from "./system/roles";
 import { users } from "./users/index";

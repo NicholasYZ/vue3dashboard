@@ -5,9 +5,6 @@ export const IndexRoute: RouteRecordRaw = {
   name: "layout",
   component: () => import("@/views/layouts/BaseLayout.vue"),
   redirect: "/index",
-  meta: {
-    permissions: ["admin", "editor"],
-  },
   children: [
     {
       path: "/index",
