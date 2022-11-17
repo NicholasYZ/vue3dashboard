@@ -14,8 +14,7 @@ type userInfoProps = {
   username: string;
   password: string;
   token?: string;
-  role: string;
-  init: boolean;
+  roles: string[];
   permissions: permissionsProps[];
 };
 

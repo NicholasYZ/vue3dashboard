@@ -18,7 +18,7 @@ const rules = {
   avatar: [{ required: true }],
 };
 
-const onSave = async (query: { [key: string]: any }) => {
+const onSubmit = async (query: { [key: string]: any }) => {
   try {
     console.log(query);
     loading.value = true;
@@ -32,6 +32,9 @@ const onSave = async (query: { [key: string]: any }) => {
   } finally {
     loading.value = false;
   }
+};
+const onReset = () => {
+  console.log("hello");
 };
 </script>
 <template>
@@ -68,6 +71,7 @@ const onSave = async (query: { [key: string]: any }) => {
       >
         <img :src="form.avatar" class="w-20 h-20 rounded" />
       </vd-field>
+      <vd-form-button @submit="onSubmit" @reset="onReset" />
     </el-form>
   </vd-card>
 </template>
