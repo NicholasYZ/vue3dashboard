@@ -40,6 +40,7 @@ export const useRouterStore = defineStore("router", () => {
     const { result } = await getMenu();
     routes.value = routesFilter(result, permissions);
     isLoaded.value = true;
+    return routes.value;
   };
 
   const reset = () => {

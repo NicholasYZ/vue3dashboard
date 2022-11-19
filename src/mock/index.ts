@@ -64,12 +64,21 @@ Mock.mock(/\/api\/products/, "get", (options) => {
     result: products,
   };
 });
+
 Mock.mock("/api/login", "post", function (req: any, res: any) {
-  console.log(req);
   return {
     type: 1,
     code: 200,
     msg: "登录成功",
     result: login,
+  };
+});
+
+Mock.mock("/api/get-user-info", "get", function (req: any, res: any) {
+  return {
+    type: 1,
+    code: 200,
+    msg: "登录成功",
+    result: user,
   };
 });

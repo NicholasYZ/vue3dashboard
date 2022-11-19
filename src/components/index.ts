@@ -21,9 +21,9 @@ export default {
     });
 
     // 注册所有Element Icon
-    // for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
-    //   Vue.component(key, component);
-    // }
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+      Vue.component(key, component);
+    }
 
     // 创建Icon组件
     const Icon = (props: { icon: string }) => {

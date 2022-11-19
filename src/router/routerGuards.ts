@@ -1,6 +1,6 @@
 import NProgress from "nprogress";
 import type { Router } from "vue-router";
-import { useRouterStore, useSettingStore } from "@/store";
+import { useUserStore, useRouterStore, useSettingStore } from "@/store";
 import { storage } from "@/utils";
 import { getAsyncRoutes } from "./asyncRoutes";
 import "nprogress/nprogress.css";
@@ -38,8 +38,9 @@ const filterAsyncRoutes = (routes: any) => {
 
 export const setupRouterGuards = (router: Router) => {
   router.beforeEach(async (to) => {
-    const userData = storage.getItem("userData");
+    const userStore = useUserStore();
     const routerStore = useRouterStore();
+    const userToken = storage.getItem("USER_TOKEN");
 
     NProgress.start();
 
@@ -47,7 +48,7 @@ export const setupRouterGuards = (router: Router) => {
       return true;
     }
 
-    if (!userData.token) {
+    if (!userToken) {
       router.push("/login");
       return true;
     }
@@ -56,9 +57,10 @@ export const setupRouterGuards = (router: Router) => {
       return true;
     }
 
-    const asyncRoutes = await getAsyncRoutes(userData.permissions);
-    const routes = filterAsyncRoutes(asyncRoutes);
+    const userInfo = await userStore.getUserInfo();
+    const asyncRoutes = await routerStore.getRoutes(userInfo.permissions);
 
+    const routes = filterAsyncRoutes(asyncRoutes);
     routes.forEach((route: any) => {
       if (!router.hasRoute(route.name)) {
         router.addRoute(route);

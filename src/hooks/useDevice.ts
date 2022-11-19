@@ -1,20 +1,19 @@
-import { onBeforeMount, onBeforeUnmount, onMounted } from "vue";
+import { onBeforeMount, onBeforeUnmount, onMounted, ref } from "vue";
 import { debounce } from "lodash";
-import { useSettingStore } from "@/store";
-import { getDevice } from "@/utils";
-
-const store = useSettingStore();
 
 export function useDevice() {
+  const deviceType = ref<string>("desktop");
+
   const resizeWindow = debounce(() => {
-    const deviceType: string = getDevice();
-    if (store.setting.deviceType !== "desktop" && deviceType === "desktop") {
-      store.setSidebarStatus("open");
-    } else if (deviceType === "mobile") {
-      store.setSidebarStatus("close");
-    }
-    store.setDeviceType(deviceType);
+    deviceType.value = getDevice();
+    console.log(deviceType.value);
   }, 100);
+
+  const getDevice = (): string => {
+    return document.body.getBoundingClientRect().width < 768
+      ? "mobile"
+      : "desktop";
+  };
 
   onMounted(() => {
     resizeWindow();
@@ -27,4 +26,6 @@ export function useDevice() {
   onBeforeUnmount(() => {
     window.removeEventListener("resize", resizeWindow);
   });
+
+  return { deviceType, getDevice };
 }

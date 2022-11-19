@@ -14,7 +14,7 @@ const handleLanguage = (language: string) => {
   settingStore.setLanguage(language);
   i18next.changeLanguage(language);
 };
-const handleLogout = () => {
+const handleAction = (type: string) => {
   userStore.logout();
   routerStore.reset();
   router.push("/login");
@@ -31,9 +31,7 @@ const handleLogout = () => {
         color="text-gray-900"
       >
         <vd-icon
-          :icon="
-            settingStore.setting.sidebarStatus !== 'open' ? 'Expand' : 'Fold'
-          "
+          :icon="settingStore.setting.sidebarStatus ? 'Expand' : 'Fold'"
         />
       </el-icon>
     </div>
@@ -50,17 +48,15 @@ const handleLogout = () => {
           </el-dropdown-menu>
         </template>
       </el-dropdown>
-      <el-dropdown trigger="click">
+      <el-dropdown @command="handleAction" trigger="click">
         <p class="flex items-center cursor-pointer">
           <el-icon><vd-icon icon="User" /></el-icon>
           <span class="text-slate-500 pl-2 text-base">admin</span>
         </p>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item icon="SwitchButton">
-              <p class="text-slate-500 pl-2 text-base" @click="handleLogout">
-                {{ $t("logout") }}
-              </p>
+            <el-dropdown-item command="logout" icon="SwitchButton">
+              {{ $t("logout") }}
             </el-dropdown-item>
           </el-dropdown-menu>
         </template>

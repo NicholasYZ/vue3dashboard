@@ -24,3 +24,7 @@ export const getList = ({ path, query }: getProps): Promise<any> => {
 export const Login = (params: any): Promise<any> => {
   return request.post("/login", params);
 };
+
+export const GetUserInfo = (): Promise<any> => {
+  return request.get("/get-user-info");
+};
