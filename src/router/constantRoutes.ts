@@ -26,13 +26,6 @@ export const LoginRoute: RouteRecordRaw = {
   component: () => import("@/views/auth/LoginView.vue"),
 };
 
-export const NoPermissionRoute: RouteRecordRaw = {
-  path: "/no-permission",
-  name: "no-permission",
-  meta: { title: "没有权限", icon: "index" },
-  component: () => import("@/views/errors/NoPermission.vue"),
-};
-
 export const ErrorRoute: RouteRecordRaw = {
   path: "/:catchAll(.*)*",
   name: "404",

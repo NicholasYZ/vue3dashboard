@@ -7,7 +7,7 @@ const { dataSource, loading } = useFetch("/users/1");
 type formProps = {
   [key: string]: any;
 };
-
+console.log(dataSource)
 const form = ref<formProps>(dataSource);
 const rules = {
   id: [{ required: true }],

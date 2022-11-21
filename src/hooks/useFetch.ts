@@ -7,9 +7,9 @@ export function useFetch(URL: string) {
   const loading = ref<boolean>(false);
   const reload = async () => {
     loading.value = true;
-    const res = await request.get(URL);
+    const { result } = await request.get(URL);
     await sleep(500);
-    dataSource.value = res.data;
+    dataSource.value = result;
     loading.value = false;
   };
   if (isRef(URL)) {

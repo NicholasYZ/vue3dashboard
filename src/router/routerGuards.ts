@@ -1,8 +1,8 @@
 import NProgress from "nprogress";
 import type { Router } from "vue-router";
 import { useUserStore, useRouterStore, useSettingStore } from "@/store";
+import { ErrorRoute } from "./constantRoutes";
 import { storage } from "@/utils";
-import { getAsyncRoutes } from "./asyncRoutes";
 import "nprogress/nprogress.css";
 
 const whiteList: string[] = ["/login"];
@@ -59,8 +59,8 @@ export const setupRouterGuards = (router: Router) => {
 
     const userInfo = await userStore.getUserInfo();
     const asyncRoutes = await routerStore.getRoutes(userInfo.permissions);
-
     const routes = filterAsyncRoutes(asyncRoutes);
+
     routes.forEach((route: any) => {
       if (!router.hasRoute(route.name)) {
         router.addRoute(route);
@@ -69,6 +69,11 @@ export const setupRouterGuards = (router: Router) => {
 
     return to.fullPath;
   });
+
+  if (!router.hasRoute("404")) {
+    console.log(ErrorRoute);
+    router.addRoute(ErrorRoute);
+  }
 
   router.afterEach((to) => {
     const store = useSettingStore();

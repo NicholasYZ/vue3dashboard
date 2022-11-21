@@ -32,7 +32,15 @@ Mock.mock(/\/api\/roles/, "get", (options) => {
     result: roles,
   };
 });
-Mock.mock(/\/api\/users\/1/, "get", user);
+Mock.mock(/\/api\/users\/1/, "get", function (req: any, res: any) {
+  return {
+    type: 1,
+    code: 200,
+    msg: "登录成功",
+    result: user,
+  };
+});
+
 Mock.mock(/\/api\/system/, "get", system);
 Mock.mock(/\/api\/users/, "get", (options) => {
   const page = Number(getQuery(options.url, "page"));
