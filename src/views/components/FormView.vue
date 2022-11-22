@@ -20,7 +20,7 @@ const rules = {
 
 const onSubmit = async (query: { [key: string]: any }) => {
   try {
-    console.log(query);
+    console.log(form.value);
     loading.value = true;
     await sleep(500);
     ElMessage({

@@ -1,12 +1,31 @@
-import axios from "axios";
-import type { AxiosResponse } from "axios";
+import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 
 import type { BodyProps, getProps } from "@/types";
+import { storage } from "@/utils";
 
 const instance = axios.create({
   baseURL: "/api",
   timeout: 15000,
 });
+
+instance.interceptors.request.use(
+  function (config: AxiosRequestConfig<any>) {
+    config.headers!["token"] = storage.getItem("token");
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
+
+instance.interceptors.response.use(
+  function (response: AxiosResponse<any, any>) {
+    return response;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
 
 const responseBody = (response: AxiosResponse) => response.data;
 

@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { useSettingStore, useUserStore, useRouterStore } from "@/store";
+import { useSettingStore, useUserStore } from "@/store";
 import { i18next } from "@/i18n";
 
 const router = useRouter();
 const settingStore = useSettingStore();
 const userStore = useUserStore();
-const routerStore = useRouterStore();
 const handleSidebarStatus = () => {
   settingStore.setSidebarStatus();
 };
@@ -16,7 +15,6 @@ const handleLanguage = (language: string) => {
 };
 const handleAction = (type: string) => {
   userStore.logout();
-  routerStore.reset();
   router.push("/login");
 };
 </script>

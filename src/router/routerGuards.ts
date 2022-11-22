@@ -1,3 +1,4 @@
+import { ref } from "vue";
 import NProgress from "nprogress";
 import type { Router } from "vue-router";
 import { useUserStore, useRouterStore, useSettingStore } from "@/store";
@@ -7,11 +8,9 @@ import "nprogress/nprogress.css";
 
 const whiteList: string[] = ["/login"];
 
-NProgress.configure({
-  showSpinner: false,
-});
+NProgress.configure({ showSpinner: false });
 
-const _modules = import.meta.glob("../views/**/*.vue");
+const modules = import.meta.glob("../views/**/*.vue");
 
 const filterAsyncRoutes = (routes: any) => {
   const asyncRoutes: Array<any> = [];
@@ -23,7 +22,7 @@ const filterAsyncRoutes = (routes: any) => {
     }
     if (route.component) {
       try {
-        route.component = _modules["../views/" + route.component + ".vue"];
+        route.component = modules["../views/" + route.component + ".vue"];
       } catch (e) {
         console.log(e);
       }
@@ -37,10 +36,12 @@ const filterAsyncRoutes = (routes: any) => {
 };
 
 export const setupRouterGuards = (router: Router) => {
+  const isLoaded = ref<boolean>(false);
+
   router.beforeEach(async (to) => {
-    const userStore = useUserStore();
-    const routerStore = useRouterStore();
-    const userToken = storage.getItem("USER_TOKEN");
+    const { getUserInfo } = useUserStore();
+    const { generateRoutes } = useRouterStore();
+    const token = storage.getItem("token");
 
     NProgress.start();
 
@@ -48,17 +49,17 @@ export const setupRouterGuards = (router: Router) => {
       return true;
     }
 
-    if (!userToken) {
+    if (!token) {
       router.push("/login");
       return true;
     }
 
-    if (routerStore.isLoaded) {
+    if (isLoaded.value) {
       return true;
     }
 
-    const userInfo = await userStore.getUserInfo();
-    const asyncRoutes = await routerStore.getRoutes(userInfo.permissions);
+    const userInfo = await getUserInfo();
+    const asyncRoutes = await generateRoutes(userInfo.permissions);
     const routes = filterAsyncRoutes(asyncRoutes);
 
     routes.forEach((route: any) => {
@@ -67,13 +68,14 @@ export const setupRouterGuards = (router: Router) => {
       }
     });
 
+    if (!router.hasRoute("404")) {
+      router.addRoute(ErrorRoute);
+    }
+
+    isLoaded.value = true;
+
     return to.fullPath;
   });
-
-  if (!router.hasRoute("404")) {
-    console.log(ErrorRoute);
-    router.addRoute(ErrorRoute);
-  }
 
   router.afterEach((to) => {
     const store = useSettingStore();
@@ -82,5 +84,6 @@ export const setupRouterGuards = (router: Router) => {
     }
     document.title = `${to.meta.title} - VD`;
     NProgress.done();
+    window.scrollTo(0, 0);
   });
 };

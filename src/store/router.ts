@@ -36,7 +36,7 @@ export const useRouterStore = defineStore("router", () => {
   const routes = ref<Menu[]>([]);
   const isLoaded = ref<boolean>(false);
 
-  const getRoutes = async (permissions: any[]) => {
+  const generateRoutes = async (permissions: any[]) => {
     const { result } = await getMenu();
     routes.value = routesFilter(result, permissions);
     isLoaded.value = true;
@@ -47,5 +47,5 @@ export const useRouterStore = defineStore("router", () => {
     isLoaded.value = false;
   };
 
-  return { routes, isLoaded, getRoutes, reset };
+  return { routes, isLoaded, generateRoutes, reset };
 });

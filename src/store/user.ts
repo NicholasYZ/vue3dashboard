@@ -25,14 +25,12 @@ type LoginProps = {
 
 export const useUserStore = defineStore("user", () => {
   const userData = ref<userInfoProps>(initUserData as userInfoProps);
-  const USER_TOKEN = ref<string>("");
+  const token = ref<string>("");
 
   const login = async (state: LoginProps) => {
-    const {
-      result: { token },
-    } = await Login(state);
-    USER_TOKEN.value = token;
-    storage.setItem("USER_TOKEN", token);
+    const { result } = await Login(state);
+    token.value = result.token;
+    storage.setItem("token", token);
   };
 
   const logout = () => {

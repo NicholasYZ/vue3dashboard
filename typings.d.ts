@@ -6,5 +6,6 @@ declare module "vue-router" {
     icon?: string;
     // 每个路由都必须声明
     permissions?: string[] | undefined;
+    roles?: string[];
   }
 }

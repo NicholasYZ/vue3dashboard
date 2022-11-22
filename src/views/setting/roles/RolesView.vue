@@ -39,11 +39,11 @@
         v-model:val="form.permissions"
         size="large"
       >
-        <el-tree-select
-          v-model="form.permissions"
+        <el-tree
           :data="treeData"
-          :render-after-expand="false"
+          :default-checked-keys="form.permissions"
           :check-strictly="true"
+          default-expand-all
           multiple
           show-checkbox
           size="large"
