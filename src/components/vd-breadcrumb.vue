@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { computed } from "vue";
 import { useRoute } from "vue-router";
-const router = useRoute();
-const menu = computed(() => {
-  return router.matched.slice(1, 3);
-});
+const route = useRoute();
 </script>
 <template>
-  <el-breadcrumb class="mb-4" separator="/">
-    <!-- <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item> -->
-    <el-breadcrumb-item v-for="item in menu" :key="item.path">
-      {{ $t(item.name as string) }}
-    </el-breadcrumb-item>
-  </el-breadcrumb>
+  <p class="mx-4">
+    <el-breadcrumb separator="/">
+      <el-breadcrumb-item
+        v-if="route.path !== '/dashboard'"
+        :to="{ path: '/' }"
+      >
+        首页
+      </el-breadcrumb-item>
+      <el-breadcrumb-item
+        v-for="item in route.matched"
+        :to="{ path: item.path }"
+        :key="item.path"
+      >
+        {{ $t(item.name as string) }}
+      </el-breadcrumb-item>
+    </el-breadcrumb>
+  </p>
 </template>

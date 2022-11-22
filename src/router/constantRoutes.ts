@@ -2,16 +2,16 @@ import type { RouteRecordRaw } from "vue-router";
 
 export const IndexRoute: RouteRecordRaw = {
   path: "/",
-  name: "layout",
+  name: "home",
   component: () => import("@/views/layouts/BaseLayout.vue"),
-  redirect: "/index",
+  redirect: "/dashboard",
   children: [
     {
-      path: "/index",
+      path: "/dashboard",
       component: () => import("@/views/index/HomeView.vue"),
-      name: "home",
+      name: "dashboard",
       meta: {
-        title: "首页",
+        title: "控制台",
         icon: "index",
       },
     },

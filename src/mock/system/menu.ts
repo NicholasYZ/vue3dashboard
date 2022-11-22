@@ -67,7 +67,7 @@ export const menu = [
     name: "setting.index",
     path: "/setting",
     component: "layouts/BaseLayout",
-    redirect: "setting/info",
+    redirect: "/setting/info",
     meta: {
       title: "设置",
       icon: "Setting",

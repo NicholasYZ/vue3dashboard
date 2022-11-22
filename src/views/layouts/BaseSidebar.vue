@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { toRefs } from "vue";
+import { computed, toRefs } from "vue";
 import { useRoute } from "vue-router";
 import { useSettingStore, useRouterStore } from "@/store";
 import Menu from "@/views/layouts/components/BaseMenu.vue";
@@ -9,8 +9,8 @@ const settingStore = useSettingStore();
 const routerStore = useRouterStore();
 const { routes } = toRefs(routerStore);
 const { setting } = toRefs(settingStore);
-
 const route = useRoute();
+const sidebarStatus = computed(() => setting.value.sidebarStatus === "open");
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const route = useRoute();
     >
       <router-link to="/" class="text-slate-50 text-xl">VD</router-link>
     </h1>
-    <Menu :active="route.path" :sidebarStatus="setting.sidebarStatus">
+    <Menu :active="route.path" :sidebarStatus="sidebarStatus">
       <MenuItem :key="item.name" :route="item" v-for="item in routes" />
     </Menu>
   </div>

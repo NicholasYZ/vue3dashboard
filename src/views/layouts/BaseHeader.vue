@@ -32,6 +32,7 @@ const handleAction = (type: string) => {
           :icon="settingStore.setting.sidebarStatus ? 'Expand' : 'Fold'"
         />
       </el-icon>
+      <vd-breadcrumb />
     </div>
 
     <div class="flex">

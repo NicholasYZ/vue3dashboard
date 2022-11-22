@@ -5,6 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 const locales = {
   en: {
     home: "Home",
+    dashboard: "Dashboard",
     confirm: "Confirm",
     cancel: "Cancel",
     login: "Login",
@@ -72,6 +73,7 @@ const locales = {
     guangzhou: "GuangZhou",
   },
   zh: {
+    dashboard: "控制台",
     home: "首页",
     confirm: "确定",
     cancel: "取消",
