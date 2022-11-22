@@ -2,50 +2,34 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import { getMenu } from "@/api";
 
-interface Menu {
-  name: string;
-  path: string;
-  component: string;
-  redirect?: string;
-  meta: {
-    icon?: string;
-    title?: string;
-    permissions?: string[];
-  };
-  children?: Menu[];
-}
+const hasPermission = (route: any, roles: any[]) => {
+  if (route.meta && route.meta.roles) {
+    return roles.some((role) => route.meta.roles.includes(role));
+  } else {
+    return true;
+  }
+};
 
-const routesFilter = (routes: any, permissions: any) => {
-  const permissionIds = permissions.map(({ id }: { id: number }) => {
-    return id;
-  });
+const filter = (routes: any, roles: any) => {
   return routes
-    .filter((item: any) => {
-      const hasPermission = permissionIds.indexOf(item.id) > -1;
-      return hasPermission;
+    .filter((route: any) => {
+      return hasPermission(route, roles);
     })
-    .map((item: any) => {
-      if (item.children && item.children.length) {
-        item.children = routesFilter(item.children, permissions);
+    .map((route: any) => {
+      if (route.children && route.children.length) {
+        route.children = filter(route.children, roles);
       }
-      return item;
+      return route;
     });
 };
 
 export const useRouterStore = defineStore("router", () => {
-  const routes = ref<Menu[]>([]);
-  const isLoaded = ref<boolean>(false);
-
-  const generateRoutes = async (permissions: any[]) => {
+  const routes = ref<any[]>([]);
+  const loadRoutes = async (roles: any[]) => {
     const { result } = await getMenu();
-    routes.value = routesFilter(result, permissions);
-    isLoaded.value = true;
+    routes.value = filter(result, roles);
     return routes.value;
   };
 
-  const reset = () => {
-    isLoaded.value = false;
-  };
-
-  return { routes, isLoaded, generateRoutes, reset };
+  return { routes, loadRoutes };
 });

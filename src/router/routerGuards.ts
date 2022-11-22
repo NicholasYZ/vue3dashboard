@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import NProgress from "nprogress";
-import type { Router } from "vue-router";
+import type { RouteLocationNormalized, Router } from "vue-router";
 import { useUserStore, useRouterStore, useSettingStore } from "@/store";
 import { ErrorRoute } from "./constantRoutes";
 import { storage } from "@/utils";
@@ -12,9 +12,8 @@ NProgress.configure({ showSpinner: false });
 
 const modules = import.meta.glob("../views/**/*.vue");
 
-const filterAsyncRoutes = (routes: any) => {
-  const asyncRoutes: Array<any> = [];
-  routes.forEach((route: any) => {
+const generateRoutes = (routes: any): Array<any> => {
+  return routes.map((route: any) => {
     if (route.redirect) {
       if (route.redirect.indexOf("/") < 0) {
         route.redirect = { name: route.redirect };
@@ -28,11 +27,10 @@ const filterAsyncRoutes = (routes: any) => {
       }
     }
     if (route?.children?.length) {
-      route.children = filterAsyncRoutes(route.children);
+      route.children = generateRoutes(route.children);
     }
-    asyncRoutes.push(route);
+    return route;
   });
-  return asyncRoutes;
 };
 
 export const setupRouterGuards = (router: Router) => {
@@ -40,7 +38,7 @@ export const setupRouterGuards = (router: Router) => {
 
   router.beforeEach(async (to) => {
     const { getUserInfo } = useUserStore();
-    const { generateRoutes } = useRouterStore();
+    const { loadRoutes } = useRouterStore();
     const token = storage.getItem("token");
 
     NProgress.start();
@@ -59,8 +57,8 @@ export const setupRouterGuards = (router: Router) => {
     }
 
     const userInfo = await getUserInfo();
-    const asyncRoutes = await generateRoutes(userInfo.permissions);
-    const routes = filterAsyncRoutes(asyncRoutes);
+    const asyncRoutes = await loadRoutes(userInfo.roles);
+    const routes = generateRoutes(asyncRoutes);
 
     routes.forEach((route: any) => {
       if (!router.hasRoute(route.name)) {

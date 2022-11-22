@@ -13,7 +13,6 @@ export const IndexRoute: RouteRecordRaw = {
       meta: {
         title: "首页",
         icon: "index",
-        permissions: ["admin", "editor"],
       },
     },
   ],
@@ -22,7 +21,10 @@ export const IndexRoute: RouteRecordRaw = {
 export const LoginRoute: RouteRecordRaw = {
   path: "/login",
   name: "login",
-  meta: { title: "登录", icon: "index" },
+  meta: {
+    title: "登录",
+    icon: "index",
+  },
   component: () => import("@/views/auth/LoginView.vue"),
 };
 

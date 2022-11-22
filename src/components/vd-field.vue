@@ -32,6 +32,7 @@ const value = computed({
           v-model="value"
           :placeholder="$t(placeholder)"
           :disabled="disabled"
+          :rows="rows"
           type="text"
         />
 

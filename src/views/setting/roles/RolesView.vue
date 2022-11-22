@@ -34,21 +34,13 @@
         size="large"
       />
       <vd-field
-        name="菜单"
-        prop="menu"
-        v-model:val="form.permissions"
+        name="描述"
+        prop="description"
+        type="textarea"
+        v-model:val="form.description"
+        :rows="4"
         size="large"
       >
-        <el-tree
-          :data="treeData"
-          :default-checked-keys="form.permissions"
-          :check-strictly="true"
-          default-expand-all
-          multiple
-          show-checkbox
-          size="large"
-          style="width: 100%"
-        />
       </vd-field>
     </el-form>
     <template #footer>
@@ -98,6 +90,7 @@ const form = ref<formProps>({} as formProps);
 const rules = {
   id: [{ required: true }],
   type: [{ required: true }],
+  description: [{ required: true }],
 };
 
 const onSubmit = async (formEl: FormInstance | undefined) => {
@@ -135,16 +128,13 @@ const loadTree = async () => {
 };
 
 const showForm = async (
-  item = { id: "", type: "", permissions: [] },
+  item = { id: "", type: "", description: "" },
   type = "add"
 ) => {
   treeData.value = await loadTree();
   isModelVisible.value = true;
   formType.value = type;
-  form.value = {
-    ...item,
-    permissions: item.permissions.map((i: any) => i.id),
-  };
+  form.value = { ...item };
 };
 defineExpose({
   showForm,
