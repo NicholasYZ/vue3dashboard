@@ -1,7 +1,12 @@
 import { ref } from "vue";
 import NProgress from "nprogress";
-import type { RouteLocationNormalized, Router } from "vue-router";
-import { useUserStore, useRouterStore, useSettingStore } from "@/store";
+import type { Router } from "vue-router";
+import {
+  useUserStore,
+  useRouterStore,
+  useSettingStore,
+  useTags,
+} from "@/store";
 import { ErrorRoute } from "./constantRoutes";
 import { storage } from "@/utils";
 import "nprogress/nprogress.css";
@@ -76,11 +81,17 @@ export const setupRouterGuards = (router: Router) => {
   });
 
   router.afterEach((to) => {
-    const store = useSettingStore();
-    if (store.setting.deviceType === "mobile") {
-      store.setSidebarStatus("close");
+    const settingStore = useSettingStore();
+    const { setTags } = useTags();
+    const { name, path } = to;
+    if (settingStore.setting.deviceType === "mobile") {
+      settingStore.setSidebarStatus("close");
     }
     document.title = `${to.meta.title} - VD`;
+    setTags({
+      name: name as string,
+      path,
+    });
     NProgress.done();
     window.scrollTo(0, 0);
   });

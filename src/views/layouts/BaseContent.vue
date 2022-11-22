@@ -1,9 +1,8 @@
 <template>
   <div class="p-5">
-    <h2 class="text-2xl mb-4">{{ $t(currRouteName) }}</h2>
-    <!-- <div class="px-5 pt-5">
-      <vd-tag :item="{ name: '首页' }" />
-    </div> -->
+    <div class="mb-5">
+      <vd-tag v-for="item in tagsStore.tags" :key="item.name" :item="item" />
+    </div>
     <RouterView :key="key" />
   </div>
 </template>
@@ -11,7 +10,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { RouterView, useRoute } from "vue-router";
+import { useTags } from "@/store";
+const tagsStore = useTags();
 const route = useRoute();
-const currRouteName = computed(() => route.matched.slice(-1)[0].name as string);
 const key = computed(() => route.fullPath);
 </script>
