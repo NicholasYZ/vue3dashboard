@@ -1,7 +1,9 @@
 <template>
   <router-link
-    :class="{ 'bg-blue-600 text-white': route.path === item.path }"
-    class="h-8 px-4 mr-2 bg-white rounded-md text-sm leading-8 inline-block"
+    :class="{
+      'text-blue-600': route.path === item.path,
+    }"
+    class="h-8 px-4 mr-2 bg-white hover:bg-gray-50 text-slate-800 transition-all duration-300 rounded-md text-sm leading-8 inline-block"
     :to="item.path"
   >
     {{ $t(item.name) }}

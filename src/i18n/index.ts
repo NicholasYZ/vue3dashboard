@@ -35,6 +35,7 @@ const locales = {
       charts: "Charts",
       icons: "Icons",
       editor: "Editor",
+      statistic: "Statistic",
     },
     setting: {
       index: "Setting",
@@ -104,6 +105,7 @@ const locales = {
       charts: "图表",
       icons: "图标",
       editor: "编辑器",
+      statistic: "统计",
     },
     setting: {
       index: "设置",

@@ -36,7 +36,17 @@ export const menu = [
         path: "/components/charts",
         component: "components/ChartsView",
         meta: {
-          title: "表单",
+          title: "图表",
+          icon: "DocumentCopy",
+        },
+      },
+      {
+        id: 15,
+        name: "components.statistic",
+        path: "/components/statistic",
+        component: "components/StatisticView",
+        meta: {
+          title: "富文本编辑器",
           icon: "DocumentCopy",
         },
       },
@@ -51,7 +61,7 @@ export const menu = [
         },
       },
       {
-        id: 15,
+        id: 16,
         name: "components.editor",
         path: "/components/editor",
         component: "components/EditorView",

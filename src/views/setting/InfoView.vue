@@ -38,9 +38,15 @@ const onReset = () => {
 };
 </script>
 <template>
-  <vd-card class="lg:w-[50%]" v-loading="loading">
+  <vd-card v-loading="loading">
     <h2 class="text-2xl mb-6">表单</h2>
-    <el-form ref="formRef" :model="form" label-width="120px" :rules="rules">
+    <el-form
+      class="lg:w-[50%]"
+      ref="formRef"
+      :model="form"
+      label-width="120px"
+      :rules="rules"
+    >
       <vd-field
         name="ID"
         prop="id"
