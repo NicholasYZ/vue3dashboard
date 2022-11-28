@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { RouterView, useRoute } from "vue-router";
+import { RouterView, useRoute, useRouter } from "vue-router";
 import { useTags } from "@/store";
 type tagsProps = {
   name: string;
@@ -30,8 +30,11 @@ type tagsProps = {
 };
 const tagsStore = useTags();
 const route = useRoute();
+const router = useRouter();
 const key = computed(() => route.fullPath);
+const lastItem = computed(() => tagsStore.tags.slice(-1)[0]);
 const onDel = (item: tagsProps) => {
   tagsStore.del(item);
+  router.push(lastItem.value.path);
 };
 </script>

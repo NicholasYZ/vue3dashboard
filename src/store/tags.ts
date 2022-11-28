@@ -20,7 +20,6 @@ export const useTags = defineStore("tags", () => {
     }
   };
   const del = ({ name }: { name: string }) => {
-    console.log(name);
     tags.value = tags.value.filter((item: tagsProps) => item.name !== name);
   };
   return { tags, add, del };
