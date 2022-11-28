@@ -82,13 +82,13 @@ export const setupRouterGuards = (router: Router) => {
 
   router.afterEach((to) => {
     const settingStore = useSettingStore();
-    const { setTags } = useTags();
+    const tagStore = useTags();
     const { name, path } = to;
     if (settingStore.setting.deviceType === "mobile") {
       settingStore.setSidebarStatus("close");
     }
     document.title = `${to.meta.title} - VD`;
-    setTags({
+    tagStore.add({
       name: name as string,
       path,
     });

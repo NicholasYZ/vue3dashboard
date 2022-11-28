@@ -7,8 +7,8 @@ type tagsProps = {
 };
 
 export const useTags = defineStore("tags", () => {
-  const tags = ref<tagsProps[]>([]);
-  const setTags = (tag: tagsProps) => {
+  const tags = ref<tagsProps[]>([{ name: "dashboard", path: "/dashboard" }]);
+  const add = (tag: tagsProps) => {
     let hasTag: boolean = false;
     tags.value.forEach(({ name }: { name: string }) => {
       if (name === tag.name) {
@@ -19,5 +19,9 @@ export const useTags = defineStore("tags", () => {
       tags.value.push(tag);
     }
   };
-  return { tags, setTags };
+  const del = ({ name }: { name: string }) => {
+    console.log(name);
+    tags.value = tags.value.filter((item: tagsProps) => item.name !== name);
+  };
+  return { tags, add, del };
 });
