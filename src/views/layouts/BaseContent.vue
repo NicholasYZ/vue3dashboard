@@ -16,6 +16,7 @@
         </el-icon>
       </vd-tag>
     </div>
+    <!-- <h2 class="mb-4 text-3xl">{{ $t(currRouteName) }}</h2> -->
     <RouterView :key="key" />
   </div>
 </template>
@@ -33,6 +34,7 @@ const route = useRoute();
 const router = useRouter();
 const key = computed(() => route.fullPath);
 const lastItem = computed(() => tagsStore.tags.slice(-1)[0]);
+const currRouteName = computed(() => route.matched.slice(-1)[0].name as string);
 const onDel = (item: tagsProps) => {
   tagsStore.del(item);
   router.push(lastItem.value.path);

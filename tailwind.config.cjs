@@ -3,8 +3,19 @@
 module.exports = {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      lineClamp: {
+        7: "7",
+        8: "8",
+        9: "9",
+        10: "10",
+      },
+    },
   },
+  variants: {
+    lineClamp: ["responsive", "hover"],
+  },
+  // require("@tailwindcss/forms"),
   // eslint-disable-next-line no-undef
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp"), require('@tailwindcss/typography')],
 };
