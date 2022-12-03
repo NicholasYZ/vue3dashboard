@@ -43,4 +43,15 @@ export default defineConfig({
       },
     },
   },
+  server: {
+    open: false, //自动打开
+    base: "./ ", //生产环境路径
+    proxy: {
+      "^/api": {
+        target: "http://127.0.0.1:5050", // 后端服务实际地址
+        changeOrigin: true, //开启代理
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
+    },
+  },
 });

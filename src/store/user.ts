@@ -30,7 +30,7 @@ export const useUserStore = defineStore("user", () => {
   const login = async (state: LoginProps) => {
     const { result } = await Login(state);
     token.value = result.token;
-    storage.setItem("token", token);
+    storage.setItem("token", result.token);
   };
 
   const logout = () => {
