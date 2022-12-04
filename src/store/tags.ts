@@ -15,7 +15,7 @@ export const useTags = defineStore("tags", () => {
         hasTag = true;
       }
     });
-    if (!hasTag) {
+    if (!hasTag && tag.name !== "login") {
       tags.value.push(tag);
     }
   };

@@ -1,6 +1,4 @@
 import { ref } from "vue";
-import NProgress from "nprogress";
-import type { Router } from "vue-router";
 import {
   useUserStore,
   useRouterStore,
@@ -9,7 +7,10 @@ import {
 } from "@/store";
 import { ErrorRoute } from "./constantRoutes";
 import { storage } from "@/utils";
+import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+
+import type { Router } from "vue-router";
 
 const whiteList: string[] = ["/login"];
 

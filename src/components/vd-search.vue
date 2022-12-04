@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { FormInstance } from "element-plus";
 import { ref } from "vue";
-import { sleep } from "@/utils";
 import { useRouter, useRoute } from "vue-router";
 
 defineProps(["config"]);
@@ -21,7 +20,6 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   try {
     await formEl.validate();
-    await sleep(200);
     form.value.page = 1;
     router.push({
       path,

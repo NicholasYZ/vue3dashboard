@@ -85,7 +85,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import type { FormInstance } from "element-plus";
-import { getMenu } from "@/api";
+import { request } from "@/api";
 defineProps(["title"]);
 
 const isModelVisible = ref<boolean>(false);
@@ -129,7 +129,7 @@ const onReset = (formEl: FormInstance | undefined) => {
 };
 
 const loadTree = async () => {
-  const { result } = await getMenu();
+  const { result } = await request.get("/menu");
   const loadMenu = (arr: any[]): any => {
     return arr.map(({ id, children = [], meta }: any) => {
       const { title } = meta;

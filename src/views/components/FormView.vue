@@ -22,7 +22,6 @@ const onSubmit = async (query: { [key: string]: any }) => {
   try {
     console.log(form.value);
     loading.value = true;
-    await sleep(500);
     ElMessage({
       message: "Congrats, this is a success message.",
       type: "success",

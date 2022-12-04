@@ -1,6 +1,6 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
 
-import type { BodyProps, getProps } from "@/types";
+import type { BodyProps } from "@/types";
 import { storage } from "@/utils";
 
 const instance = axios.create({
@@ -35,16 +35,4 @@ export const request = {
     instance.get(url, { params }).then(responseBody),
   post: (url: string, body: BodyProps) =>
     instance.post(url, body).then(responseBody),
-};
-
-export const getMenu = (): Promise<any> => request.get("/menu");
-export const getList = ({ path, query }: getProps): Promise<any> => {
-  return request.get(path, query);
-};
-export const Login = (params: any): Promise<any> => {
-  return request.post("/login", params);
-};
-
-export const GetUserInfo = (): Promise<any> => {
-  return request.get("/get-user-info");
 };
