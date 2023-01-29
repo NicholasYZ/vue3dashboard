@@ -4,14 +4,14 @@ import type { BodyProps } from "@/types";
 import { storage } from "@/utils";
 
 const instance = axios.create({
-  baseURL: "https://api.tanxiaoqing.top",
+  // baseURL: "https://api.tanxiaoqing.top",
+  baseURL: "http://localhost:5050",
   timeout: 15000,
 });
 
 instance.interceptors.request.use(
   function (config: AxiosRequestConfig<any>) {
     config.headers!["token"] = storage.getItem("token");
-    console.log(storage.getItem("token"))
     return config;
   },
   function (error) {

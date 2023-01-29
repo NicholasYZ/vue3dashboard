@@ -59,7 +59,6 @@ import { ref, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import type { FormInstance, FormRules } from "element-plus";
 import { useUserStore } from "@/store";
-import { sleep } from "@/utils";
 
 const router = useRouter();
 const route = useRoute();
@@ -83,7 +82,6 @@ const onSubmit = async (formEl: FormInstance | undefined) => {
   try {
     await formEl.validate();
     await store.login(form);
-    await sleep(200);
     router.push({
       path: (route.query.redirect || "/") as string,
     });
