@@ -4,8 +4,8 @@ import type { BodyProps } from "@/types";
 import { storage } from "@/utils";
 
 const instance = axios.create({
-  // baseURL: "https://api.tanxiaoqing.top",
-  baseURL: "http://localhost:5050",
+  baseURL: "https://api.tanxiaoqing.top",
+  // baseURL: "http://localhost:5050",
   timeout: 15000,
 });
 
