@@ -1,5 +1,7 @@
 # Vue3 Dashboard
 
+一款基于 Vue3+tailwindcss+Element Plus 的后台管理面板
+
 ### Download
 
 ```sh
