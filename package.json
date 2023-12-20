@@ -10,7 +10,8 @@
     "test:e2e:ci": "start-server-and-test preview http://localhost:4173/ 'cypress run --e2e'",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "deploy": "run-p type-check build-only && zx ./prebuild.mjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
@@ -32,7 +33,8 @@
     "vue": "^3.2.38",
     "vue-echarts": "^6.2.3",
     "vue-gtag": "^2.0.1",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "zx": "^7.2.3"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
