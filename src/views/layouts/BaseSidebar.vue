@@ -18,7 +18,9 @@ const sidebarStatus = computed(() => setting.value.sidebarStatus === "open");
     <h1
       class="h-[60px] flex justify-center items-center border-b border-b-slate-800 text-center"
     >
-      <router-link to="/" class="text-slate-50 text-xl font-bold">VD</router-link>
+      <router-link to="/" class="text-slate-50 text-xl font-bold">
+        V3D
+      </router-link>
     </h1>
     <Menu :active="route.path" :sidebarStatus="sidebarStatus">
       <MenuItem :key="item.name" :route="item" v-for="item in routes" />

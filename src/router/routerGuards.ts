@@ -88,7 +88,7 @@ export const setupRouterGuards = (router: Router) => {
     if (settingStore.setting.deviceType === "mobile") {
       settingStore.setSidebarStatus("close");
     }
-    document.title = `${to.meta.title} - VD`;
+    document.title = `${to.meta.title} - V3D`;
     tagStore.add({
       name: name as string,
       path,
