@@ -2,7 +2,7 @@
 
 一款基于 Vue3+tailwindcss+Element Plus 的后台管理面板
 
-演示地址：<https://tanxiaoqing.top>
+演示地址：<https://v3d.tanxiaoqing.top>
 
 
 ### Download
