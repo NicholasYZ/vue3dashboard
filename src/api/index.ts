@@ -1,11 +1,9 @@
 import axios, { type AxiosRequestConfig, type AxiosResponse } from "axios";
-
 import type { BodyProps } from "@/types";
 import { storage } from "@/utils";
 
 const instance = axios.create({
   baseURL: "/api/fake",
-  // baseURL: "http://localhost:5050",
   timeout: 15000,
 });
 

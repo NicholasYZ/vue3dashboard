@@ -48,7 +48,8 @@ export default defineConfig({
     base: "./ ", //生产环境路径
     proxy: {
       "^/api": {
-        target: "http://127.0.0.1:5050", // 后端服务实际地址
+        // target: "http://127.0.0.1:5050", // 后端服务实际地址
+        target: "https://v3d.tanxiaoqing.top/api",
         changeOrigin: true, //开启代理
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
