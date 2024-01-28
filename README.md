@@ -31,5 +31,5 @@ npm run build
 ```
 Wechat: ch-ing
 ```
-![Alt](https://img-home.csdnimg.cn/images/20220524100510.png)
+![Alt](https://raw.githubusercontent.com/xiaoqing-tan/vue3dashboard/main/public/WechatIMG330.jpg 400x) 
 
