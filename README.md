@@ -4,6 +4,7 @@
 
 演示地址：<https://v3d.tanxiaoqing.top>
 
+文档正在编写中
 
 ### Download
 
@@ -25,3 +26,10 @@ npm run dev
 ```sh
 npm run build
 ```
+### 联系
+
+```
+Wechat: ch-ing
+```
+![Alt](https://img-home.csdnimg.cn/images/20220524100510.png)
+
