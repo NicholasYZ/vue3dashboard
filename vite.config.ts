@@ -52,7 +52,8 @@ export default defineConfig({
          * 可以改为自己的开发环境，如：
          * target: "http://localhost:8080",
          */
-        target: "https://v3d.tanxiaoqing.top/api",
+        // target: "https://v3d.tanxiaoqing.top/api",
+        target: "http://localhost:5050",
         changeOrigin: true, //开启代理
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

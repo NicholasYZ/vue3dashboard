@@ -1,6 +1,6 @@
 import { watch, ref, isRef } from "vue";
 import type { Ref } from "vue";
-import { request } from "@/api";
+import { get } from "@/utils";
 
 type resProps = {
   result: any[];
@@ -24,7 +24,7 @@ export function useQuery(route: { path: string; query: Ref<any> }) {
   });
   const reload = async () => {
     data.value.loading = true;
-    const { result, ...pageInfo } = await request.get(path, query.value);
+    const { result, ...pageInfo } = await get(path, query.value);
     data.value = {
       result,
       loading: false,

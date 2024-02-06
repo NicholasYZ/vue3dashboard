@@ -1,6 +1,7 @@
 import axios, { type AxiosRequestConfig } from "axios";
 import type { AxiosResponse } from "axios";
 import { storage } from "./storage";
+
 const instance = axios.create({
   baseURL: "/api",
   timeout: 15000,
@@ -24,20 +25,53 @@ instance.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
-    console.log(response)
     return response;
   },
   function (error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error);
+    if (
+      error.response.status === 401 &&
+      error.response.data === "access_denied"
+    ) {
+      window.location.href = "/login";
+    } else {
+      return Promise.reject(error);
+    }
   }
 );
 
 const responseBody = (response: AxiosResponse) => response.data;
 
-export const request = {
-  get: (url: string, params = {}) =>
-    instance.get(url, { params }).then(responseBody),
-  post: (url: string, body = {}) => instance.post(url, body).then(responseBody),
+export const get = async (url: string, params = {}) => {
+  const response = await instance.get(url, { params });
+  return responseBody(response);
+};
+
+export const post = async (url: string, params = {}) => {
+  const response = await instance.post(url, params);
+  return responseBody(response);
+};
+
+export const put = async (url: string, params = {}) => {
+  const response = await instance.put(url, params);
+  return responseBody(response);
+};
+
+export const del = async (url: string, params = {}) => {
+  const response = await instance.delete(url, { params });
+  return responseBody(response);
+};
+
+export const patch = async (url: string, params = {}) => {
+  const response = await instance.patch(url, params);
+  return responseBody(response);
+};
+
+export default {
+  get,
+  post,
+  put,
+  del,
+  patch,
 };

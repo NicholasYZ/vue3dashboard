@@ -50,11 +50,13 @@ export const setupRouterGuards = (router: Router) => {
     NProgress.start();
 
     if (whiteList.indexOf(to.path) !== -1) {
+      isLoaded.value = false;
       return true;
     }
 
     if (!token) {
       router.push("/login");
+      isLoaded.value = false;
       return true;
     }
 

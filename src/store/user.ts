@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { storage } from "@/utils";
-import { request } from "@/api";
+import { storage, get, post } from "@/utils";
 
 const initUserData = storage.getItem("userData");
 
@@ -28,7 +27,7 @@ export const useUserStore = defineStore("user", () => {
   const token = ref<string>("");
 
   const login = async (state: LoginProps) => {
-    const { result } = await request.post("/login", state);
+    const { result } = await post("/auth/login", state);
     token.value = result.token;
     storage.setItem("token", result.token);
   };
@@ -36,10 +35,11 @@ export const useUserStore = defineStore("user", () => {
   const logout = () => {
     userData.value = {} as userInfoProps;
     storage.removeItem("userData");
+    storage.removeItem("token");
   };
 
   const getUserInfo = async () => {
-    const { result } = await request.get("/get-user-info");
+    const { result } = await get("/index");
     storage.setItem("userData", result);
     userData.value = result;
     return userData.value;

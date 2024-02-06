@@ -67,8 +67,8 @@ const loading = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const errMsg = ref<string>();
 const form = reactive({
-  username: "eve.holt@reqres.in",
-  password: "cityslicka",
+  username: "admin",
+  password: "bpNOg4Wu1klKVPqJ",
 });
 const rules = reactive<FormRules>({
   username: [{ required: true }],

@@ -51,8 +51,8 @@
 <script setup lang="ts">
 import { computed, ref } from "vue";
 import { useList, useExport } from "@/hooks";
-import MenuView from "./MenuView.vue";
-const { data, reload } = useList("/menu");
+import MenuView from "./RoutesView.vue";
+const { data, reload } = useList("/routes");
 const { onExport } = useExport();
 const viewRef = ref<InstanceType<typeof MenuView> | null>(null);
 const config = {

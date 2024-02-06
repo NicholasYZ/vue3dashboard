@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { request } from "@/api";
+import { get } from "@/utils";
 
 const hasPermission = (route: any, roles: any[]) => {
   if (route.meta && route.meta.roles) {
@@ -26,7 +26,7 @@ const filter = (routes: any, roles: any) => {
 export const useRouterStore = defineStore("router", () => {
   const routes = ref<any[]>([]);
   const loadRoutes = async (roles: any[]) => {
-    const { result } = await request.get("/menu");
+    const { result } = await get("/routes");
     routes.value = filter(result, roles);
     return routes.value;
   };
