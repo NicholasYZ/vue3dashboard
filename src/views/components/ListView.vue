@@ -1,5 +1,5 @@
 <template>
-  <vd-list-bar>
+  <!-- <vd-list-bar>
     <template #list-bar-left>
       <vd-search :config="config.search" />
     </template>
@@ -29,29 +29,50 @@
       <el-table-column prop="year" :label="$t('tableTitle.year')" />
     </el-table>
     <vd-pagination :pageInfo="data.pageInfo" />
-  </vd-card>
+  </vd-card> -->
+  <vd-list title="列表" v-bind="config" url="/products" />
 </template>
 
 <script setup lang="ts">
-import { useList, useExport } from "@/hooks";
-const { data } = useList("/products");
-const { onExport } = useExport();
 const config = {
   search: [
     {
-      prop: "username",
-      placeholder: "UserName",
+      prop: "id",
+      placeholder: "订单ID",
+      label: "订单ID",
       type: "text",
     },
+  ],
+  columns: [
     {
-      prop: "city",
-      placeholder: "city",
-      type: "select",
-      dict: { "1": "beijing", "2": "shanghai", "3": "guangzhou" },
+      prop: "id",
+      label: "订单ID",
+    },
+    {
+      prop: "name",
+      label: "商品名称",
     },
   ],
 };
-const handleExport = () => {
-  onExport(data.value.result, "title");
-};
+// import { useList, useExport } from "@/hooks";
+// const { data } = useList("/products");
+// const { onExport } = useExport();
+// const config = {
+//   search: [
+//     {
+//       prop: "username",
+//       placeholder: "UserName",
+//       type: "text",
+//     },
+//     {
+//       prop: "city",
+//       placeholder: "city",
+//       type: "select",
+//       dict: { "1": "beijing", "2": "shanghai", "3": "guangzhou" },
+//     },
+//   ],
+// };
+// const handleExport = () => {
+//   onExport(data.value.result, "title");
+// };
 </script>

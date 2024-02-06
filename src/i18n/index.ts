@@ -111,7 +111,7 @@ const locales = {
       index: "设置",
       info: "个人中心",
       roles: "角色管理",
-      menu: "菜单管理",
+      routes: "菜单管理",
       users: "用户管理",
       system: "系统管理",
     },

@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useFetch } from "@/hooks";
-import { sleep } from "@/utils";
+import { storage } from "@/utils";
 import { ElMessage } from "element-plus";
+import { onMounted } from "vue";
 const { dataSource, loading } = useFetch("/users/1");
+
+const token = ref("");
+
+onMounted(async () => {
+  token.value = storage.getItem("token");
+});
+
 type formProps = {
   [key: string]: any;
 };
@@ -68,7 +76,14 @@ const onReset = () => {};
           v-model:val="form.avatar"
           size="large"
         >
-          <img :src="form.avatar" class="w-20 h-20 rounded" />
+          <el-upload
+            v-model:file-list="form.avatar"
+            class="avatar-uploader"
+            action="/api/upload"
+            :headers="{ token }"
+          >
+            1
+          </el-upload>
         </vd-field>
         <vd-form-button @submit="onSubmit" @reset="onReset" />
       </el-form>
