@@ -26,10 +26,4 @@ npm run dev
 ```sh
 npm run build
 ```
-### 联系
-
-```
-Wechat: ch-ing
-```
-![Alt](https://raw.githubusercontent.com/xiaoqing-tan/vue3dashboard/main/public/WechatIMG330.jpg) 
 
